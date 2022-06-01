@@ -1,16 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.tanksjava.mainmenuwindow.MainMenuController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-    </padding>
+<BorderPane fx:id="mainMenuPane" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tanksjava.mainmenuwindow.MainMenuController">
 
-    <Label fx:id="welcomeText"/>
-    <Button text="Hello!" onAction="#onHelloButtonClick"/>
-</VBox>
+    <center>
+        <VBox alignment="CENTER">
+            <Button fx:id="mmNewGameButton" prefHeight="100" prefWidth="200" text="Start New Game" BorderPane.alignment="TOP_RIGHT" onAction="#moveToNewGameWindow">
+            <VBox.margin>
+               <Insets bottom="10.0" />
+            </VBox.margin>
+            <font>
+               <Font name="Segoe Print" size="20.0" />
+            </font></Button>
+
+            <Button prefHeight="100" prefWidth="200" text="View Records" BorderPane.alignment="CENTER">
+            <VBox.margin>
+               <Insets bottom="10.0" />
+            </VBox.margin>
+            <font>
+               <Font name="Segoe Print" size="20.0" />
+            </font></Button>
+            <Button prefHeight="100" prefWidth="200" text="View Controls" BorderPane.alignment="CENTER">
+            <VBox.margin>
+               <Insets bottom="10.0" />
+            </VBox.margin>
+            <font>
+               <Font name="Segoe Print" size="20.0" />
+            </font></Button>
+            <Button prefHeight="100" prefWidth="200" text="Exit" BorderPane.alignment="CENTER" fx:id="mmExitButton" onAction="#exitFromMainMenu">
+            <VBox.margin>
+               <Insets bottom="10.0" />
+            </VBox.margin>
+            <font>
+               <Font name="Segoe Print" size="20.0" />
+            </font></Button>
+        </VBox>
+    </center>
+</BorderPane>
