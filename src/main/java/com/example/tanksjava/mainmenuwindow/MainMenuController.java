@@ -40,13 +40,6 @@ public class MainMenuController {
 
     }
 
-   /* public  void setBackGround(Pane pane){
-        BackgroundImage myBI= new BackgroundImage(new Image("com/example/tanksjava/mainMenuResources/image_processing20200410-24632-1tsak1g.png",800,600,false,true),
-                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                BackgroundSize.DEFAULT);
-        pane.setBackground(new Background(myBI));
-    }*/
-
     @FXML
     private void exitFromMainMenu(){
         System.exit(0);
