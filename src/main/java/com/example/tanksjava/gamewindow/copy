@@ -1,6 +1,5 @@
 package com.example.tanksjava.gamewindow;
 
-import com.example.tanksjava.gamewindow.gameobjects.StaticGameObject;
 import com.example.tanksjava.toolsmethods.tools;
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
@@ -22,6 +21,7 @@ import java.nio.file.Paths;
 public class GameViewController {
     @FXML
     public AnchorPane newGamePane;
+
     @FXML
     public ImageView playerTank;
 
@@ -36,11 +36,6 @@ public class GameViewController {
    private int playerStartingPosX =448;
    private int playerStartingPosY =488;
 
-   private StaticGameObject crate=new StaticGameObject("com/example/tanksjava/gameWindowResources/crateMetal.png",28,28,80,80,false);
-//test
-    PlayerController  pc=new PlayerController(playerStartingPosX, playerStartingPosY);
-char input;
-
     private final String gameBoardURLString="com/example/tanksjava/gameWindowResources/tankGameMap.png";
     private final String backGroundMusicURLString= "src/main/resources/com/example/tanksjava/gameWindowResources/music.mp3";
     private final String tankSoundULRString="src/main/resources/com/example/tanksjava/gameWindowResources/loop_2.wav";
@@ -49,7 +44,7 @@ char input;
     @FXML
     private void initialize(){
         newGamePane.setBackground(new Background(new BackgroundFill(Color.BLACK,null,null)));
-        playerMovementInitialization();
+        movingPlayerTank();
         tools.setBackGround(newGamePane,gameBoardURLString,800,800);
 
         backgroundMusic = new MediaPlayer(new Media(Paths.get(backGroundMusicURLString).toUri().toString()));
@@ -57,12 +52,12 @@ char input;
 
         backGroundMusic(backgroundMusic,true);
         startGameLoop();
-        crate.insertObjectOnToPane(newGamePane);
+
 
     }
 
 
-    public void playerMovementInitialization(){
+    public void movingPlayerTank(){
 
 
         Button button=new Button();
@@ -74,14 +69,15 @@ char input;
         playerTank.setLayoutX(playerStartingPosX);
         playerTank.setLayoutY(playerStartingPosY);
         playerTank.setRotate(currentRotation);
-
+        PlayerController  pc=new PlayerController(playerStartingPosX, playerStartingPosY);
 
            newGamePane.setOnKeyTyped(new EventHandler<KeyEvent>() {
                @Override
                public void handle(KeyEvent event) {
 
                    tankEngineSoundHandler();
-                   input=event.getCharacter().charAt(0);
+                   char input=event.getCharacter().charAt(0);
+                   tankPositionAndOrientationUpdater(pc,input);
                }
            });
     }
@@ -121,15 +117,13 @@ char input;
         System.out.println(pc.getCurrentPositionX());
         System.out.println(pc.getCurrentPositionY());
         System.out.println(playerTank.getRotate());
-        //clear input for the next frame
-        this.input='x';
     }
 
     public void startGameLoop(){
         gameLoop =new AnimationTimer() {
             @Override
             public void handle(long now) {
-                tankPositionAndOrientationUpdater(pc,input);
+
             }
         };
         gameLoop.start();
