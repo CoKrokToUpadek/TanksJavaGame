@@ -1,9 +1,7 @@
 package com.example.tanksjava.gamewindow;
 
 import com.example.tanksjava.mainmenuwindow.MainMenuController;
-import javafx.scene.image.ImageView;
 
-import java.util.Scanner;
 
 public class PlayerController {
     private int currentPositionX;
@@ -11,9 +9,17 @@ public class PlayerController {
 
     private int playerRotation;
 
-    public PlayerController(int startingPositionX, int staringPositionY) {
+    private final int objectSizeX;
+    private final int objectSizeY;
+
+    private final int objectSpeed;
+
+    public PlayerController(int startingPositionX, int staringPositionY, int objectSizeX, int objectSizeY, int objectSpeed) {
         this.currentPositionY=staringPositionY;
         this.currentPositionX=startingPositionX;
+        this.objectSizeX=objectSizeX;
+        this.objectSizeY=objectSizeY;
+        this.objectSpeed=objectSpeed;
     }
 
     public void updatePlayerCurrentPosition(char keyboardInput){
@@ -21,22 +27,22 @@ public class PlayerController {
         switch (Character.toLowerCase(keyboardInput)){
             case 'w':
                 if (!(currentPositionY<=0)){
-                    currentPositionY-=2;
+                    currentPositionY-=objectSpeed;
                 }
                 break;
             case 's':
-                if (!(currentPositionY>= MainMenuController.getGameWindowHeight()-52) /*52 is tank size in pixels*/) {
-                    currentPositionY += 2;
+                if (!(currentPositionY>= MainMenuController.getGameWindowHeight()-objectSizeY)) {
+                    currentPositionY +=objectSpeed;
                 }
                 break;
             case 'a':
                 if (!(currentPositionX <= 0)){
-                    currentPositionX-=2;
+                    currentPositionX-=objectSpeed;
                 }
                 break;
             case 'd':
-                if (!(currentPositionX >= MainMenuController.getGameWindowWidth()-52)){
-                    currentPositionX+=2;
+                if (!(currentPositionX >= MainMenuController.getGameWindowWidth()-objectSizeX)){
+                    currentPositionX+=objectSpeed;
                 }
                 break;
             case 'e':

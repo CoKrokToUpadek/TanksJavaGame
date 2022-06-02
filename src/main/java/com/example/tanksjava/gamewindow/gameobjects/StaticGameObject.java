@@ -2,29 +2,32 @@ package com.example.tanksjava.gamewindow.gameobjects;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
 public class StaticGameObject {
    private final ImageView objectGraphics;
    private final String objectURLString;
-   private final int pixelSizeX;
-   private final int pixelSizeY;
+   private final int objectSizeX;
+
+   private final int objectSizeY;
    private final int objectStartingPositionX;
    private final int objectStartingPositionY;
    private final boolean isDestructible;
 
+   private final int initialRotation;
 
 
 
-    public StaticGameObject(String objectURLString, int pixelSizeX, int pixelSizeY, int objectStartingPositionX, int objectStartingPositionY, boolean isDestructible) {
+
+    public StaticGameObject(String objectURLString, int objectSizeX, int objectSizeY, int objectStartingPositionX, int objectStartingPositionY, boolean isDestructible, int initialRotation) {
         this.objectURLString = objectURLString;
-        this.pixelSizeX = pixelSizeX;
-        this.pixelSizeY = pixelSizeY;
+        this.objectSizeX = objectSizeX;
+        this.objectSizeY = objectSizeY;
         this.objectStartingPositionX = objectStartingPositionX;
         this.objectStartingPositionY = objectStartingPositionY;
         this.isDestructible = isDestructible;
         this.objectGraphics=new ImageView(new Image(objectURLString));
+        this.initialRotation=initialRotation;
 
     }
 
@@ -42,8 +45,12 @@ public class StaticGameObject {
 
     public void insertObjectOnToPane(Pane pane){
         pane.getChildren().add(objectGraphics);
-        objectGraphics.setLayoutX(getObjectStartingPositionY());
+        objectGraphics.setLayoutX(objectStartingPositionX);
         objectGraphics.setLayoutY(objectStartingPositionY);
+        objectGraphics.setRotate(initialRotation);
     }
 
+    public int getInitialRotation() {
+        return initialRotation;
+    }
 }

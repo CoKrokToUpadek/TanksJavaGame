@@ -1,6 +1,6 @@
 package com.example.tanksjava.gamewindow;
 
-import com.example.tanksjava.toolsmethods.tools;
+import com.example.tanksjava.toolsmethods.StaticToolsAndHandlers;
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
