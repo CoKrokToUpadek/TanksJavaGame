@@ -1,5 +1,6 @@
 package com.example.tanksjava.gamewindow;
 
+import com.example.tanksjava.gamewindow.gameobjects.StaticGameObject;
 import com.example.tanksjava.mainmenuwindow.MainMenuController;
 
 
@@ -14,40 +15,73 @@ public class PlayerController {
 
     private final int objectSpeed;
 
-    public PlayerController(int startingPositionX, int staringPositionY, int objectSizeX, int objectSizeY, int objectSpeed) {
+    private HitBoxController hitBoxController;
+
+    public PlayerController(int startingPositionX, int staringPositionY, int objectSizeX, int objectSizeY, int objectSpeed, HitBoxController hitBoxController) {
         this.currentPositionY=staringPositionY;
         this.currentPositionX=startingPositionX;
         this.objectSizeX=objectSizeX;
         this.objectSizeY=objectSizeY;
         this.objectSpeed=objectSpeed;
+        this.hitBoxController=hitBoxController;
     }
 
-    public void updatePlayerCurrentPosition(char keyboardInput){
+    public void updatePlayerCurrentPosition(char keyboardInput, boolean [] restrictors){
 
         switch (Character.toLowerCase(keyboardInput)){
             case 'w':
-                if (!(currentPositionY<=0)){
-                    currentPositionY-=objectSpeed;
+                if (!(currentPositionY <= 0)&& !restrictors[0]){
+                    if (hitBoxController.detectCollisionsForMovement(this,1,keyboardInput,objectSpeed)>=objectSpeed){
+                        currentPositionY-=objectSpeed;
+                    }else{
+                        System.out.println("problem!");
+                    }
                 }
                 break;
             case 's':
-                if (!(currentPositionY>= MainMenuController.getGameWindowHeight()-objectSizeY)) {
-                    currentPositionY +=objectSpeed;
+                if (!(currentPositionY>= MainMenuController.getGameWindowHeight()-objectSizeY) && !restrictors[1]) {
+
+                    if (hitBoxController.detectCollisionsForMovement(this,1,keyboardInput,objectSpeed)>=objectSpeed){
+                        currentPositionY +=objectSpeed;
+                    }else{
+                        System.out.println("problem!");
+                    }
+
                 }
                 break;
             case 'a':
-                if (!(currentPositionX <= 0)){
-                    currentPositionX-=objectSpeed;
+                if (!(currentPositionX <= 0)&& !restrictors[2]){
+
+                    if (hitBoxController.detectCollisionsForMovement(this,1,keyboardInput,objectSpeed)>=objectSpeed){
+                        currentPositionX-=objectSpeed;
+                    }else{
+                        System.out.println("problem!");
+                    }
+
+
                 }
                 break;
             case 'd':
-                if (!(currentPositionX >= MainMenuController.getGameWindowWidth()-objectSizeX)){
-                    currentPositionX+=objectSpeed;
+                if (!(currentPositionX >= MainMenuController.getGameWindowWidth()-objectSizeX) && !restrictors[3]){
+
+                    if (hitBoxController.detectCollisionsForMovement(this,1,keyboardInput,objectSpeed)>=objectSpeed){
+                        currentPositionX+=objectSpeed;
+                    }else{
+                        System.out.println("problem!");
+                    }
+
                 }
                 break;
             case 'e':
                 System.exit(0);
                 break;
+
+            case 'r':
+
+                hitBoxController.detectCollisionsForMovement(this,1,'w',objectSpeed);
+              // hitBoxController.printHitBoxArray();
+                break;
+
             default:
                 break;
         }
@@ -73,6 +107,18 @@ public class PlayerController {
         }
     }
 
+    private int restrictorHandler(char direction, int objectSpeed){
+      return  hitBoxController.detectCollisionsForMovement(this,1,direction,objectSpeed);
+    }
+
+
+    public int getObjectSizeX() {
+        return objectSizeX;
+    }
+
+    public int getObjectSizeY() {
+        return objectSizeY;
+    }
 
     public int getCurrentPositionX() {
         return currentPositionX;
