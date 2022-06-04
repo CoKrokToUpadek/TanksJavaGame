@@ -64,13 +64,9 @@ public class PlayerControlledGameObject extends StaticGameObject {
     public void tankPositionAndOrientationUpdater() {
 
         //only this works
-        StaticToolsAndHandlers.updatePlayerHitBox(2,this,super.getHitBoxController());
-
-
+        StaticToolsAndHandlers.updatePlayerHitBox(0,this,super.getHitBoxController());
 
         pc.updatePlayerCurrentPosition(inputForTankSteering, movementRestrictors);
-
-
 
         //there was a bug here that would rotate object to 0 at the start of the program (probably because of system buffer)
         //I was unable to figure out better solution
@@ -81,14 +77,8 @@ public class PlayerControlledGameObject extends StaticGameObject {
         this.getObjectGraphics().setLayoutY(pc.getCurrentPositionY());
         this.getObjectGraphics().setLayoutX(pc.getCurrentPositionX());
 
-
-
-
-        //this seems to be ignored or instantly overwritten by the method above
+        //this seems to be ignored or instantly overwritten by the same invocation at the start of the method
         StaticToolsAndHandlers.updatePlayerHitBox(this.getObjectFlag(),this,super.getHitBoxController());
-
-
-
 
         //clear input for the next frame
         this.inputForTankSteering = 'x';
