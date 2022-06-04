@@ -37,7 +37,7 @@ public class StaticToolsAndHandlers {
         object.getObjectGraphics().setLayoutY(objectStartingPositionY);
         object.getObjectGraphics().setRotate(initialRotation);
         hitBoxController.fillHitBoxArrayWithFlags(object.getObjectFlag(),objectStartingPositionX,objectStartingPositionY,object.getObjectSizeX(),object.getObjectSizeY());
-        System.out.println("test for initial rotation:"+ object.getObjectGraphics().getRotate());
+
     }
 
     public static void updatePlayerHitBox(int flag,PlayerControlledGameObject object, HitBoxController hitBoxController){

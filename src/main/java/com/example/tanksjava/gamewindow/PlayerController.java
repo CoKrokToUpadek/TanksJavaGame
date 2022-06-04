@@ -78,8 +78,9 @@ public class PlayerController {
 
             case 'r':
 
-                hitBoxController.detectCollisionsForMovement(this,1,'w',objectSpeed);
-              // hitBoxController.printHitBoxArray();
+//                hitBoxController.detectCollisionsForMovement(this,1,'w',objectSpeed);
+//                hitBoxController.printHitBoxArray();
+                  hitBoxController.printObjectCorners(this);
                 break;
 
             default:
