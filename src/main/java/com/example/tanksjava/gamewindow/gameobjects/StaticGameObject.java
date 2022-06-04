@@ -8,24 +8,23 @@ import javafx.scene.layout.Pane;
 
 
 public class StaticGameObject {
-   private final ImageView objectGraphics;
-   private final String objectURLString;
-   private final int objectSizeX;
+    private final ImageView objectGraphics;
+    private final String objectURLString;
+    private final int objectSizeX;
 
-   private final int objectSizeY;
-   private  int objectStartingPositionX;
-   private  int objectStartingPositionY;
-   private final boolean isDestructible;
+    private final int objectSizeY;
+    private int objectStartingPositionX;
+    private int objectStartingPositionY;
+    private final boolean isDestructible;
 
-   private  int initialRotation;
+    private int initialRotation;
 
-   private final int objectFlag;
+    private final int objectFlag;
 
-  private HitBoxController  hitBoxController;
+    private HitBoxController hitBoxController;
 
 
-
-    public StaticGameObject(int objectFlag,String objectURLString, int objectSizeX, int objectSizeY, int objectStartingPositionX,
+    public StaticGameObject(int objectFlag, String objectURLString, int objectSizeX, int objectSizeY, int objectStartingPositionX,
                             int objectStartingPositionY, boolean isDestructible, int initialRotation, HitBoxController hitBoxController) {
         this.objectURLString = objectURLString;
         this.objectSizeX = objectSizeX;
@@ -33,31 +32,32 @@ public class StaticGameObject {
         this.objectStartingPositionX = objectStartingPositionX;
         this.objectStartingPositionY = objectStartingPositionY;
         this.isDestructible = isDestructible;
-        this.objectGraphics=new ImageView(new Image(objectURLString));
-        this.initialRotation=initialRotation;
-        this.hitBoxController=hitBoxController;
-        this.objectFlag=objectFlag;
+        this.objectGraphics = new ImageView(new Image(objectURLString));
+        this.initialRotation = initialRotation;
+        this.hitBoxController = hitBoxController;
+        this.objectFlag = objectFlag;
 
     }
 
-    public StaticGameObject(int objectFlag,String objectURLString, int objectSizeX, int objectSizeY, boolean isDestructible) {
+    public StaticGameObject(int objectFlag, String objectURLString, int objectSizeX, int objectSizeY, boolean isDestructible) {
         this.objectURLString = objectURLString;
         this.objectSizeX = objectSizeX;
         this.objectSizeY = objectSizeY;
         this.isDestructible = isDestructible;
-        this.objectGraphics=new ImageView(new Image(objectURLString));
-        this.objectFlag=objectFlag;
+        this.objectGraphics = new ImageView(new Image(objectURLString));
+        this.objectFlag = objectFlag;
     }
 
 
-     public StaticGameObject(StaticGameObject object) {
-         this.objectURLString = object.objectURLString;
-         this.objectSizeX = object.objectSizeX;
-         this.objectSizeY = object.objectSizeY;
-         this.isDestructible = object.isDestructible;
-         this.objectGraphics = new ImageView(new Image(objectURLString));
-         this.objectFlag=object.objectFlag;
-     }
+    public StaticGameObject(StaticGameObject object) {
+        this.objectURLString = object.objectURLString;
+        this.objectSizeX = object.objectSizeX;
+        this.objectSizeY = object.objectSizeY;
+        this.isDestructible = object.isDestructible;
+        this.objectGraphics = new ImageView(new Image(objectURLString));
+        this.objectFlag = object.objectFlag;
+    }
+
     public int getObjectSizeX() {
         return objectSizeX;
     }
@@ -94,13 +94,9 @@ public class StaticGameObject {
         return hitBoxController;
     }
 
-    public void insertObjectOnToPane(Pane pane){
-        StaticToolsAndHandlers.insertObjectOnToPane(pane,this,objectStartingPositionX,objectStartingPositionY,initialRotation,hitBoxController);
+    public void insertObjectOnToPane(Pane pane) {
+        StaticToolsAndHandlers.insertObjectOnToPane(pane, this, objectStartingPositionX, objectStartingPositionY, initialRotation, hitBoxController);
     }
-
-
-
-
 
 
 }

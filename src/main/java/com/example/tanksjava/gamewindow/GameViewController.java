@@ -25,54 +25,52 @@ public class GameViewController {
     public AnimationTimer gameLoop;
 
 
-   private final int playerStartingPosX =400;
-   private final int playerStartingPosY =200;
+    private final int playerStartingPosX = 400;
+    private final int playerStartingPosY = 200;
 
-   private final int gameBoardSizeX=800;
-   private final int gameBoardSizeY=600;
+    private final int gameBoardSizeX = 800;
+    private final int gameBoardSizeY = 600;
 
-   HitBoxController hitBoxController=new HitBoxController(gameBoardSizeX,gameBoardSizeY);
+    HitBoxController hitBoxController = new HitBoxController(gameBoardSizeX, gameBoardSizeY);
 
-   private final StaticGameObject crate=new StaticGameObject(1,URLStringsOfAssets.metalBoxGraphicAsset,28,28,80,
-           80,false,0,hitBoxController);
+    private final StaticGameObject crate = new StaticGameObject(1, URLStringsOfAssets.metalBoxGraphicAsset, 28, 28, 80,
+            80, false, 0, hitBoxController);
 
 
-
-    PlayerControlledGameObject player1=new PlayerControlledGameObject(2,URLStringsOfAssets.playerTankGraphicAsset,52,52,
-     playerStartingPosX, playerStartingPosY,true,180, hitBoxController);
+    PlayerControlledGameObject player1 = new PlayerControlledGameObject(2, URLStringsOfAssets.playerTankGraphicAsset, 52, 52,
+            playerStartingPosX, playerStartingPosY, true, 180, hitBoxController);
 
 
     @FXML
-    private void initialize(){
+    private void initialize() {
         //background settings
-        StaticToolsAndHandlers.setBackGround(newGamePane,URLStringsOfAssets.gameBoardGraphicAsset,gameBoardSizeX,gameBoardSizeY);
+        StaticToolsAndHandlers.setBackGround(newGamePane, URLStringsOfAssets.gameBoardGraphicAsset, gameBoardSizeX, gameBoardSizeY);
         backgroundMusic = new MediaPlayer(new Media(Paths.get(URLStringsOfAssets.backGroundMusicAsset).toUri().toString()));
-        StaticToolsAndHandlers.musicAndSoundHandler(backgroundMusic,true);
+        StaticToolsAndHandlers.musicAndSoundHandler(backgroundMusic, true);
         startGameLoop();
 
         //program doesn't work without it
-        Button button=new Button();
+        Button button = new Button();
         button.setVisible(true);
         newGamePane.getChildren().add(button);
 
         player1.playerMovementInitialization(newGamePane);
 
-        StaticToolsAndHandlers.addStaticObjectsInBulk(newGamePane,crate,28,0,0, StaticToolsAndHandlers.itemOrientation.HORIZONTAL,hitBoxController);
-        StaticToolsAndHandlers.addStaticObjectsInBulk(newGamePane,crate,28,0,572, StaticToolsAndHandlers.itemOrientation.HORIZONTAL,hitBoxController);
-        StaticToolsAndHandlers.addStaticObjectsInBulk(newGamePane,crate,21,0,0, StaticToolsAndHandlers.itemOrientation.VERTICAL,hitBoxController);
-        StaticToolsAndHandlers.addStaticObjectsInBulk(newGamePane,crate,21,772,0, StaticToolsAndHandlers.itemOrientation.VERTICAL,hitBoxController);
-        StaticToolsAndHandlers.addStaticObjectsInBulk(newGamePane,crate,6,50,121, StaticToolsAndHandlers.itemOrientation.VERTICAL,hitBoxController);
-        //StaticToolsAndHandlers.addStaticObjectsInBulk(newGamePane,crate,6,131,121, StaticToolsAndHandlers.itemOrientation.VERTICAL,hitBoxController);
-        StaticToolsAndHandlers.addStaticObjectsInBulk(newGamePane,crate,6,232,121, StaticToolsAndHandlers.itemOrientation.VERTICAL,hitBoxController);
-        // hitBoxController.printHitBoxArray();
+        StaticToolsAndHandlers.addStaticObjectsInBulk(newGamePane, crate, 28, 0, 0, StaticToolsAndHandlers.itemOrientation.HORIZONTAL, hitBoxController);
+        StaticToolsAndHandlers.addStaticObjectsInBulk(newGamePane, crate, 28, 0, 572, StaticToolsAndHandlers.itemOrientation.HORIZONTAL, hitBoxController);
+        StaticToolsAndHandlers.addStaticObjectsInBulk(newGamePane, crate, 21, 0, 0, StaticToolsAndHandlers.itemOrientation.VERTICAL, hitBoxController);
+        StaticToolsAndHandlers.addStaticObjectsInBulk(newGamePane, crate, 21, 772, 0, StaticToolsAndHandlers.itemOrientation.VERTICAL, hitBoxController);
+        StaticToolsAndHandlers.addStaticObjectsInBulk(newGamePane, crate, 6, 50, 121, StaticToolsAndHandlers.itemOrientation.VERTICAL, hitBoxController);
+        StaticToolsAndHandlers.addStaticObjectsInBulk(newGamePane, crate, 6, 232, 121, StaticToolsAndHandlers.itemOrientation.VERTICAL, hitBoxController);
+
     }
 
 
-    public void startGameLoop(){
-        gameLoop =new AnimationTimer() {
+    public void startGameLoop() {
+        gameLoop = new AnimationTimer() {
             @Override
             public void handle(long now) {
-            player1.tankPositionAndOrientationUpdater();
+                player1.tankPositionAndOrientationUpdater();
             }
         };
         gameLoop.start();

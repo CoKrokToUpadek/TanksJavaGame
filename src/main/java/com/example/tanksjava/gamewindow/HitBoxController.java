@@ -14,9 +14,6 @@ public class HitBoxController {
 
     }
 
-    public int[][] getGameBoardHitBoxArray() {
-        return gameBoardHitBoxArray;
-    }
 
     public void fillHitBoxArrayWithFlags(int flag, int startingPointX, int startingPointY, int objectSizeX, int objectSizeY) {
         for (int i = startingPointY; i < objectSizeY + startingPointY; i++) {
@@ -32,7 +29,7 @@ public class HitBoxController {
         //s-down
         //a-left
         //d-right
-        int outPutSpeed = 0;
+
         int step = 0;
         int objectCollisionPoint = 0;
         int objectStartPlusSizeX = playerObject.getCurrentPositionX() + playerObject.getObjectSizeX();
@@ -52,10 +49,10 @@ public class HitBoxController {
                             for (int k = objectStartX; k < objectStartPlusSizeX; k++) {//ok
                                 if (gameBoardHitBoxArray[objectStartY - step][k] == collideFlag) {
                                     System.out.println(step);
-                                    if (step==1){
+                                    if (step == 1) {
                                         return 0;
                                     }
-                                    return step-1;
+                                    return step - 1;
                                 }
                             }
                             step++;
@@ -95,7 +92,7 @@ public class HitBoxController {
                                     if (step == 1) {
                                         return 0;
                                     }
-                                    return step-1;
+                                    return step - 1;
                                 }
                             }
                             step++;

@@ -19,21 +19,16 @@ public class PlayerControlledGameObject extends StaticGameObject {
     private final MediaPlayer tankEngineSound;
 
 
-
-    private final int playerSpeed=4;
-
+    private final int playerSpeed = 4;
 
 
-
-
-    public PlayerControlledGameObject(int objectFlag,String objectURLString, int pixelSizeX, int pixelSizeY, int objectStartingPositionX,
+    public PlayerControlledGameObject(int objectFlag, String objectURLString, int pixelSizeX, int pixelSizeY, int objectStartingPositionX,
                                       int objectStartingPositionY, boolean isDestructible, int initialRotation, HitBoxController hitBoxController) {
 
 
-        super(objectFlag,objectURLString, pixelSizeX, pixelSizeY, objectStartingPositionX, objectStartingPositionY, isDestructible, initialRotation,hitBoxController);
+        super(objectFlag, objectURLString, pixelSizeX, pixelSizeY, objectStartingPositionX, objectStartingPositionY, isDestructible, initialRotation, hitBoxController);
         pc = new PlayerController(objectStartingPositionX, objectStartingPositionY, pixelSizeX, pixelSizeY, playerSpeed, hitBoxController);
         tankEngineSound = new MediaPlayer(new Media(Paths.get(URLStringsOfAssets.tankSoundMusicAsset).toUri().toString()));
-
 
 
     }
@@ -50,7 +45,7 @@ public class PlayerControlledGameObject extends StaticGameObject {
                 playerEngineSoundHandler();
                 inputForTankSteering = event.getCharacter().charAt(0);
                 //for testing purpose
-               // tankPositionAndOrientationUpdater();
+                // tankPositionAndOrientationUpdater();
 
 
             }
@@ -61,13 +56,13 @@ public class PlayerControlledGameObject extends StaticGameObject {
     public void tankPositionAndOrientationUpdater() {
 
         if (inputForTankSteering == 'w' || inputForTankSteering == 's' || inputForTankSteering == 'a' || inputForTankSteering == 'd' || inputForTankSteering == 'r') {
-            StaticToolsAndHandlers.updatePlayerHitBox(0,this,super.getHitBoxController());
+            StaticToolsAndHandlers.updatePlayerHitBox(0, this, super.getHitBoxController());
             pc.updatePlayerCurrentPosition(inputForTankSteering);
             pc.playerRotation(inputForTankSteering);
             this.getObjectGraphics().setRotate(pc.getPlayerRotation());
             this.getObjectGraphics().setLayoutY(pc.getCurrentPositionY());
             this.getObjectGraphics().setLayoutX(pc.getCurrentPositionX());
-            StaticToolsAndHandlers.updatePlayerHitBox(this.getObjectFlag(),this,super.getHitBoxController());
+            StaticToolsAndHandlers.updatePlayerHitBox(this.getObjectFlag(), this, super.getHitBoxController());
             this.inputForTankSteering = 'x';
         }
     }
@@ -94,7 +89,6 @@ public class PlayerControlledGameObject extends StaticGameObject {
     public PlayerController getPc() {
         return pc;
     }
-
 
 
 }

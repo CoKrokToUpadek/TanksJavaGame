@@ -1,6 +1,4 @@
 package com.example.tanksjava.gamewindow;
-
-import com.example.tanksjava.gamewindow.gameobjects.StaticGameObject;
 import com.example.tanksjava.mainmenuwindow.MainMenuController;
 
 
@@ -18,56 +16,56 @@ public class PlayerController {
     private HitBoxController hitBoxController;
 
     public PlayerController(int startingPositionX, int staringPositionY, int objectSizeX, int objectSizeY, int objectSpeed, HitBoxController hitBoxController) {
-        this.currentPositionY=staringPositionY;
-        this.currentPositionX=startingPositionX;
-        this.objectSizeX=objectSizeX;
-        this.objectSizeY=objectSizeY;
-        this.objectSpeed=objectSpeed;
-        this.hitBoxController=hitBoxController;
+        this.currentPositionY = staringPositionY;
+        this.currentPositionX = startingPositionX;
+        this.objectSizeX = objectSizeX;
+        this.objectSizeY = objectSizeY;
+        this.objectSpeed = objectSpeed;
+        this.hitBoxController = hitBoxController;
     }
 
-    public void updatePlayerCurrentPosition(char keyboardInput){
+    public void updatePlayerCurrentPosition(char keyboardInput) {
 
-        switch (Character.toLowerCase(keyboardInput)){
+        switch (Character.toLowerCase(keyboardInput)) {
             case 'w':
-                if (!(currentPositionY <= 0)){
-                    if (hitBoxController.detectCollisionsForMovement(this,1,keyboardInput,objectSpeed)>=objectSpeed){
-                        currentPositionY-=objectSpeed;
-                    }else{
-                        currentPositionY-=hitBoxController.detectCollisionsForMovement(this,1,keyboardInput,objectSpeed);
+                if (!(currentPositionY <= 0)) {
+                    if (hitBoxController.detectCollisionsForMovement(this, 1, keyboardInput, objectSpeed) >= objectSpeed) {
+                        currentPositionY -= objectSpeed;
+                    } else {
+                        currentPositionY -= hitBoxController.detectCollisionsForMovement(this, 1, keyboardInput, objectSpeed);
                     }
                 }
                 break;
             case 's':
-                if (!(currentPositionY>= MainMenuController.getGameWindowHeight()-objectSizeY)) {
+                if (!(currentPositionY >= MainMenuController.getGameWindowHeight() - objectSizeY)) {
 
-                    if (hitBoxController.detectCollisionsForMovement(this,1,keyboardInput,objectSpeed)>=objectSpeed){
-                        currentPositionY +=objectSpeed;
-                    }else{
-                        currentPositionY+=hitBoxController.detectCollisionsForMovement(this,1,keyboardInput,objectSpeed);
+                    if (hitBoxController.detectCollisionsForMovement(this, 1, keyboardInput, objectSpeed) >= objectSpeed) {
+                        currentPositionY += objectSpeed;
+                    } else {
+                        currentPositionY += hitBoxController.detectCollisionsForMovement(this, 1, keyboardInput, objectSpeed);
                     }
 
                 }
                 break;
             case 'a':
-                if (!(currentPositionX <= 0)){
+                if (!(currentPositionX <= 0)) {
 
-                    if (hitBoxController.detectCollisionsForMovement(this,1,keyboardInput,objectSpeed)>=objectSpeed){
-                        currentPositionX-=objectSpeed;
-                    }else{
-                        currentPositionX-=hitBoxController.detectCollisionsForMovement(this,1,keyboardInput,objectSpeed);
+                    if (hitBoxController.detectCollisionsForMovement(this, 1, keyboardInput, objectSpeed) >= objectSpeed) {
+                        currentPositionX -= objectSpeed;
+                    } else {
+                        currentPositionX -= hitBoxController.detectCollisionsForMovement(this, 1, keyboardInput, objectSpeed);
                     }
 
 
                 }
                 break;
             case 'd':
-                if (!(currentPositionX >= MainMenuController.getGameWindowWidth()-objectSizeX)){
+                if (!(currentPositionX >= MainMenuController.getGameWindowWidth() - objectSizeX)) {
 
-                    if (hitBoxController.detectCollisionsForMovement(this,1,keyboardInput,objectSpeed)>=objectSpeed){
-                        currentPositionX+=objectSpeed;
-                    }else{
-                        currentPositionX+=hitBoxController.detectCollisionsForMovement(this,1,keyboardInput,objectSpeed);
+                    if (hitBoxController.detectCollisionsForMovement(this, 1, keyboardInput, objectSpeed) >= objectSpeed) {
+                        currentPositionX += objectSpeed;
+                    } else {
+                        currentPositionX += hitBoxController.detectCollisionsForMovement(this, 1, keyboardInput, objectSpeed);
                     }
 
                 }
@@ -77,7 +75,7 @@ public class PlayerController {
                 break;
 
             case 'r':
-                  hitBoxController.printHitBoxArray(4);
+                hitBoxController.printHitBoxArray(4);
                 break;
 
             default:
@@ -85,7 +83,7 @@ public class PlayerController {
         }
     }
 
-    public void playerRotation(char rotationInput){
+    public void playerRotation(char rotationInput) {
 
         switch (Character.toLowerCase(rotationInput)) {
             case 'w':
@@ -104,7 +102,6 @@ public class PlayerController {
                 break;
         }
     }
-
 
 
     public int getObjectSizeX() {
