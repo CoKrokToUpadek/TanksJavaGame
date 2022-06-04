@@ -26,11 +26,11 @@ public class PlayerController {
         this.hitBoxController=hitBoxController;
     }
 
-    public void updatePlayerCurrentPosition(char keyboardInput, boolean [] restrictors){
+    public void updatePlayerCurrentPosition(char keyboardInput){
 
         switch (Character.toLowerCase(keyboardInput)){
             case 'w':
-                if (!(currentPositionY <= 0)&& !restrictors[0]){
+                if (!(currentPositionY <= 0)){
                     if (hitBoxController.detectCollisionsForMovement(this,1,keyboardInput,objectSpeed)>=objectSpeed){
                         currentPositionY-=objectSpeed;
                     }else{
@@ -39,7 +39,7 @@ public class PlayerController {
                 }
                 break;
             case 's':
-                if (!(currentPositionY>= MainMenuController.getGameWindowHeight()-objectSizeY) && !restrictors[1]) {
+                if (!(currentPositionY>= MainMenuController.getGameWindowHeight()-objectSizeY)) {
 
                     if (hitBoxController.detectCollisionsForMovement(this,1,keyboardInput,objectSpeed)>=objectSpeed){
                         currentPositionY +=objectSpeed;
@@ -50,7 +50,7 @@ public class PlayerController {
                 }
                 break;
             case 'a':
-                if (!(currentPositionX <= 0)&& !restrictors[2]){
+                if (!(currentPositionX <= 0)){
 
                     if (hitBoxController.detectCollisionsForMovement(this,1,keyboardInput,objectSpeed)>=objectSpeed){
                         currentPositionX-=objectSpeed;
@@ -62,7 +62,7 @@ public class PlayerController {
                 }
                 break;
             case 'd':
-                if (!(currentPositionX >= MainMenuController.getGameWindowWidth()-objectSizeX) && !restrictors[3]){
+                if (!(currentPositionX >= MainMenuController.getGameWindowWidth()-objectSizeX)){
 
                     if (hitBoxController.detectCollisionsForMovement(this,1,keyboardInput,objectSpeed)>=objectSpeed){
                         currentPositionX+=objectSpeed;

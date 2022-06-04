@@ -25,8 +25,8 @@ public class GameViewController {
     public AnimationTimer gameLoop;
 
 
-   private final int playerStartingPosX =30;
-   private final int playerStartingPosY =40;
+   private final int playerStartingPosX =400;
+   private final int playerStartingPosY =200;
 
    private final int gameBoardSizeX=800;
    private final int gameBoardSizeY=600;

@@ -65,7 +65,7 @@ public class HitBoxController {
             case 'd':
                 for (int i=playerObject.getCurrentPositionY();i<playerObject.getCurrentPositionY()+ playerObject.getObjectSizeY();i++){
                     if (gameBoardHitBoxArray[i][playerObject.getCurrentPositionX()+ playerObject.getObjectSizeX()+speed]== collideFlag){
-                        //need to fill new speed
+                        outPutSpeed=
                         return outPutSpeed;
                     }
                 }
@@ -74,6 +74,56 @@ public class HitBoxController {
 
         }
         return speed;
+    }
+
+
+
+    private int speedReductorBeforeCollison(PlayerController playerObject, char direction, int speed, int collideFlag){
+
+        int objectStaringPosition=0;
+        int objectSize=0;
+        int objectSpeed=0;
+        int startingPoint=0;
+        int collisionPoint=0;
+        int step;
+
+
+
+        switch (direction){
+            case 'w':
+                objectStaringPosition=playerObject.getCurrentPositionY();
+                objectSize=0;
+                objectSpeed=-speed;
+
+
+                break;
+            case 's':
+                objectStaringPosition=playerObject.getCurrentPositionY();
+                objectSize=playerObject.getObjectSizeY();
+                objectSpeed=speed;
+
+                break;
+            case 'a':
+                objectStaringPosition=playerObject.getCurrentPositionX();
+                objectSize=0;
+                objectSpeed=-speed;
+
+                break;
+
+            case 'd':
+                objectStaringPosition=playerObject.getCurrentPositionX();
+                objectSize=playerObject.getObjectSizeX();
+                objectSpeed=speed;
+                break;
+        }
+        startingPoint=objectStaringPosition+objectSize;
+        collisionPoint=startingPoint+objectSpeed;
+        for (int i=startingPoint;i<collisionPoint;i++){
+            if(gameBoardHitBoxArray[i][]== collideFlag){
+                return step;
+            }
+            step++;
+        }
     }
 
     public void printSinglePoint(int x, int y){

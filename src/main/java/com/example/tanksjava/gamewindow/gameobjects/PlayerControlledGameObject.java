@@ -19,7 +19,6 @@ public class PlayerControlledGameObject extends StaticGameObject {
     private final MediaPlayer tankEngineSound;
 
 
-    private boolean[] movementRestrictors;
 
     private final int playerSpeed=4;
 
@@ -35,11 +34,7 @@ public class PlayerControlledGameObject extends StaticGameObject {
         pc = new PlayerController(objectStartingPositionX, objectStartingPositionY, pixelSizeX, pixelSizeY, playerSpeed, hitBoxController);
         tankEngineSound = new MediaPlayer(new Media(Paths.get(URLStringsOfAssets.tankSoundMusicAsset).toUri().toString()));
 
-        movementRestrictors = new boolean[4];
-        movementRestrictors[0] = false; //up
-        movementRestrictors[1] = false; //down
-        movementRestrictors[2] = false; //left
-        movementRestrictors[3] = false; //right
+
 
     }
 
@@ -67,7 +62,7 @@ public class PlayerControlledGameObject extends StaticGameObject {
 
         if (inputForTankSteering == 'w' || inputForTankSteering == 's' || inputForTankSteering == 'a' || inputForTankSteering == 'd' || inputForTankSteering == 'r') {
             StaticToolsAndHandlers.updatePlayerHitBox(0,this,super.getHitBoxController());
-            pc.updatePlayerCurrentPosition(inputForTankSteering, movementRestrictors);
+            pc.updatePlayerCurrentPosition(inputForTankSteering);
             pc.playerRotation(inputForTankSteering);
             this.getObjectGraphics().setRotate(pc.getPlayerRotation());
             this.getObjectGraphics().setLayoutY(pc.getCurrentPositionY());
