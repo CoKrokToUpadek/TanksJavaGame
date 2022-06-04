@@ -40,7 +40,8 @@ public class StaticToolsAndHandlers {
 
     }
 
-    public static void updatePlayerHitBox(int flag,PlayerControlledGameObject object, HitBoxController hitBoxController){
+     public  static  void updatePlayerHitBox(int flag,PlayerControlledGameObject object, HitBoxController hitBoxController){
+       // System.out.println("i load "+flag+" now");
         hitBoxController.fillHitBoxArrayWithFlags(flag,object.getPc().getCurrentPositionX(),object.getPc().getCurrentPositionY(),object.getObjectSizeX(),object.getObjectSizeY());
 
     }

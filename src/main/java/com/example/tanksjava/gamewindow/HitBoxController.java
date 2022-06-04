@@ -80,55 +80,20 @@ public class HitBoxController {
         System.out.println("current value under point"+gameBoardHitBoxArray[y][x]);
     }
 
+    //divider added for printing smaller chunks of array
 
-    public void printHitBoxArray(){
+    public void printHitBoxArray(int divider){
 
+        if (divider<1) {
+            divider = 1;
+        }
         System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        for (int i=0;i<gameBoardSizeY;i++){
-            for (int j=0;j<gameBoardSizeX;j++){
+        for (int i=0;i<gameBoardSizeY/divider;i++){
+            for (int j=0;j<gameBoardSizeX/divider;j++){
                 System.out.print(gameBoardHitBoxArray[i][j]);
             }
             System.out.println();
         }
-    }
-
-    public void printObjectCorners(PlayerController object){
-
-
-        int x=object.getCurrentPositionX();
-        int y=object.getCurrentPositionY();
-
-        int flagValue=gameBoardHitBoxArray[y][x];
-        int flagValuePlusSize=gameBoardHitBoxArray[y][x+object.getObjectSizeX()-1];
-
-        int xPlusSize=object.getCurrentPositionX()+object.getObjectSizeX()-1;
-        int yPlusSize=object.getCurrentPositionY()+object.getObjectSizeY()-1;
-
-        int of1flagValue=gameBoardHitBoxArray[y][x-1];
-        int of1flagValuePlusSize=gameBoardHitBoxArray[y][xPlusSize+1];
-
-        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        System.out.println("printing each corner of object:");
-        System.out.println("         x-1="+(x-1)+"                             "+("x+1="+(xPlusSize+1)));
-        System.out.println("y="+(y)+"|flagVal-1:"+of1flagValue+"|                     |flagVal+1:"+of1flagValuePlusSize+("|y="+(y)));
-        System.out.println("___________________________________________________________________________");
-        System.out.println("                x="+x+"                   "+("x="+xPlusSize));
-        System.out.println("          y="+y+"|flagVal:"+flagValue+"|           |flagVal:"+flagValuePlusSize+("|y="+y));
-        System.out.println();
-        System.out.println();
-        System.out.println();
-
-        flagValue=gameBoardHitBoxArray[yPlusSize-1][x];
-        flagValuePlusSize=gameBoardHitBoxArray[yPlusSize-1][xPlusSize-1];
-
-        of1flagValue=gameBoardHitBoxArray[yPlusSize][x-1];
-        of1flagValuePlusSize=gameBoardHitBoxArray[yPlusSize][xPlusSize+1];
-
-        System.out.println("          y="+yPlusSize+"|flagVal:"+flagValue+"|           |flagVal:"+flagValuePlusSize+("|y="+yPlusSize));
-        System.out.println("                x="+x+"                   "+("x="+xPlusSize));
-        System.out.println("___________________________________________________________________________");
-        System.out.println("y="+(yPlusSize)+"|flagVal-1:"+of1flagValue+"|                     |flagVal+1:"+of1flagValuePlusSize+("|y="+(yPlusSize)));
-        System.out.println("         x-1="+(x+1)+"                             "+("x+1="+(xPlusSize+1)));
     }
 
 

@@ -54,6 +54,8 @@ public class PlayerControlledGameObject extends StaticGameObject {
 
                 playerEngineSoundHandler();
                 inputForTankSteering = event.getCharacter().charAt(0);
+                //for testing purpose
+               // tankPositionAndOrientationUpdater();
 
 
             }
@@ -63,25 +65,19 @@ public class PlayerControlledGameObject extends StaticGameObject {
 
     public void tankPositionAndOrientationUpdater() {
 
-        //only this works
-        StaticToolsAndHandlers.updatePlayerHitBox(0,this,super.getHitBoxController());
-
-        pc.updatePlayerCurrentPosition(inputForTankSteering, movementRestrictors);
-
-        //there was a bug here that would rotate object to 0 at the start of the program (probably because of system buffer)
-        //I was unable to figure out better solution
-        if (inputForTankSteering == 'w' || inputForTankSteering == 's' || inputForTankSteering == 'a' || inputForTankSteering == 'd') {
+        if (inputForTankSteering == 'w' || inputForTankSteering == 's' || inputForTankSteering == 'a' || inputForTankSteering == 'd' || inputForTankSteering == 'r') {
+            StaticToolsAndHandlers.updatePlayerHitBox(0,this,super.getHitBoxController());
+            pc.updatePlayerCurrentPosition(inputForTankSteering, movementRestrictors);
             pc.playerRotation(inputForTankSteering);
             this.getObjectGraphics().setRotate(pc.getPlayerRotation());
+            this.getObjectGraphics().setLayoutY(pc.getCurrentPositionY());
+            this.getObjectGraphics().setLayoutX(pc.getCurrentPositionX());
+            StaticToolsAndHandlers.updatePlayerHitBox(this.getObjectFlag(),this,super.getHitBoxController());
+            this.inputForTankSteering = 'x';
+            //getHitBoxController().printHitBoxArray(8);
+            getHitBoxController().printSinglePoint(pc.getCurrentPositionX(), pc.getCurrentPositionY());
+            getHitBoxController().printSinglePoint(pc.getCurrentPositionX()-1, pc.getCurrentPositionY());
         }
-        this.getObjectGraphics().setLayoutY(pc.getCurrentPositionY());
-        this.getObjectGraphics().setLayoutX(pc.getCurrentPositionX());
-
-        //this seems to be ignored or instantly overwritten by the same invocation at the start of the method
-        StaticToolsAndHandlers.updatePlayerHitBox(this.getObjectFlag(),this,super.getHitBoxController());
-
-        //clear input for the next frame
-        this.inputForTankSteering = 'x';
     }
 
     public void playerEngineSoundHandler() {

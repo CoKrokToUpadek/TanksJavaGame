@@ -26,7 +26,7 @@ public class GameViewController {
 
 
    private final int playerStartingPosX =30;
-   private final int playerStartingPosY =85;
+   private final int playerStartingPosY =40;
 
    private final int gameBoardSizeX=800;
    private final int gameBoardSizeY=600;
@@ -70,7 +70,7 @@ public class GameViewController {
         gameLoop =new AnimationTimer() {
             @Override
             public void handle(long now) {
-                player1.tankPositionAndOrientationUpdater();
+            player1.tankPositionAndOrientationUpdater();
             }
         };
         gameLoop.start();
