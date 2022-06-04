@@ -1,18 +1,16 @@
 package com.example.tanksjava.gamewindow;
 
-import com.example.tanksjava.gamewindow.gameobjects.PlayerControlledGameObject;
-
 public class HitBoxController {
 
     //flags are: 1 for player object, 2 for indestructible static objects
-    private int [][] gameBoardHitBoxArray;
+    private int[][] gameBoardHitBoxArray;
     private final int gameBoardSizeX;
     private final int gameBoardSizeY;
 
     public HitBoxController(int gameBoardSizeX, int gameBoardSizeY) {
         this.gameBoardSizeX = gameBoardSizeX;
         this.gameBoardSizeY = gameBoardSizeY;
-        gameBoardHitBoxArray=new int[gameBoardSizeY][gameBoardSizeX];
+        gameBoardHitBoxArray = new int[gameBoardSizeY][gameBoardSizeX];
 
     }
 
@@ -20,53 +18,108 @@ public class HitBoxController {
         return gameBoardHitBoxArray;
     }
 
-    public void fillHitBoxArrayWithFlags(int flag, int startingPointX, int startingPointY, int objectSizeX, int objectSizeY){
-        for(int i=startingPointY;i<objectSizeY+startingPointY;i++){
-            for (int j=startingPointX;j<startingPointX+objectSizeX;j++){
-                gameBoardHitBoxArray[i][j]=flag;
+    public void fillHitBoxArrayWithFlags(int flag, int startingPointX, int startingPointY, int objectSizeX, int objectSizeY) {
+        for (int i = startingPointY; i < objectSizeY + startingPointY; i++) {
+            for (int j = startingPointX; j < startingPointX + objectSizeX; j++) {
+                gameBoardHitBoxArray[i][j] = flag;
             }
         }
     }
 
-    public int detectCollisionsForMovement(PlayerController playerObject, int collideFlag, char direction, int speed){
+    public int detectCollisionsForMovement(PlayerController playerObject, int collideFlag, char direction, int speed) {
 
-        int outPutSpeed=0;
-         //w-up
-         //s-down
-         //a-left
-         //d-right
-        switch (direction){
+        //w-up
+        //s-down
+        //a-left
+        //d-right
+        int outPutSpeed = 0;
+        int step = 0;
+        int objectCollisionPoint = 0;
+        int objectStartPlusSizeX = playerObject.getCurrentPositionX() + playerObject.getObjectSizeX();
+        int objectStartPlusSizeY = playerObject.getCurrentPositionY() + playerObject.getObjectSizeY();
+        int objectStartY = playerObject.getCurrentPositionY();
+        int objectStartX = playerObject.getCurrentPositionX();
+
+
+        switch (direction) {
             case 'w':
-                for (int i=playerObject.getCurrentPositionX();i<playerObject.getCurrentPositionX()+ playerObject.getObjectSizeX();i++){
-                        if (gameBoardHitBoxArray[playerObject.getCurrentPositionY()-speed][i]== collideFlag){
-                            //need to fill new speed
-                            return outPutSpeed;
+                objectCollisionPoint = objectStartY - speed;
+
+                for (int i = objectStartX; i < objectStartPlusSizeX; i++) {
+                    if (gameBoardHitBoxArray[objectCollisionPoint][i] == collideFlag) {
+
+                        while (step <= speed) {
+                            for (int k = objectStartX; k < objectStartPlusSizeX; k++) {//ok
+                                if (gameBoardHitBoxArray[objectStartY - step][k] == collideFlag) {
+                                    System.out.println(step);
+                                    if (step==1){
+                                        return 0;
+                                    }
+                                    return step-1;
+                                }
+                            }
+                            step++;
                         }
+                    }
                 }
                 break;
             case 's':
-                for (int i=playerObject.getCurrentPositionX();i<playerObject.getCurrentPositionX()+ playerObject.getObjectSizeX();i++){
-                    if (gameBoardHitBoxArray[playerObject.getCurrentPositionY()+ playerObject.getObjectSizeY()+speed][i]== collideFlag){
-                        //need to fill new speed
-                          return outPutSpeed;
+                objectCollisionPoint = objectStartPlusSizeY + speed;
+
+
+                for (int i = objectStartX; i < objectStartPlusSizeX; i++) {//ok
+                    if (gameBoardHitBoxArray[objectCollisionPoint][i] == collideFlag) {
+                        System.out.println("collision detected");
+                        while (step <= speed) {
+                            for (int k = objectStartX; k < objectStartPlusSizeX; k++) {//ok
+                                if (gameBoardHitBoxArray[objectStartPlusSizeY + step][k] == collideFlag) {
+                                    System.out.println(step);
+                                    return step;
+                                }
+                            }
+                            step++;
+                        }
                     }
                 }
                 break;
 
             case 'a':
-                for (int i=playerObject.getCurrentPositionY();i<playerObject.getCurrentPositionY()+ playerObject.getObjectSizeY();i++){
-                    if (gameBoardHitBoxArray[i][playerObject.getCurrentPositionX()-speed]== collideFlag){
-                        //need to fill new speed
-                        return outPutSpeed;
+                objectCollisionPoint = objectStartX - speed;
+
+                for (int i = objectStartY; i < objectStartPlusSizeY; i++) {
+                    if (gameBoardHitBoxArray[i][objectCollisionPoint] == collideFlag) {
+                        while (step <= speed) {
+                            for (int k = objectStartY; k < objectStartPlusSizeY; k++) {
+                                if (gameBoardHitBoxArray[k][objectStartX - step] == collideFlag) {
+                                    System.out.println(step);
+                                    if (step == 1) {
+                                        return 0;
+                                    }
+                                    return step-1;
+                                }
+                            }
+                            step++;
+                        }
                     }
                 }
 
                 break;
             case 'd':
-                for (int i=playerObject.getCurrentPositionY();i<playerObject.getCurrentPositionY()+ playerObject.getObjectSizeY();i++){
-                    if (gameBoardHitBoxArray[i][playerObject.getCurrentPositionX()+ playerObject.getObjectSizeX()+speed]== collideFlag){
-                        outPutSpeed=
-                        return outPutSpeed;
+                objectCollisionPoint = objectStartPlusSizeX + speed;
+
+                for (int i = objectStartY; i < objectStartPlusSizeY; i++) {
+                    if (gameBoardHitBoxArray[i][objectCollisionPoint] == collideFlag) {
+                        while (step <= speed) {
+                            for (int k = objectStartY; k < objectStartPlusSizeY; k++) {
+                                if (gameBoardHitBoxArray[k][objectStartPlusSizeX + step] == collideFlag) {
+                                    System.out.println(step);
+
+                                    return step;
+                                }
+
+                            }
+                            step++;
+                        }
                     }
                 }
                 break;
@@ -77,69 +130,20 @@ public class HitBoxController {
     }
 
 
-
-    private int speedReductorBeforeCollison(PlayerController playerObject, char direction, int speed, int collideFlag){
-
-        int objectStaringPosition=0;
-        int objectSize=0;
-        int objectSpeed=0;
-        int startingPoint=0;
-        int collisionPoint=0;
-        int step;
-
-
-
-        switch (direction){
-            case 'w':
-                objectStaringPosition=playerObject.getCurrentPositionY();
-                objectSize=0;
-                objectSpeed=-speed;
-
-
-                break;
-            case 's':
-                objectStaringPosition=playerObject.getCurrentPositionY();
-                objectSize=playerObject.getObjectSizeY();
-                objectSpeed=speed;
-
-                break;
-            case 'a':
-                objectStaringPosition=playerObject.getCurrentPositionX();
-                objectSize=0;
-                objectSpeed=-speed;
-
-                break;
-
-            case 'd':
-                objectStaringPosition=playerObject.getCurrentPositionX();
-                objectSize=playerObject.getObjectSizeX();
-                objectSpeed=speed;
-                break;
-        }
-        startingPoint=objectStaringPosition+objectSize;
-        collisionPoint=startingPoint+objectSpeed;
-        for (int i=startingPoint;i<collisionPoint;i++){
-            if(gameBoardHitBoxArray[i][]== collideFlag){
-                return step;
-            }
-            step++;
-        }
-    }
-
-    public void printSinglePoint(int x, int y){
-        System.out.println("current value under point"+gameBoardHitBoxArray[y][x]);
+    public void printSinglePoint(int x, int y) {
+        System.out.println("current value under point" + gameBoardHitBoxArray[y][x]);
     }
 
     //divider added for printing smaller chunks of array
 
-    public void printHitBoxArray(int divider){
+    public void printHitBoxArray(int divider) {
 
-        if (divider<1) {
+        if (divider < 1) {
             divider = 1;
         }
         System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        for (int i=0;i<gameBoardSizeY/divider;i++){
-            for (int j=0;j<gameBoardSizeX/divider;j++){
+        for (int i = 0; i < gameBoardSizeY / divider; i++) {
+            for (int j = 0; j < gameBoardSizeX / divider; j++) {
                 System.out.print(gameBoardHitBoxArray[i][j]);
             }
             System.out.println();

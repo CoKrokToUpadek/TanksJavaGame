@@ -34,7 +34,7 @@ public class PlayerController {
                     if (hitBoxController.detectCollisionsForMovement(this,1,keyboardInput,objectSpeed)>=objectSpeed){
                         currentPositionY-=objectSpeed;
                     }else{
-                        System.out.println("problem!");
+                        currentPositionY-=hitBoxController.detectCollisionsForMovement(this,1,keyboardInput,objectSpeed);
                     }
                 }
                 break;
@@ -44,7 +44,7 @@ public class PlayerController {
                     if (hitBoxController.detectCollisionsForMovement(this,1,keyboardInput,objectSpeed)>=objectSpeed){
                         currentPositionY +=objectSpeed;
                     }else{
-                        System.out.println("problem!");
+                        currentPositionY+=hitBoxController.detectCollisionsForMovement(this,1,keyboardInput,objectSpeed);
                     }
 
                 }
@@ -55,7 +55,7 @@ public class PlayerController {
                     if (hitBoxController.detectCollisionsForMovement(this,1,keyboardInput,objectSpeed)>=objectSpeed){
                         currentPositionX-=objectSpeed;
                     }else{
-                        System.out.println("problem!");
+                        currentPositionX-=hitBoxController.detectCollisionsForMovement(this,1,keyboardInput,objectSpeed);
                     }
 
 
@@ -67,7 +67,7 @@ public class PlayerController {
                     if (hitBoxController.detectCollisionsForMovement(this,1,keyboardInput,objectSpeed)>=objectSpeed){
                         currentPositionX+=objectSpeed;
                     }else{
-                        System.out.println("problem!");
+                        currentPositionX+=hitBoxController.detectCollisionsForMovement(this,1,keyboardInput,objectSpeed);
                     }
 
                 }
@@ -77,7 +77,7 @@ public class PlayerController {
                 break;
 
             case 'r':
-                  hitBoxController.printHitBoxArray(8);
+                  hitBoxController.printHitBoxArray(4);
                 break;
 
             default:
@@ -105,9 +105,6 @@ public class PlayerController {
         }
     }
 
-    private int restrictorHandler(char direction, int objectSpeed){
-      return  hitBoxController.detectCollisionsForMovement(this,1,direction,objectSpeed);
-    }
 
 
     public int getObjectSizeX() {

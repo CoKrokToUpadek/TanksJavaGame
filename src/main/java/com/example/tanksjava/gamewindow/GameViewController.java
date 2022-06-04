@@ -61,8 +61,10 @@ public class GameViewController {
         StaticToolsAndHandlers.addStaticObjectsInBulk(newGamePane,crate,28,0,572, StaticToolsAndHandlers.itemOrientation.HORIZONTAL,hitBoxController);
         StaticToolsAndHandlers.addStaticObjectsInBulk(newGamePane,crate,21,0,0, StaticToolsAndHandlers.itemOrientation.VERTICAL,hitBoxController);
         StaticToolsAndHandlers.addStaticObjectsInBulk(newGamePane,crate,21,772,0, StaticToolsAndHandlers.itemOrientation.VERTICAL,hitBoxController);
-        StaticToolsAndHandlers.addStaticObjectsInBulk(newGamePane,crate,6,200,200, StaticToolsAndHandlers.itemOrientation.VERTICAL,hitBoxController);
-       // hitBoxController.printHitBoxArray();
+        StaticToolsAndHandlers.addStaticObjectsInBulk(newGamePane,crate,6,50,121, StaticToolsAndHandlers.itemOrientation.VERTICAL,hitBoxController);
+        //StaticToolsAndHandlers.addStaticObjectsInBulk(newGamePane,crate,6,131,121, StaticToolsAndHandlers.itemOrientation.VERTICAL,hitBoxController);
+        StaticToolsAndHandlers.addStaticObjectsInBulk(newGamePane,crate,6,232,121, StaticToolsAndHandlers.itemOrientation.VERTICAL,hitBoxController);
+        // hitBoxController.printHitBoxArray();
     }
 
 

@@ -69,9 +69,6 @@ public class PlayerControlledGameObject extends StaticGameObject {
             this.getObjectGraphics().setLayoutX(pc.getCurrentPositionX());
             StaticToolsAndHandlers.updatePlayerHitBox(this.getObjectFlag(),this,super.getHitBoxController());
             this.inputForTankSteering = 'x';
-            //getHitBoxController().printHitBoxArray(8);
-            getHitBoxController().printSinglePoint(pc.getCurrentPositionX(), pc.getCurrentPositionY());
-            getHitBoxController().printSinglePoint(pc.getCurrentPositionX()-1, pc.getCurrentPositionY());
         }
     }
 
