@@ -8,8 +8,12 @@ import javafx.scene.layout.Pane;
 
 
 public class StaticGameObject {
-    private final ImageView objectGraphics;
+    private ImageView objectGraphics;
+
     private final String objectURLString;
+
+
+
     private final int objectSizeX;
 
     private final int objectSizeY;
@@ -93,6 +97,11 @@ public class StaticGameObject {
     public HitBoxController getHitBoxController() {
         return hitBoxController;
     }
+
+
+   public void setImageGraphic(String newImage) {
+        this.objectGraphics.setImage(new Image(newImage));
+   }
 
     public void insertObjectOnToPane(Pane pane) {
         StaticToolsAndHandlers.insertObjectOnToPane(pane, this, objectStartingPositionX, objectStartingPositionY, initialRotation, hitBoxController);

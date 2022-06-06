@@ -1,10 +1,15 @@
 package com.example.tanksjava.gamewindow;
+
 import com.example.tanksjava.mainmenuwindow.MainMenuController;
 
 
 public class PlayerController {
     private int currentPositionX;
     private int currentPositionY;
+
+    private int currentBarrelPositionX;
+    private int currentBarrelPositionY;
+
 
     private int playerRotation;
 
@@ -22,6 +27,30 @@ public class PlayerController {
         this.objectSizeY = objectSizeY;
         this.objectSpeed = objectSpeed;
         this.hitBoxController = hitBoxController;
+    }
+
+
+    public void updatePlayerBarrelPosition(char keyboardInput) {
+        switch (Character.toLowerCase(keyboardInput)) {
+            case 'w':
+                currentBarrelPositionX = (currentPositionX + (objectSizeX/2)) ;
+                currentBarrelPositionY = currentPositionY;
+                break;
+            case 's':
+                currentBarrelPositionX = (currentPositionX + (objectSizeX/2));
+                currentBarrelPositionY = currentPositionY + objectSizeY;
+                break;
+            case 'a':
+                currentBarrelPositionX = currentPositionX;
+                currentBarrelPositionY = (currentPositionY + (objectSizeY/2));
+                break;
+            case 'd':
+                currentBarrelPositionX = (currentPositionX + objectSizeX);
+                currentBarrelPositionY = (currentPositionY + (objectSizeY/2));
+                break;
+        }
+
+
     }
 
     public void updatePlayerCurrentPosition(char keyboardInput) {
@@ -75,7 +104,13 @@ public class PlayerController {
                 break;
 
             case 'r':
-                hitBoxController.printHitBoxArray(4);
+                System.out.println("TankX=" + getCurrentPositionX());
+                System.out.println("BarrelX=" + getCurrentBarrelPositionX());
+                System.out.println();
+                System.out.println("TankY==" + getCurrentPositionY());
+                System.out.println("BarrelY==" + getCurrentBarrelPositionY());
+
+
                 break;
 
             default:
@@ -123,4 +158,8 @@ public class PlayerController {
     public int getPlayerRotation() {
         return playerRotation;
     }
+
+    public int getCurrentBarrelPositionX() {return currentBarrelPositionX;}
+
+    public int getCurrentBarrelPositionY() {return currentBarrelPositionY;}
 }

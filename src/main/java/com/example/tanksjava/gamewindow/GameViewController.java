@@ -33,12 +33,15 @@ public class GameViewController {
 
     HitBoxController hitBoxController = new HitBoxController(gameBoardSizeX, gameBoardSizeY);
 
-    private final StaticGameObject crate = new StaticGameObject(1, URLStringsOfAssets.metalBoxGraphicAsset, 28, 28, 80,
+    private final StaticGameObject metalCrate = new StaticGameObject(1, URLStringsOfAssets.metalBoxGraphicAsset, 28, 28, 80,
             80, false, 0, hitBoxController);
+    private final StaticGameObject woodenCrate = new StaticGameObject(1, URLStringsOfAssets.woodenBoxGraphicAsset, 28, 28, 80,
+            80, true, 0, hitBoxController);
 
 
-    PlayerControlledGameObject player1 = new PlayerControlledGameObject(2, URLStringsOfAssets.playerTankGraphicAsset, 52, 52,
-            playerStartingPosX, playerStartingPosY, true, 180, hitBoxController);
+
+    PlayerControlledGameObject player1;
+
 
 
     @FXML
@@ -53,15 +56,24 @@ public class GameViewController {
         Button button = new Button();
         button.setVisible(true);
         newGamePane.getChildren().add(button);
+        button.setScaleX(0.1);
+        button.setScaleY(0.1);
 
+
+        StaticToolsAndHandlers.addStaticObjectsInBulk(newGamePane, metalCrate, 21, 0, 6, StaticToolsAndHandlers.itemOrientation.VERTICAL, hitBoxController);
+        StaticToolsAndHandlers.addStaticObjectsInBulk(newGamePane, metalCrate, 21, 772, 6, StaticToolsAndHandlers.itemOrientation.VERTICAL, hitBoxController);
+        StaticToolsAndHandlers.addStaticObjectsInBulk(newGamePane, metalCrate, 6, 100, 180, StaticToolsAndHandlers.itemOrientation.VERTICAL, hitBoxController);
+
+        StaticToolsAndHandlers.addStaticObjectsInBulk(newGamePane, metalCrate, 26, 36, 0, StaticToolsAndHandlers.itemOrientation.HORIZONTAL, hitBoxController);
+        StaticToolsAndHandlers.addStaticObjectsInBulk(newGamePane, metalCrate, 26, 36, 572, StaticToolsAndHandlers.itemOrientation.HORIZONTAL, hitBoxController);
+
+        for (int i=496;i<700;i+=28){
+            StaticToolsAndHandlers.addStaticObjectsInBulk(newGamePane, woodenCrate, 6, i, 180, StaticToolsAndHandlers.itemOrientation.VERTICAL, hitBoxController);
+        }
+
+        player1= new PlayerControlledGameObject(2, URLStringsOfAssets.playerSingleBarrelTankGraphicAsset, 52, 52,
+                playerStartingPosX, playerStartingPosY, true, 180, hitBoxController,4);
         player1.playerMovementInitialization(newGamePane);
-
-        StaticToolsAndHandlers.addStaticObjectsInBulk(newGamePane, crate, 28, 0, 0, StaticToolsAndHandlers.itemOrientation.HORIZONTAL, hitBoxController);
-        StaticToolsAndHandlers.addStaticObjectsInBulk(newGamePane, crate, 28, 0, 572, StaticToolsAndHandlers.itemOrientation.HORIZONTAL, hitBoxController);
-        StaticToolsAndHandlers.addStaticObjectsInBulk(newGamePane, crate, 21, 0, 0, StaticToolsAndHandlers.itemOrientation.VERTICAL, hitBoxController);
-        StaticToolsAndHandlers.addStaticObjectsInBulk(newGamePane, crate, 21, 772, 0, StaticToolsAndHandlers.itemOrientation.VERTICAL, hitBoxController);
-        StaticToolsAndHandlers.addStaticObjectsInBulk(newGamePane, crate, 6, 50, 121, StaticToolsAndHandlers.itemOrientation.VERTICAL, hitBoxController);
-        StaticToolsAndHandlers.addStaticObjectsInBulk(newGamePane, crate, 6, 232, 121, StaticToolsAndHandlers.itemOrientation.VERTICAL, hitBoxController);
 
     }
 

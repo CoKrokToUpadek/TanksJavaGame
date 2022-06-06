@@ -1,13 +1,20 @@
 package com.example.tanksjava.toolsmethods;
 
 import com.example.tanksjava.gamewindow.HitBoxController;
+
 import com.example.tanksjava.gamewindow.gameobjects.PlayerControlledGameObject;
 import com.example.tanksjava.gamewindow.gameobjects.StaticGameObject;
+
+import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.media.MediaPlayer;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
+
 public class StaticToolsAndHandlers {
+
 
     public enum itemOrientation {
         HORIZONTAL, VERTICAL
@@ -30,6 +37,106 @@ public class StaticToolsAndHandlers {
             mediaPlayer.play();
         }
     }
+
+    public static void playerMuzzleFlashHandler(PlayerControlledGameObject playerObject, int pivotCorrection){
+
+
+
+
+        int tempPositionX=playerObject.getPc().getCurrentBarrelPositionX();
+        int tempPositionY=playerObject.getPc().getCurrentBarrelPositionY();
+        int tempRotation=playerObject.getPc().getPlayerRotation();
+        AtomicInteger tempFlashSizeX = new AtomicInteger();
+        AtomicInteger tempFlashSizeY = new AtomicInteger();
+
+        playerObject.getMuzzleFlash().getObjectGraphics().setRotate(tempRotation);
+
+
+
+
+
+//
+//        switch (tempRotation){
+//            case 0://s
+//                playerObject.getMuzzleFlash().getObjectGraphics().setLayoutX(tempPositionX-(playerObject.getMuzzleFlash().getObjectSizeX()/2));
+//                playerObject.getMuzzleFlash().getObjectGraphics().setLayoutY(tempPositionY);
+//                break;
+//            case 180://w
+//                playerObject.getMuzzleFlash().getObjectGraphics().setLayoutX(tempPositionX-(playerObject.getMuzzleFlash().getObjectSizeX()/2));
+//                playerObject.getMuzzleFlash().getObjectGraphics().setLayoutY(tempPositionY-playerObject.getMuzzleFlash().getObjectSizeY());
+//                break;
+//            case 270://d
+//                playerObject.getMuzzleFlash().getObjectGraphics().setLayoutX(tempPositionX+pivotCorrection);
+//                playerObject.getMuzzleFlash().getObjectGraphics().setLayoutY(tempPositionY-playerObject.getMuzzleFlash().getObjectSizeX());
+//                break;
+//            case 90://a
+//                playerObject.getMuzzleFlash().getObjectGraphics().setLayoutX(tempPositionX-playerObject.getMuzzleFlash().getObjectSizeX()-pivotCorrection);
+//                playerObject.getMuzzleFlash().getObjectGraphics().setLayoutY(tempPositionY-playerObject.getMuzzleFlash().getObjectSizeX());
+//                break;
+//        }
+
+
+
+
+
+
+        //playerObject.getMuzzleFlash().getObjectGraphics().setVisible(true);
+
+
+        Thread timerThread = new Thread(() -> {
+            playerObject.setReadyToFire(false);
+            for (int i=0;i<3;i++) {
+                playerObject.getMuzzleFlash().setImageGraphic(playerObject.getMuzzleFlashFrames().getMuzzleFlashStages().get(i).getObjectURLString());
+                tempFlashSizeX.set(playerObject.getMuzzleFlashFrames().getMuzzleFlashStages().get(i).getObjectSizeX());
+                tempFlashSizeY.set(playerObject.getMuzzleFlashFrames().getMuzzleFlashStages().get(i).getObjectSizeY());
+
+                try {
+                    switch (tempRotation){
+            case 0://s
+                playerObject.getMuzzleFlash().getObjectGraphics().setLayoutX(tempPositionX-(tempFlashSizeX.get()/2));
+                playerObject.getMuzzleFlash().getObjectGraphics().setLayoutY(tempPositionY);
+                break;
+            case 180://w
+                playerObject.getMuzzleFlash().getObjectGraphics().setLayoutX(tempPositionX-(tempFlashSizeX.get()/2));
+                playerObject.getMuzzleFlash().getObjectGraphics().setLayoutY(tempPositionY-tempFlashSizeY.get());
+                break;
+            case 270://d
+                playerObject.getMuzzleFlash().getObjectGraphics().setLayoutX(tempPositionX+pivotCorrection-3+i);
+                playerObject.getMuzzleFlash().getObjectGraphics().setLayoutY(tempPositionY-tempFlashSizeX.get()+3-i);
+                break;
+            case 90://a
+                playerObject.getMuzzleFlash().getObjectGraphics().setLayoutX(tempPositionX-tempFlashSizeX.get()-pivotCorrection+3-i);
+                playerObject.getMuzzleFlash().getObjectGraphics().setLayoutY(tempPositionY-tempFlashSizeX.get()+3-i);
+                break;
+        }
+                    Platform.runLater(() -> {
+                        playerObject.getMuzzleFlash().getObjectGraphics().setVisible(true);
+                    });
+
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                Platform.runLater(() -> {
+                    playerObject.getMuzzleFlash().getObjectGraphics().setVisible(false);
+                });
+            }
+
+
+            try {
+                Thread.sleep(1200);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
+            playerObject.setReadyToFire(true);
+        });   timerThread.start();
+
+
+
+    }
+
 
     public static void insertObjectOnToPane(Pane pane, StaticGameObject object, int objectStartingPositionX, int objectStartingPositionY, int initialRotation, HitBoxController hitBoxController) {
         pane.getChildren().add(object.getObjectGraphics());
