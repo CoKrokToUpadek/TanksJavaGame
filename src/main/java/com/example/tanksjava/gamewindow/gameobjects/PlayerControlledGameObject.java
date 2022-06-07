@@ -21,6 +21,9 @@ public class PlayerControlledGameObject extends StaticGameObject {
 
     private final MediaPlayer gunFireSound;
 
+    //test
+    private char previousInput;
+
     private boolean readyToFire=true;
 
     private MuzzleFlash muzzleFlash= new MuzzleFlash(0,URLStringsOfAssets.playerMuzzleFlashGraphicAsset3,21,38,false);
@@ -56,13 +59,11 @@ public class PlayerControlledGameObject extends StaticGameObject {
         muzzleFlash.getObjectGraphics().setVisible(false);
 
 
-       // muzzleFlash.getObjectGraphics().setVisible(false);
 
         pane.setOnKeyTyped(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
 
-                playerEngineSoundHandler();
                 inputForTankSteering = event.getCharacter().charAt(0);
                 //for testing purpose
                 // tankPositionAndOrientationUpdater();
@@ -77,6 +78,9 @@ public class PlayerControlledGameObject extends StaticGameObject {
 
         if (inputForTankSteering == 'w' || inputForTankSteering == 's' || inputForTankSteering == 'a' || inputForTankSteering == 'd' || inputForTankSteering == 'r') {
             StaticToolsAndHandlers.updatePlayerHitBox(0, this, super.getHitBoxController());
+            if(inputForTankSteering!='r'){
+                playerEngineSoundHandler();
+            }
 
             pc.updatePlayerCurrentPosition(inputForTankSteering);
             pc.playerRotation(inputForTankSteering);
@@ -85,10 +89,13 @@ public class PlayerControlledGameObject extends StaticGameObject {
             this.getObjectGraphics().setRotate(pc.getPlayerRotation());
             this.getObjectGraphics().setLayoutY(pc.getCurrentPositionY());
             this.getObjectGraphics().setLayoutX(pc.getCurrentPositionX());
+            previousInput=inputForTankSteering;
+
 
             if (inputForTankSteering=='r'){
                 if(readyToFire){
-                    StaticToolsAndHandlers.playerMuzzleFlashHandler(this,8);
+                   // StaticToolsAndHandlers.playerMuzzleFlashHandler(this,8);
+                    StaticToolsAndHandlers.playerMuzzleFlashHandler2(this);
                     gunFireSoundHandler();
                 }
             }
