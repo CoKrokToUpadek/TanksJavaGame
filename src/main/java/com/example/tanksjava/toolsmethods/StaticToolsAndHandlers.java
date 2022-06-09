@@ -16,10 +16,20 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class StaticToolsAndHandlers {
 
+
+
+
     public enum itemOrientation {
         HORIZONTAL, VERTICAL
     }
     private static Rotate rotate=new Rotate();
+
+    private static int objectCounter=0;
+
+    public static int getObjectNumber(){
+        objectCounter++;
+        return objectCounter;
+    }
 
     public static void setBackGround(Pane pane, String url, int sizeX, int sizeY) {
         BackgroundImage myBI = new BackgroundImage(new Image(url, sizeX, sizeY, false, true),

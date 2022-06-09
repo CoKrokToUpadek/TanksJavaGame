@@ -21,9 +21,7 @@ public class GameViewController {
     //must be global otherwise garbage collector removes it after 1 second
     private MediaPlayer backgroundMusic;
 
-
     public AnimationTimer gameLoop;
-
 
     private final int playerStartingPosX = 400;
     private final int playerStartingPosY = 200;
@@ -34,7 +32,7 @@ public class GameViewController {
     HitBoxController hitBoxController = new HitBoxController(gameBoardSizeX, gameBoardSizeY);
 
     private final StaticGameObject metalCrate = new StaticGameObject(1, URLStringsOfAssets.metalBoxGraphicAsset, 28, 28, 80,
-            80, false, 0, hitBoxController);
+            80, false, 0,hitBoxController);
     private final StaticGameObject woodenCrate = new StaticGameObject(1, URLStringsOfAssets.woodenBoxGraphicAsset, 28, 28, 80,
             80, true, 0, hitBoxController);
 

@@ -18,7 +18,6 @@ public class PlayerControlledGameObject extends StaticGameObject {
 
     private final MediaPlayer tankEngineSound;
 
-
     private final MediaPlayer gunFireSound;
 
     //test
@@ -108,8 +107,6 @@ public class PlayerControlledGameObject extends StaticGameObject {
                     gunFireSoundHandler();
                 }
             }
-
-
             StaticToolsAndHandlers.updatePlayerHitBox(this.getObjectFlag(), this, super.getHitBoxController());
                       this.inputForTankSteering = 'x';
         }

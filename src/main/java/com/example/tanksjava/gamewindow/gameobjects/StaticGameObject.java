@@ -12,8 +12,6 @@ public class StaticGameObject {
 
     private final String objectURLString;
 
-
-
     private final int objectSizeX;
 
     private final int objectSizeY;
@@ -27,9 +25,11 @@ public class StaticGameObject {
 
     private HitBoxController hitBoxController;
 
+    private final int gameObjectID;
+
 
     public StaticGameObject(int objectFlag, String objectURLString, int objectSizeX, int objectSizeY, int objectStartingPositionX,
-                            int objectStartingPositionY, boolean isDestructible, int initialRotation, HitBoxController hitBoxController) {
+                            int objectStartingPositionY, boolean isDestructible, int initialRotation,HitBoxController hitBoxController) {
         this.objectURLString = objectURLString;
         this.objectSizeX = objectSizeX;
         this.objectSizeY = objectSizeY;
@@ -40,9 +40,10 @@ public class StaticGameObject {
         this.initialRotation = initialRotation;
         this.hitBoxController = hitBoxController;
         this.objectFlag = objectFlag;
+        this.gameObjectID=StaticToolsAndHandlers.getObjectNumber();
 
     }
-
+    //temporary objects that doesn't have hitbox
     public StaticGameObject(int objectFlag, String objectURLString, int objectSizeX, int objectSizeY, boolean isDestructible) {
         this.objectURLString = objectURLString;
         this.objectSizeX = objectSizeX;
@@ -50,6 +51,7 @@ public class StaticGameObject {
         this.isDestructible = isDestructible;
         this.objectGraphics = new ImageView(new Image(objectURLString));
         this.objectFlag = objectFlag;
+        gameObjectID=0;
     }
 
 
@@ -60,6 +62,8 @@ public class StaticGameObject {
         this.isDestructible = object.isDestructible;
         this.objectGraphics = new ImageView(new Image(objectURLString));
         this.objectFlag = object.objectFlag;
+        this.gameObjectID=StaticToolsAndHandlers.getObjectNumber();
+        System.out.println(gameObjectID);
     }
 
     public int getObjectSizeX() {
