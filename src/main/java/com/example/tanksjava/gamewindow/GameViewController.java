@@ -69,7 +69,8 @@ public class GameViewController {
         StaticToolsAndHandlers.addStaticObjectsInBulk(newGamePane, metalCrate, 26, 36, 572, StaticToolsAndHandlers.itemOrientation.HORIZONTAL, hitBoxController);
 
         for (int i=496;i<700;i+=28){
-            StaticToolsAndHandlers.addStaticObjectsInBulk(newGamePane, woodenCrate, 6, i, 180, StaticToolsAndHandlers.itemOrientation.VERTICAL, hitBoxController);
+            StaticToolsAndHandlers.addStaticObjectsInBulk(newGamePane, new StaticGameObject(woodenCrate), 6, i, 180, StaticToolsAndHandlers.itemOrientation.VERTICAL, hitBoxController);
+
         }
 
         player1= new MovableGameObject(2, URLStringsOfAssets.playerSingleBarrelTankGraphicAsset, 52, 52,
@@ -88,7 +89,7 @@ public class GameViewController {
         gameLoop = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                player1.objectPositionAndOrientationUpdater();
+                player1.objectPositionAndOrientationUpdater(newGamePane);
                 //TODO-shell position updater
             }
         };

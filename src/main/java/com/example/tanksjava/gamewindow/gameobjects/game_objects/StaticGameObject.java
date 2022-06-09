@@ -70,7 +70,11 @@ public class StaticGameObject {
         this.objectSizeY = object.objectSizeY;
         this.isDestructible = object.isDestructible;
         this.objectGraphics = new ImageView(new Image(objectURLString));
-        this.objectFlag = object.objectFlag;
+
+
+        this.objectFlag = new Flag(object.getObjectFlag().getFlagValue());
+        this.objectFlag.setObject(this);
+
         this.gameObjectID=StaticToolsAndHandlers.getObjectNumber();
         System.out.println(gameObjectID);
     }
@@ -126,9 +130,23 @@ public class StaticGameObject {
         this.objectGraphics.setImage(new Image(newImage));
    }
 
+    public void setObjectStartingPositionX(int objectStartingPositionX) {
+        this.objectStartingPositionX = objectStartingPositionX;
+    }
+
+    public void setObjectStartingPositionY(int objectStartingPositionY) {
+        this.objectStartingPositionY = objectStartingPositionY;
+    }
+
     public void insertObjectOnToPane(Pane pane) {
         StaticToolsAndHandlers.insertObjectOnToPane(pane, this, objectStartingPositionX, objectStartingPositionY, initialRotation, hitBoxController);
     }
 
+    public int getGameObjectID() {
+        return gameObjectID;
+    }
 
+    public boolean isDestructible() {
+        return isDestructible;
+    }
 }

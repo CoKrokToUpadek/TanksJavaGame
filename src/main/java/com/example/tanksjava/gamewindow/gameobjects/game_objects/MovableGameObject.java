@@ -1,5 +1,6 @@
 package com.example.tanksjava.gamewindow.gameobjects.game_objects;
 
+import com.example.tanksjava.gamewindow.hibox_controllers.Flag;
 import com.example.tanksjava.gamewindow.hibox_controllers.HitBoxController;
 import com.example.tanksjava.gamewindow.assets.URLStringsOfAssets;
 import com.example.tanksjava.gamewindow.gameobjects.muzzle_flash.MuzzleFlash;
@@ -28,7 +29,7 @@ public class MovableGameObject extends StaticGameObject {
 
     private MuzzleFlash muzzleFlash = new MuzzleFlash(0, URLStringsOfAssets.playerMuzzleFlashGraphicAsset3, 21, 38, false);
 
-    private MuzzleFlashFrames muzzleFlashFrames = new MuzzleFlashFrames();
+    private final MuzzleFlashFrames muzzleFlashFrames = new MuzzleFlashFrames();
 
     private final int objectSpeed;
 
@@ -84,10 +85,10 @@ public class MovableGameObject extends StaticGameObject {
     }
 
 
-    public void objectPositionAndOrientationUpdater() {
+    public void objectPositionAndOrientationUpdater(Pane pane) {
 
         if (inputForTankSteering == 'w' || inputForTankSteering == 's' || inputForTankSteering == 'a' || inputForTankSteering == 'd' || inputForTankSteering == 'r') {
-            StaticToolsAndHandlers.updatePlayerHitBox(this, super.getHitBoxController());
+            StaticToolsAndHandlers.clearPlayerHitBox(this, super.getHitBoxController());
             switch (inputForTankSteering){
                 case 'w':
                     playerDirectionController.setObjectRotation(180);

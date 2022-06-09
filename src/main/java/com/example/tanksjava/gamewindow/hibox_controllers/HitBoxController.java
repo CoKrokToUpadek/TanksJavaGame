@@ -1,9 +1,7 @@
 package com.example.tanksjava.gamewindow.hibox_controllers;
 
 import com.example.tanksjava.gamewindow.gameobjects.game_objects.ObjectDirectionController;
-import com.example.tanksjava.gamewindow.gameobjects.game_objects.StaticGameObject;
-
-import java.util.Arrays;
+import com.example.tanksjava.toolsmethods.StaticToolsAndHandlers;
 
 public class HitBoxController {
 
@@ -11,6 +9,8 @@ public class HitBoxController {
     private Flag[][] gameBoardHitBoxArray;
     private final int gameBoardSizeX;
     private final int gameBoardSizeY;
+
+
 
     public HitBoxController(int gameBoardSizeX, int gameBoardSizeY) {
         this.gameBoardSizeX = gameBoardSizeX;
@@ -47,40 +47,47 @@ public class HitBoxController {
         switch (direction) {
             case 180:
                 objectCollisionPoint = objectStartY - speed;
-
                 for (int i = objectStartX; i < objectStartPlusSizeX; i++) {
                     if (gameBoardHitBoxArray[objectCollisionPoint][i].getFlagValue() == collideFlag) {
-
-                        while (step <= speed) {
-                            for (int k = objectStartX; k < objectStartPlusSizeX; k++) {//ok
-                                if (gameBoardHitBoxArray[objectStartY - step][k].getFlagValue() == collideFlag) {
-                                    System.out.println(step);
-                                    if (step == 1) {
-                                        return 0;
+                        if (gameBoardHitBoxArray[objectCollisionPoint][i].getOwner().isDestructible()){
+                            System.out.println( gameBoardHitBoxArray[objectCollisionPoint][i].getOwner().getGameObjectID());
+                            StaticToolsAndHandlers.clearStaticHitBox( gameBoardHitBoxArray[objectCollisionPoint][i].getOwner(),this);
+                        }else{
+                            while (step <= speed) {
+                                for (int k = objectStartX; k < objectStartPlusSizeX; k++) {//ok
+                                    if (gameBoardHitBoxArray[objectStartY - step][k].getFlagValue() == collideFlag) {
+                                        System.out.println(step);
+                                        if (step == 1) {
+                                            return 0;
+                                        }
+                                        return step - 1;
                                     }
-                                    return step - 1;
                                 }
+                                step++;
                             }
-                            step++;
+
                         }
+
                     }
                 }
                 break;
             case 0:
                 objectCollisionPoint = objectStartPlusSizeY + speed;
-
-
                 for (int i = objectStartX; i < objectStartPlusSizeX; i++) {//ok
                     if (gameBoardHitBoxArray[objectCollisionPoint][i].getFlagValue() == collideFlag) {
-                        System.out.println("collision detected");
-                        while (step <= speed) {
-                            for (int k = objectStartX; k < objectStartPlusSizeX; k++) {//ok
-                                if (gameBoardHitBoxArray[objectStartPlusSizeY + step][k].getFlagValue() == collideFlag) {
-                                    System.out.println(step);
-                                    return step;
+                        if (gameBoardHitBoxArray[objectCollisionPoint][i].getOwner().isDestructible()){
+                            System.out.println( gameBoardHitBoxArray[objectCollisionPoint][i].getOwner().getGameObjectID());
+                            StaticToolsAndHandlers.clearStaticHitBox( gameBoardHitBoxArray[objectCollisionPoint][i].getOwner(),this);
+                        }else{
+                            while (step <= speed) {
+                                for (int k = objectStartX; k < objectStartPlusSizeX; k++) {//ok
+                                    if (gameBoardHitBoxArray[objectStartPlusSizeY + step][k].getFlagValue() == collideFlag) {
+                                        System.out.println(step);
+                                        return step;
+                                    }
                                 }
+                                step++;
                             }
-                            step++;
                         }
                     }
                 }
@@ -88,20 +95,24 @@ public class HitBoxController {
 
             case 90:
                 objectCollisionPoint = objectStartX - speed;
-
                 for (int i = objectStartY; i < objectStartPlusSizeY; i++) {
                     if (gameBoardHitBoxArray[i][objectCollisionPoint].getFlagValue() == collideFlag) {
-                        while (step <= speed) {
-                            for (int k = objectStartY; k < objectStartPlusSizeY; k++) {
-                                if (gameBoardHitBoxArray[k][objectStartX - step].getFlagValue() == collideFlag) {
-                                    System.out.println(step);
-                                    if (step == 1) {
-                                        return 0;
+                        if (gameBoardHitBoxArray[i][objectCollisionPoint].getOwner().isDestructible()){
+                            System.out.println( gameBoardHitBoxArray[i][objectCollisionPoint].getOwner().getGameObjectID());
+                            StaticToolsAndHandlers.clearStaticHitBox( gameBoardHitBoxArray[i][objectCollisionPoint].getOwner(),this);
+                        }else{
+                            while (step <= speed) {
+                                for (int k = objectStartY; k < objectStartPlusSizeY; k++) {
+                                    if (gameBoardHitBoxArray[k][objectStartX - step].getFlagValue() == collideFlag) {
+                                        System.out.println(step);
+                                        if (step == 1) {
+                                            return 0;
+                                        }
+                                        return step - 1;
                                     }
-                                    return step - 1;
                                 }
+                                step++;
                             }
-                            step++;
                         }
                     }
                 }
@@ -109,28 +120,32 @@ public class HitBoxController {
                 break;
             case 270:
                 objectCollisionPoint = objectStartPlusSizeX + speed;
-
                 for (int i = objectStartY; i < objectStartPlusSizeY; i++) {
                     if (gameBoardHitBoxArray[i][objectCollisionPoint].getFlagValue() == collideFlag) {
-                        while (step <= speed) {
-                            for (int k = objectStartY; k < objectStartPlusSizeY; k++) {
-                                if (gameBoardHitBoxArray[k][objectStartPlusSizeX + step].getFlagValue() == collideFlag) {
-                                    System.out.println(step);
+                        if (gameBoardHitBoxArray[i][objectCollisionPoint].getOwner().isDestructible()){
+                            System.out.println( gameBoardHitBoxArray[i][objectCollisionPoint].getOwner().getGameObjectID());
+                            StaticToolsAndHandlers.clearStaticHitBox( gameBoardHitBoxArray[i][objectCollisionPoint].getOwner(),this);
 
-                                    return step;
+                        }else {
+                            while (step <= speed) {
+                                for (int k = objectStartY; k < objectStartPlusSizeY; k++) {
+                                    if (gameBoardHitBoxArray[k][objectStartPlusSizeX + step].getFlagValue() == collideFlag) {
+                                        System.out.println(step);
+                                        return step;
+                                    }
                                 }
-
+                                step++;
                             }
-                            step++;
                         }
+
                     }
                 }
                 break;
-
-
         }
         return speed;
     }
+
+
 
 
     public void printSinglePoint(int x, int y) {

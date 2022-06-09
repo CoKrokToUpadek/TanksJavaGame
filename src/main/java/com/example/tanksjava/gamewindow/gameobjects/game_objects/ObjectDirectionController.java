@@ -2,6 +2,7 @@ package com.example.tanksjava.gamewindow.gameobjects.game_objects;
 
 import com.example.tanksjava.gamewindow.hibox_controllers.HitBoxController;
 import com.example.tanksjava.mainmenuwindow.MainMenuController;
+import javafx.scene.layout.Pane;
 
 
 public class ObjectDirectionController {
