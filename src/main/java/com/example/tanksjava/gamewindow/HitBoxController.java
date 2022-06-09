@@ -23,7 +23,7 @@ public class HitBoxController {
         }
     }
 
-    public int detectCollisionsForMovement(PlayerController playerObject, int collideFlag, char direction, int speed) {
+    public int detectCollisionsForMovement(ObjectDirectionController playerObject, int collideFlag, int direction, int speed) {
 
         //w-up
         //s-down
@@ -39,7 +39,7 @@ public class HitBoxController {
 
 
         switch (direction) {
-            case 'w':
+            case 180:
                 objectCollisionPoint = objectStartY - speed;
 
                 for (int i = objectStartX; i < objectStartPlusSizeX; i++) {
@@ -60,7 +60,7 @@ public class HitBoxController {
                     }
                 }
                 break;
-            case 's':
+            case 0:
                 objectCollisionPoint = objectStartPlusSizeY + speed;
 
 
@@ -80,7 +80,7 @@ public class HitBoxController {
                 }
                 break;
 
-            case 'a':
+            case 90:
                 objectCollisionPoint = objectStartX - speed;
 
                 for (int i = objectStartY; i < objectStartPlusSizeY; i++) {
@@ -101,7 +101,7 @@ public class HitBoxController {
                 }
 
                 break;
-            case 'd':
+            case 270:
                 objectCollisionPoint = objectStartPlusSizeX + speed;
 
                 for (int i = objectStartY; i < objectStartPlusSizeY; i++) {

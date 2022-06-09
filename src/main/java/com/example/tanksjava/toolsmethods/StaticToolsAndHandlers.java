@@ -55,7 +55,7 @@ public class StaticToolsAndHandlers {
 
         int tempPositionX = playerObject.getPc().getCurrentBarrelPositionX();
         int tempPositionY = playerObject.getPc().getCurrentBarrelPositionY();
-        int tempRotation = playerObject.getPc().getPlayerRotation();
+        int tempRotation = playerObject.getPc().getObjectRotation();
         AtomicInteger tempFlashSizeX = new AtomicInteger();
         AtomicInteger tempFlashSizeY = new AtomicInteger();
 
@@ -128,7 +128,7 @@ public class StaticToolsAndHandlers {
 
         int tempPositionX = playerObject.getPc().getCurrentBarrelPositionX();
         int tempPositionY = playerObject.getPc().getCurrentBarrelPositionY();
-        int tempRotation = playerObject.getPc().getPlayerRotation();
+        int tempRotation = playerObject.getPc().getObjectRotation();
         AtomicInteger tempFlashSizeX = new AtomicInteger();
         AtomicInteger tempFlashSizeY = new AtomicInteger();
 

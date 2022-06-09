@@ -3,15 +3,14 @@ package com.example.tanksjava.gamewindow;
 import com.example.tanksjava.mainmenuwindow.MainMenuController;
 
 
-public class PlayerController {
+public class ObjectDirectionController {
     private int currentPositionX;
     private int currentPositionY;
 
     private int currentBarrelPositionX;
     private int currentBarrelPositionY;
 
-
-    private int playerRotation;
+    private int objectRotation;
 
     private final int objectSizeX;
     private final int objectSizeY;
@@ -20,20 +19,20 @@ public class PlayerController {
 
     private HitBoxController hitBoxController;
 
-    public PlayerController(int startingPositionX, int staringPositionY, int objectSizeX, int objectSizeY, int objectSpeed,int initialRotation , HitBoxController hitBoxController) {
+    public ObjectDirectionController(int startingPositionX, int staringPositionY, int objectSizeX, int objectSizeY, int objectSpeed, int initialRotation , HitBoxController hitBoxController) {
         this.currentPositionY = staringPositionY;
         this.currentPositionX = startingPositionX;
         this.objectSizeX = objectSizeX;
         this.objectSizeY = objectSizeY;
         this.objectSpeed = objectSpeed;
         this.hitBoxController = hitBoxController;
-        this.playerRotation=initialRotation;
+        this.objectRotation =initialRotation;
 
     }
 
 
-    public void updatePlayerBarrelPosition() {
-        switch (playerRotation) {
+    public void updateBarrelPositionForVehicles() {
+        switch (objectRotation) {
             case 180:
                 currentBarrelPositionX = (currentPositionX + (objectSizeX/2)) ;
                 currentBarrelPositionY = currentPositionY;
@@ -55,92 +54,77 @@ public class PlayerController {
 
     }
 
-    public void updatePlayerCurrentPosition(char keyboardInput) {
+    //TODO needs to be universal, will fix soon
+    public void updateObjectPosition() {
 
-        switch (Character.toLowerCase(keyboardInput)) {
-            case 'w':
+        switch (objectRotation) {
+            case 180:
                 if (!(currentPositionY <= 0)) {
-                    if (hitBoxController.detectCollisionsForMovement(this, 1, keyboardInput, objectSpeed) >= objectSpeed) {
+                    if (hitBoxController.detectCollisionsForMovement(this, 1, 180, objectSpeed) >= objectSpeed) {
                         currentPositionY -= objectSpeed;
                     } else {
-                        currentPositionY -= hitBoxController.detectCollisionsForMovement(this, 1, keyboardInput, objectSpeed);
+                        currentPositionY -= hitBoxController.detectCollisionsForMovement(this, 1, 180, objectSpeed);
                     }
                 }
                 break;
-            case 's':
+            case 0:
                 if (!(currentPositionY >= MainMenuController.getGameWindowHeight() - objectSizeY)) {
 
-                    if (hitBoxController.detectCollisionsForMovement(this, 1, keyboardInput, objectSpeed) >= objectSpeed) {
+                    if (hitBoxController.detectCollisionsForMovement(this, 1, 0, objectSpeed) >= objectSpeed) {
                         currentPositionY += objectSpeed;
                     } else {
-                        currentPositionY += hitBoxController.detectCollisionsForMovement(this, 1, keyboardInput, objectSpeed);
+                        currentPositionY += hitBoxController.detectCollisionsForMovement(this, 1, 0, objectSpeed);
                     }
 
                 }
                 break;
-            case 'a':
+            case 90:
                 if (!(currentPositionX <= 0)) {
 
-                    if (hitBoxController.detectCollisionsForMovement(this, 1, keyboardInput, objectSpeed) >= objectSpeed) {
+                    if (hitBoxController.detectCollisionsForMovement(this, 1, 90, objectSpeed) >= objectSpeed) {
                         currentPositionX -= objectSpeed;
                     } else {
-                        currentPositionX -= hitBoxController.detectCollisionsForMovement(this, 1, keyboardInput, objectSpeed);
+                        currentPositionX -= hitBoxController.detectCollisionsForMovement(this, 1, 90, objectSpeed);
                     }
 
 
                 }
                 break;
-            case 'd':
+            case 270:
                 if (!(currentPositionX >= MainMenuController.getGameWindowWidth() - objectSizeX)) {
 
-                    if (hitBoxController.detectCollisionsForMovement(this, 1, keyboardInput, objectSpeed) >= objectSpeed) {
+                    if (hitBoxController.detectCollisionsForMovement(this, 1,270, objectSpeed) >= objectSpeed) {
                         currentPositionX += objectSpeed;
                     } else {
-                        currentPositionX += hitBoxController.detectCollisionsForMovement(this, 1, keyboardInput, objectSpeed);
+                        currentPositionX += hitBoxController.detectCollisionsForMovement(this, 1, 20, objectSpeed);
                     }
 
                 }
                 break;
-            case 'e':
-                System.exit(0);
-                break;
-
-            case 'r':
-
-                //hitBoxController.printHitBoxArray(2);
-//                System.out.println("TankX=" + getCurrentPositionX());
-//                System.out.println("BarrelX=" + getCurrentBarrelPositionX());
-//                System.out.println();
-//                System.out.println("TankY==" + getCurrentPositionY());
-//                System.out.println("BarrelY==" + getCurrentBarrelPositionY());
-
-
-                break;
-
             default:
                 break;
         }
     }
 
-    public void playerRotation(char rotationInput) {
-
-        switch (Character.toLowerCase(rotationInput)) {
-            case 'w':
-                playerRotation = 180;
-                break;
-            case 's':
-                playerRotation = 0;
-                break;
-            case 'a':
-                playerRotation = 90;
-                break;
-            case 'd':
-                playerRotation = 270;
-                break;
-            default:
-                break;
-        }
-    }
+//    public void playerRotation() {
+//
+//        switch (objectRotation) {
+//            case 'w':
+//                objectRotation = 180;
+//                break;
+//            case 's':
+//                objectRotation = 0;
+//                break;
+//            case 'a':
+//                objectRotation = 90;
+//                break;
+//            case 'd':
+//                objectRotation = 270;
+//                break;
+//            default:
+//                break;
+//        }
+//    }
 
 
     public int getObjectSizeX() {
@@ -159,11 +143,15 @@ public class PlayerController {
         return currentPositionY;
     }
 
-    public int getPlayerRotation() {
-        return playerRotation;
+    public int getObjectRotation() {
+        return objectRotation;
     }
 
     public int getCurrentBarrelPositionX() {return currentBarrelPositionX;}
 
     public int getCurrentBarrelPositionY() {return currentBarrelPositionY;}
+
+    public void setObjectRotation(int objectRotation) {
+        this.objectRotation = objectRotation;
+    }
 }
