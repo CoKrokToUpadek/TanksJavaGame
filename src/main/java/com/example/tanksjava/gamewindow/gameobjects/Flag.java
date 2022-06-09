@@ -2,7 +2,7 @@ package com.example.tanksjava.gamewindow.gameobjects;
 
 public class Flag {
     int flagValue;
-    StaticGameObject object;
+     StaticGameObject object;
 
     public Flag(int flagValue) {
         this.flagValue = flagValue;

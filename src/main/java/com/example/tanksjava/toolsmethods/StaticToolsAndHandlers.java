@@ -89,18 +89,12 @@ public class StaticToolsAndHandlers {
 
                             break;
                     }
-
-
-                        playerObject.getMuzzleFlash().getObjectGraphics().setVisible(true);
-
-
+                      playerObject.getMuzzleFlash().getObjectGraphics().setVisible(true);
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-
-
-                    playerObject.getMuzzleFlash().getObjectGraphics().setVisible(false);
+                      playerObject.getMuzzleFlash().getObjectGraphics().setVisible(false);
 
 
             }

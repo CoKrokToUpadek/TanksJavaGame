@@ -107,7 +107,7 @@ public class PlayerController {
 
             case 'r':
 
-                hitBoxController.printHitBoxArray(2);
+                //hitBoxController.printHitBoxArray(2);
 //                System.out.println("TankX=" + getCurrentPositionX());
 //                System.out.println("BarrelX=" + getCurrentBarrelPositionX());
 //                System.out.println();
