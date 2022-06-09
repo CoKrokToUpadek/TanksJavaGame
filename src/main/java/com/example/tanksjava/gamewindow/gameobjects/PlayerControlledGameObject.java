@@ -38,10 +38,13 @@ public class PlayerControlledGameObject extends StaticGameObject {
 
         super(objectFlag, objectURLString, pixelSizeX, pixelSizeY, objectStartingPositionX, objectStartingPositionY, isDestructible, initialRotation, hitBoxController);
         this.playerSpeed=playerSpeed;
-        pc = new PlayerController(objectStartingPositionX, objectStartingPositionY, pixelSizeX, pixelSizeY, playerSpeed, hitBoxController);
+        pc = new PlayerController(objectStartingPositionX, objectStartingPositionY, pixelSizeX, pixelSizeY, playerSpeed,initialRotation,hitBoxController);
 
         tankEngineSound = new MediaPlayer(new Media(Paths.get(URLStringsOfAssets.tankSoundMusicAsset).toUri().toString()));
         gunFireSound=new MediaPlayer(new Media(Paths.get(URLStringsOfAssets.gunFireSoundMusicAsset).toUri().toString()));
+
+        //flag set object
+
 
 
 
@@ -58,6 +61,13 @@ public class PlayerControlledGameObject extends StaticGameObject {
         muzzleFlash.getObjectGraphics().setLayoutY(0);
         muzzleFlash.getObjectGraphics().setVisible(false);
 
+        //ordering for future usage closer to zero goes up
+        //default is 0
+        //negatives seems to work also
+        //muzzleFlash.getObjectGraphics().setViewOrder(0);
+
+
+
 
 
         pane.setOnKeyTyped(new EventHandler<KeyEvent>() {
@@ -67,8 +77,6 @@ public class PlayerControlledGameObject extends StaticGameObject {
                 inputForTankSteering = event.getCharacter().charAt(0);
                 //for testing purpose
                 // tankPositionAndOrientationUpdater();
-
-
             }
         });
     }
@@ -78,13 +86,14 @@ public class PlayerControlledGameObject extends StaticGameObject {
 
         if (inputForTankSteering == 'w' || inputForTankSteering == 's' || inputForTankSteering == 'a' || inputForTankSteering == 'd' || inputForTankSteering == 'r') {
             StaticToolsAndHandlers.updatePlayerHitBox(0, this, super.getHitBoxController());
+
             if(inputForTankSteering!='r'){
                 playerEngineSoundHandler();
             }
 
             pc.updatePlayerCurrentPosition(inputForTankSteering);
             pc.playerRotation(inputForTankSteering);
-            pc.updatePlayerBarrelPosition(inputForTankSteering);
+            pc.updatePlayerBarrelPosition();
 
             this.getObjectGraphics().setRotate(pc.getPlayerRotation());
             this.getObjectGraphics().setLayoutY(pc.getCurrentPositionY());
@@ -94,7 +103,7 @@ public class PlayerControlledGameObject extends StaticGameObject {
 
             if (inputForTankSteering=='r'){
                 if(readyToFire){
-                   // StaticToolsAndHandlers.playerMuzzleFlashHandler(this,8);
+//                   StaticToolsAndHandlers.playerMuzzleFlashHandler(this,8);
                     StaticToolsAndHandlers.playerMuzzleFlashHandler2(this);
                     gunFireSoundHandler();
                 }

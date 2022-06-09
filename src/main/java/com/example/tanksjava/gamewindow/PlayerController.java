@@ -20,31 +20,33 @@ public class PlayerController {
 
     private HitBoxController hitBoxController;
 
-    public PlayerController(int startingPositionX, int staringPositionY, int objectSizeX, int objectSizeY, int objectSpeed, HitBoxController hitBoxController) {
+    public PlayerController(int startingPositionX, int staringPositionY, int objectSizeX, int objectSizeY, int objectSpeed,int initialRotation , HitBoxController hitBoxController) {
         this.currentPositionY = staringPositionY;
         this.currentPositionX = startingPositionX;
         this.objectSizeX = objectSizeX;
         this.objectSizeY = objectSizeY;
         this.objectSpeed = objectSpeed;
         this.hitBoxController = hitBoxController;
+        this.playerRotation=initialRotation;
+
     }
 
 
-    public void updatePlayerBarrelPosition(char keyboardInput) {
-        switch (Character.toLowerCase(keyboardInput)) {
-            case 'w':
+    public void updatePlayerBarrelPosition() {
+        switch (playerRotation) {
+            case 180:
                 currentBarrelPositionX = (currentPositionX + (objectSizeX/2)) ;
                 currentBarrelPositionY = currentPositionY;
                 break;
-            case 's':
+            case 0:
                 currentBarrelPositionX = (currentPositionX + (objectSizeX/2));
                 currentBarrelPositionY = currentPositionY + objectSizeY;
                 break;
-            case 'a':
+            case 90:
                 currentBarrelPositionX = currentPositionX;
                 currentBarrelPositionY = (currentPositionY + (objectSizeY/2));
                 break;
-            case 'd':
+            case 270:
                 currentBarrelPositionX = (currentPositionX + objectSizeX);
                 currentBarrelPositionY = (currentPositionY + (objectSizeY/2));
                 break;
@@ -104,11 +106,13 @@ public class PlayerController {
                 break;
 
             case 'r':
-                System.out.println("TankX=" + getCurrentPositionX());
-                System.out.println("BarrelX=" + getCurrentBarrelPositionX());
-                System.out.println();
-                System.out.println("TankY==" + getCurrentPositionY());
-                System.out.println("BarrelY==" + getCurrentBarrelPositionY());
+
+                hitBoxController.printHitBoxArray(2);
+//                System.out.println("TankX=" + getCurrentPositionX());
+//                System.out.println("BarrelX=" + getCurrentBarrelPositionX());
+//                System.out.println();
+//                System.out.println("TankY==" + getCurrentPositionY());
+//                System.out.println("BarrelY==" + getCurrentBarrelPositionY());
 
 
                 break;

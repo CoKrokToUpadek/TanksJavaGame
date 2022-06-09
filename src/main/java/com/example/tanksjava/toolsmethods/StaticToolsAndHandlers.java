@@ -19,6 +19,7 @@ public class StaticToolsAndHandlers {
     public enum itemOrientation {
         HORIZONTAL, VERTICAL
     }
+    private static Rotate rotate=new Rotate();
 
     public static void setBackGround(Pane pane, String url, int sizeX, int sizeY) {
         BackgroundImage myBI = new BackgroundImage(new Image(url, sizeX, sizeY, false, true),
@@ -38,10 +39,10 @@ public class StaticToolsAndHandlers {
         }
     }
 
-
+    //TODO needs to be fixed-rotate functionality is currently commented out
     public static void playerMuzzleFlashHandler2(PlayerControlledGameObject playerObject) {
 
-        Rotate rotate=new Rotate();
+
         int tempPositionX = playerObject.getPc().getCurrentBarrelPositionX();
         int tempPositionY = playerObject.getPc().getCurrentBarrelPositionY();
         int tempRotation = playerObject.getPc().getPlayerRotation();
@@ -58,10 +59,13 @@ public class StaticToolsAndHandlers {
                 playerObject.getMuzzleFlash().getObjectGraphics().setLayoutY(tempPositionY);
                 playerObject.getMuzzleFlash().setImageGraphic(playerObject.getMuzzleFlashFrames().getMuzzleFlashStages().get(i).getObjectURLString());
 
-                rotate.setPivotX(tempPositionX);
-                rotate.setPivotY(tempPositionY);
 
-
+//                  rotate.setPivotX(tempPositionX);
+//                  rotate.setPivotY(tempPositionY);
+//                    rotate.setAngle(270);
+//                    rotate.setPivotX(tempPositionX);
+//                    rotate.setPivotY(tempPositionY);
+//                    playerObject.getMuzzleFlash().getObjectGraphics().getTransforms().add(rotate);
 
                 try {
                     switch (tempRotation) {
@@ -72,9 +76,12 @@ public class StaticToolsAndHandlers {
 
                             break;
                         case 270://d
-//                            rotate.setAngle(270);
-//                            playerObject.getMuzzleFlash().getObjectGraphics().getTransforms().add(rotate);
-                            //problem
+//                            if (i == 0) {
+//                                playerObject.getMuzzleFlash().getObjectGraphics().getTransforms();
+//                            }
+//
+//                            System.out.println(playerObject.getMuzzleFlash().getObjectGraphics().getTransforms());
+//                            playerObject.getMuzzleFlash().getObjectGraphics().setRotate(270);
 
 
                             break;
@@ -83,18 +90,18 @@ public class StaticToolsAndHandlers {
                             break;
                     }
 
-                    Platform.runLater(() -> {
+
                         playerObject.getMuzzleFlash().getObjectGraphics().setVisible(true);
-                    });
+
 
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
 
-                Platform.runLater(() -> {
+
                     playerObject.getMuzzleFlash().getObjectGraphics().setVisible(false);
-                });
+
 
             }
             try {
@@ -102,8 +109,10 @@ public class StaticToolsAndHandlers {
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-
             playerObject.setReadyToFire(true);
+
+            //test
+//             playerObject.getMuzzleFlash().getObjectGraphics().getTransforms().clear();
         });
         timerThread.start();
 
