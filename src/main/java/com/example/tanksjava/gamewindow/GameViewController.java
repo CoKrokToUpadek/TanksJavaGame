@@ -1,8 +1,10 @@
 package com.example.tanksjava.gamewindow;
 
-import com.example.tanksjava.gamewindow.gameobjects.PlayerControlledGameObject;
-import com.example.tanksjava.gamewindow.gameobjects.StaticGameObject;
-import com.example.tanksjava.gamewindow.gameobjects.URLStringsOfAssets;
+import com.example.tanksjava.gamewindow.gameobjects.game_objects.MovableGameObject;
+import com.example.tanksjava.gamewindow.gameobjects.game_objects.ShellGameObject;
+import com.example.tanksjava.gamewindow.gameobjects.game_objects.StaticGameObject;
+import com.example.tanksjava.gamewindow.assets.URLStringsOfAssets;
+import com.example.tanksjava.gamewindow.hibox_controllers.HitBoxController;
 import com.example.tanksjava.toolsmethods.StaticToolsAndHandlers;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
@@ -36,9 +38,10 @@ public class GameViewController {
     private final StaticGameObject woodenCrate = new StaticGameObject(1, URLStringsOfAssets.woodenBoxGraphicAsset, 28, 28, 80,
             80, true, 0, hitBoxController);
 
+    private ShellGameObject playerShell;
 
 
-    PlayerControlledGameObject player1;
+    MovableGameObject player1;
 
 
 
@@ -69,9 +72,14 @@ public class GameViewController {
             StaticToolsAndHandlers.addStaticObjectsInBulk(newGamePane, woodenCrate, 6, i, 180, StaticToolsAndHandlers.itemOrientation.VERTICAL, hitBoxController);
         }
 
-        player1= new PlayerControlledGameObject(2, URLStringsOfAssets.playerSingleBarrelTankGraphicAsset, 52, 52,
+        player1= new MovableGameObject(2, URLStringsOfAssets.playerSingleBarrelTankGraphicAsset, 52, 52,
                 playerStartingPosX, playerStartingPosY, true, 180, hitBoxController,4);
-        player1.playerMovementInitialization(newGamePane);
+
+        playerShell=new ShellGameObject(player1,3,URLStringsOfAssets.playerShellGraphicAsset,8,18,8,true);
+
+        player1.objectMovementInitialization(newGamePane);
+        //playerShell.objectMovementInitialization(newGamePane);
+
 
     }
 
@@ -80,7 +88,8 @@ public class GameViewController {
         gameLoop = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                player1.tankPositionAndOrientationUpdater();
+                player1.objectPositionAndOrientationUpdater();
+                //TODO-shell position updater
             }
         };
         gameLoop.start();

@@ -1,6 +1,7 @@
-package com.example.tanksjava.gamewindow.gameobjects;
+package com.example.tanksjava.gamewindow.gameobjects.game_objects;
 
-import com.example.tanksjava.gamewindow.HitBoxController;
+import com.example.tanksjava.gamewindow.hibox_controllers.Flag;
+import com.example.tanksjava.gamewindow.hibox_controllers.HitBoxController;
 import com.example.tanksjava.toolsmethods.StaticToolsAndHandlers;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -10,26 +11,30 @@ import javafx.scene.layout.Pane;
 public class StaticGameObject {
     private ImageView objectGraphics;
 
-    private final String objectURLString;
+    private  String objectURLString;
 
-    private final int objectSizeX;
+    private  int objectSizeX;
 
-    private final int objectSizeY;
+    private  int objectSizeY;
     private int objectStartingPositionX;
     private int objectStartingPositionY;
-    private final boolean isDestructible;
+    private  boolean isDestructible;
 
     private int initialRotation;
 
-    private final int objectFlag;
+    private final Flag objectFlag;
 
     private HitBoxController hitBoxController;
 
     private final int gameObjectID;
 
 
+    //for active objects
     public StaticGameObject(int objectFlag, String objectURLString, int objectSizeX, int objectSizeY, int objectStartingPositionX,
                             int objectStartingPositionY, boolean isDestructible, int initialRotation,HitBoxController hitBoxController) {
+
+
+
         this.objectURLString = objectURLString;
         this.objectSizeX = objectSizeX;
         this.objectSizeY = objectSizeY;
@@ -39,9 +44,10 @@ public class StaticGameObject {
         this.objectGraphics = new ImageView(new Image(objectURLString));
         this.initialRotation = initialRotation;
         this.hitBoxController = hitBoxController;
-        this.objectFlag = objectFlag;
         this.gameObjectID=StaticToolsAndHandlers.getObjectNumber();
 
+        this.objectFlag = new Flag(objectFlag);
+        this.objectFlag.setObject(this);
     }
     //temporary objects that doesn't have hitbox
     public StaticGameObject(int objectFlag, String objectURLString, int objectSizeX, int objectSizeY, boolean isDestructible) {
@@ -50,11 +56,14 @@ public class StaticGameObject {
         this.objectSizeY = objectSizeY;
         this.isDestructible = isDestructible;
         this.objectGraphics = new ImageView(new Image(objectURLString));
-        this.objectFlag = objectFlag;
+
         gameObjectID=0;
+
+        this.objectFlag = new Flag(objectFlag);
+        this.objectFlag.setObject(this);
     }
 
-
+    //for static game objects added in bull
     public StaticGameObject(StaticGameObject object) {
         this.objectURLString = object.objectURLString;
         this.objectSizeX = object.objectSizeX;
@@ -64,6 +73,12 @@ public class StaticGameObject {
         this.objectFlag = object.objectFlag;
         this.gameObjectID=StaticToolsAndHandlers.getObjectNumber();
         System.out.println(gameObjectID);
+    }
+
+    public void setInitialPositionAndRotation(int initialRotation, int objectStartingPositionX, int objectStartingPositionY){
+        this.initialRotation=initialRotation;
+        this.objectStartingPositionX=objectStartingPositionX;
+        this.objectStartingPositionY=objectStartingPositionY;
     }
 
     public int getObjectSizeX() {
@@ -86,7 +101,7 @@ public class StaticGameObject {
         return initialRotation;
     }
 
-    public int getObjectFlag() {
+    public Flag getObjectFlag() {
         return objectFlag;
     }
 
@@ -103,7 +118,11 @@ public class StaticGameObject {
     }
 
 
-   public void setImageGraphic(String newImage) {
+    public void setHitBoxController(HitBoxController hitBoxController) {
+        this.hitBoxController = hitBoxController;
+    }
+
+    public void setImageGraphic(String newImage) {
         this.objectGraphics.setImage(new Image(newImage));
    }
 

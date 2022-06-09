@@ -1,5 +1,6 @@
-package com.example.tanksjava.gamewindow;
+package com.example.tanksjava.gamewindow.gameobjects.game_objects;
 
+import com.example.tanksjava.gamewindow.hibox_controllers.HitBoxController;
 import com.example.tanksjava.mainmenuwindow.MainMenuController;
 
 
@@ -96,7 +97,7 @@ public class ObjectDirectionController {
                     if (hitBoxController.detectCollisionsForMovement(this, 1,270, objectSpeed) >= objectSpeed) {
                         currentPositionX += objectSpeed;
                     } else {
-                        currentPositionX += hitBoxController.detectCollisionsForMovement(this, 1, 20, objectSpeed);
+                        currentPositionX += hitBoxController.detectCollisionsForMovement(this, 1, 270, objectSpeed);
                     }
 
                 }

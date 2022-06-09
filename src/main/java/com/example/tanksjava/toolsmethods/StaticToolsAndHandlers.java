@@ -1,9 +1,9 @@
 package com.example.tanksjava.toolsmethods;
 
-import com.example.tanksjava.gamewindow.HitBoxController;
+import com.example.tanksjava.gamewindow.hibox_controllers.HitBoxController;
 
-import com.example.tanksjava.gamewindow.gameobjects.PlayerControlledGameObject;
-import com.example.tanksjava.gamewindow.gameobjects.StaticGameObject;
+import com.example.tanksjava.gamewindow.gameobjects.game_objects.MovableGameObject;
+import com.example.tanksjava.gamewindow.gameobjects.game_objects.StaticGameObject;
 
 import javafx.application.Platform;
 import javafx.scene.image.Image;
@@ -50,12 +50,12 @@ public class StaticToolsAndHandlers {
     }
 
     //TODO needs to be fixed-rotate functionality is currently commented out
-    public static void playerMuzzleFlashHandler2(PlayerControlledGameObject playerObject) {
+    public static void playerMuzzleFlashHandler2(MovableGameObject playerObject) {
 
 
-        int tempPositionX = playerObject.getPc().getCurrentBarrelPositionX();
-        int tempPositionY = playerObject.getPc().getCurrentBarrelPositionY();
-        int tempRotation = playerObject.getPc().getObjectRotation();
+        int tempPositionX = playerObject.getPlayerDirectionController().getCurrentBarrelPositionX();
+        int tempPositionY = playerObject.getPlayerDirectionController().getCurrentBarrelPositionY();
+        int tempRotation = playerObject.getPlayerDirectionController().getObjectRotation();
         AtomicInteger tempFlashSizeX = new AtomicInteger();
         AtomicInteger tempFlashSizeY = new AtomicInteger();
 
@@ -68,7 +68,6 @@ public class StaticToolsAndHandlers {
                 playerObject.getMuzzleFlash().getObjectGraphics().setLayoutX(tempPositionX - (tempFlashSizeX.get() / 2));
                 playerObject.getMuzzleFlash().getObjectGraphics().setLayoutY(tempPositionY);
                 playerObject.getMuzzleFlash().setImageGraphic(playerObject.getMuzzleFlashFrames().getMuzzleFlashStages().get(i).getObjectURLString());
-
 
 //                  rotate.setPivotX(tempPositionX);
 //                  rotate.setPivotY(tempPositionY);
@@ -122,13 +121,12 @@ public class StaticToolsAndHandlers {
 
     }
 
+    public static void playerMuzzleFlashHandler(MovableGameObject playerObject, int pivotCorrection) {
 
-    public static void playerMuzzleFlashHandler(PlayerControlledGameObject playerObject, int pivotCorrection) {
 
-
-        int tempPositionX = playerObject.getPc().getCurrentBarrelPositionX();
-        int tempPositionY = playerObject.getPc().getCurrentBarrelPositionY();
-        int tempRotation = playerObject.getPc().getObjectRotation();
+        int tempPositionX = playerObject.getPlayerDirectionController().getCurrentBarrelPositionX();
+        int tempPositionY = playerObject.getPlayerDirectionController().getCurrentBarrelPositionY();
+        int tempRotation = playerObject.getPlayerDirectionController().getObjectRotation();
         AtomicInteger tempFlashSizeX = new AtomicInteger();
         AtomicInteger tempFlashSizeY = new AtomicInteger();
 
@@ -199,8 +197,8 @@ public class StaticToolsAndHandlers {
 
     }
 
-    public static void updatePlayerHitBox(int flag, PlayerControlledGameObject object, HitBoxController hitBoxController) {
-        hitBoxController.fillHitBoxArrayWithFlags(flag, object.getPc().getCurrentPositionX(), object.getPc().getCurrentPositionY(), object.getObjectSizeX(), object.getObjectSizeY());
+    public static void updatePlayerHitBox(MovableGameObject object, HitBoxController hitBoxController) {
+        hitBoxController.fillHitBoxArrayWithFlags(object.getObjectFlag(), object.getPlayerDirectionController().getCurrentPositionX(), object.getPlayerDirectionController().getCurrentPositionY(), object.getObjectSizeX(), object.getObjectSizeY());
     }
 
 

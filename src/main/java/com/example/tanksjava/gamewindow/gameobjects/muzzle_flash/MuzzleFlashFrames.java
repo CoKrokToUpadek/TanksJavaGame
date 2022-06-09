@@ -1,11 +1,13 @@
-package com.example.tanksjava.gamewindow.gameobjects;
+package com.example.tanksjava.gamewindow.gameobjects.muzzle_flash;
+
+import com.example.tanksjava.gamewindow.assets.URLStringsOfAssets;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MuzzleFlashFrames {
 
-    private final  String muzzleFlashStage1=URLStringsOfAssets.playerMuzzleFlashGraphicAsset1;
+    private final  String muzzleFlashStage1= URLStringsOfAssets.playerMuzzleFlashGraphicAsset1;
     private final  String muzzleFlashStage2=URLStringsOfAssets.playerMuzzleFlashGraphicAsset2;
     private final String  muzzleFlashStage3=URLStringsOfAssets.playerMuzzleFlashGraphicAsset3;
 

@@ -1,7 +1,9 @@
-package com.example.tanksjava.gamewindow.gameobjects;
+package com.example.tanksjava.gamewindow.gameobjects.game_objects;
 
-import com.example.tanksjava.gamewindow.HitBoxController;
-import com.example.tanksjava.gamewindow.ObjectDirectionController;
+import com.example.tanksjava.gamewindow.hibox_controllers.HitBoxController;
+import com.example.tanksjava.gamewindow.assets.URLStringsOfAssets;
+import com.example.tanksjava.gamewindow.gameobjects.muzzle_flash.MuzzleFlash;
+import com.example.tanksjava.gamewindow.gameobjects.muzzle_flash.MuzzleFlashFrames;
 import com.example.tanksjava.toolsmethods.StaticToolsAndHandlers;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyEvent;
@@ -11,15 +13,14 @@ import javafx.scene.media.MediaPlayer;
 
 import java.nio.file.Paths;
 
-public class PlayerControlledGameObject extends StaticGameObject {
+public class MovableGameObject extends StaticGameObject {
 
-    private final ObjectDirectionController pc;
+    private final ObjectDirectionController playerDirectionController;
     private char inputForTankSteering;
 
     private final MediaPlayer tankEngineSound;
 
     private final MediaPlayer gunFireSound;
-
     //test
     private char previousInput;
 
@@ -29,27 +30,41 @@ public class PlayerControlledGameObject extends StaticGameObject {
 
     private MuzzleFlashFrames muzzleFlashFrames = new MuzzleFlashFrames();
 
-    private final int playerSpeed;
+    private final int objectSpeed;
 
-    public PlayerControlledGameObject(int objectFlag, String objectURLString, int pixelSizeX, int pixelSizeY, int objectStartingPositionX,
-                                      int objectStartingPositionY, boolean isDestructible, int initialRotation, HitBoxController hitBoxController, int playerSpeed) {
+
+    //for tanks
+    public MovableGameObject(int objectFlag, String objectURLString, int pixelSizeX, int pixelSizeY, int objectStartingPositionX,
+                             int objectStartingPositionY, boolean isDestructible, int initialRotation, HitBoxController hitBoxController, int objectSpeed) {
 
         super(objectFlag, objectURLString, pixelSizeX, pixelSizeY, objectStartingPositionX, objectStartingPositionY, isDestructible, initialRotation, hitBoxController);
-        this.playerSpeed = playerSpeed;
-        pc = new ObjectDirectionController(objectStartingPositionX, objectStartingPositionY, pixelSizeX, pixelSizeY, playerSpeed, initialRotation, hitBoxController);
+        this.objectSpeed = objectSpeed;
+        playerDirectionController = new ObjectDirectionController(objectStartingPositionX, objectStartingPositionY, pixelSizeX, pixelSizeY, objectSpeed, initialRotation, hitBoxController);
 
         tankEngineSound = new MediaPlayer(new Media(Paths.get(URLStringsOfAssets.tankSoundMusicAsset).toUri().toString()));
         gunFireSound = new MediaPlayer(new Media(Paths.get(URLStringsOfAssets.gunFireSoundMusicAsset).toUri().toString()));
         //for initial settings
-        pc.updateBarrelPositionForVehicles();
+        playerDirectionController.updateBarrelPositionForVehicles();
 
         //flag set object
-
-
     }
 
 
-    public void playerMovementInitialization(Pane pane) {
+    //for shells
+    public MovableGameObject(int controltype, int objectFlag, String objectURLString, int pixelSizeX, int pixelSizeY, int objectStartingPositionX,
+                             int objectStartingPositionY, boolean isDestructible, int initialRotation, HitBoxController hitBoxController, int objectSpeed) {
+        super(objectFlag, objectURLString, pixelSizeX, pixelSizeY, objectStartingPositionX, objectStartingPositionY, isDestructible, initialRotation, hitBoxController);
+        this.objectSpeed = objectSpeed;
+        playerDirectionController = null;
+        this.tankEngineSound=null;
+        this.gunFireSound=null;
+    }
+
+
+
+
+
+    public void objectMovementInitialization(Pane pane) {
 
         insertObjectOnToPane(pane);
 
@@ -59,10 +74,6 @@ public class PlayerControlledGameObject extends StaticGameObject {
         muzzleFlash.getObjectGraphics().setLayoutY(0);
         muzzleFlash.getObjectGraphics().setVisible(false);
 
-        //ordering for future usage closer to zero goes up
-        //default is 0
-        //negatives seems to work also
-        //muzzleFlash.getObjectGraphics().setViewOrder(0);
 
         pane.setOnKeyTyped(new EventHandler<KeyEvent>() {
             @Override
@@ -73,35 +84,33 @@ public class PlayerControlledGameObject extends StaticGameObject {
     }
 
 
-    public void tankPositionAndOrientationUpdater() {
+    public void objectPositionAndOrientationUpdater() {
 
         if (inputForTankSteering == 'w' || inputForTankSteering == 's' || inputForTankSteering == 'a' || inputForTankSteering == 'd' || inputForTankSteering == 'r') {
-            StaticToolsAndHandlers.updatePlayerHitBox(0, this, super.getHitBoxController());
+            StaticToolsAndHandlers.updatePlayerHitBox(this, super.getHitBoxController());
             switch (inputForTankSteering){
                 case 'w':
-                    pc.setObjectRotation(180);
+                    playerDirectionController.setObjectRotation(180);
                     break;
                 case 's':
-                    pc.setObjectRotation(0);
+                    playerDirectionController.setObjectRotation(0);
                     break;
                 case 'a':
-                    pc.setObjectRotation(90);
+                    playerDirectionController.setObjectRotation(90);
                     break;
                 case 'd':
-                    pc.setObjectRotation(270);
+                    playerDirectionController.setObjectRotation(270);
                     break;
             }
             if (inputForTankSteering != 'r') {
-                playerEngineSoundHandler();
-                pc.updateObjectPosition();
-                pc.updateBarrelPositionForVehicles();
-                this.getObjectGraphics().setRotate(pc.getObjectRotation());
-                this.getObjectGraphics().setLayoutY(pc.getCurrentPositionY());
-                this.getObjectGraphics().setLayoutX(pc.getCurrentPositionX());
+                EngineSoundHandler();
+                playerDirectionController.updateObjectPosition();
+                playerDirectionController.updateBarrelPositionForVehicles();
+                this.getObjectGraphics().setRotate(playerDirectionController.getObjectRotation());
+                this.getObjectGraphics().setLayoutY(playerDirectionController.getCurrentPositionY());
+                this.getObjectGraphics().setLayoutX(playerDirectionController.getCurrentPositionX());
                 previousInput = inputForTankSteering;
             }
-
-
             if (inputForTankSteering == 'r') {
                 if (readyToFire) {
 //                  StaticToolsAndHandlers.playerMuzzleFlashHandler(this,8);
@@ -109,12 +118,12 @@ public class PlayerControlledGameObject extends StaticGameObject {
                     gunFireSoundHandler();
                 }
             }
-            StaticToolsAndHandlers.updatePlayerHitBox(this.getObjectFlag(), this, super.getHitBoxController());
+            StaticToolsAndHandlers.updatePlayerHitBox(this, super.getHitBoxController());
             this.inputForTankSteering = 'x';
         }
     }
 
-    public void playerEngineSoundHandler() {
+    public void EngineSoundHandler() {
 
         StaticToolsAndHandlers.musicAndSoundHandler(tankEngineSound, false);
         tankEngineSound.setOnEndOfMedia(new Runnable() {
@@ -142,8 +151,8 @@ public class PlayerControlledGameObject extends StaticGameObject {
         }
     }
 
-    public ObjectDirectionController getPc() {
-        return pc;
+    public ObjectDirectionController getPlayerDirectionController() {
+        return playerDirectionController;
     }
 
     public MuzzleFlash getMuzzleFlash() {

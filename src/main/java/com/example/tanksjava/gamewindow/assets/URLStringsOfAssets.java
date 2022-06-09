@@ -1,4 +1,4 @@
-package com.example.tanksjava.gamewindow.gameobjects;
+package com.example.tanksjava.gamewindow.assets;
 
 public class URLStringsOfAssets {
 
