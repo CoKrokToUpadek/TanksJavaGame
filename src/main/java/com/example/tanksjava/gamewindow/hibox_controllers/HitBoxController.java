@@ -6,7 +6,7 @@ import com.example.tanksjava.toolsmethods.StaticToolsAndHandlers;
 public class HitBoxController {
 
     //flags are: 1 for player object, 2 for indestructible static objects
-    private Flag[][] gameBoardHitBoxArray;
+    private final Flag[][] gameBoardHitBoxArray;
     private final int gameBoardSizeX;
     private final int gameBoardSizeY;
 
@@ -29,7 +29,7 @@ public class HitBoxController {
         }
     }
 
-    public int detectCollisionsForMovement(ObjectDirectionController playerObject, int collideFlag, int direction, int speed) {
+    public int detectCollisionsForMovementOfNonDestructibleObject(ObjectDirectionController playerObject, int collideFlag, int direction, int speed) {
 
         //w-up
         //s-down
@@ -50,13 +50,12 @@ public class HitBoxController {
                 for (int i = objectStartX; i < objectStartPlusSizeX; i++) {
                     if (gameBoardHitBoxArray[objectCollisionPoint][i].getFlagValue() == collideFlag) {
                         if (gameBoardHitBoxArray[objectCollisionPoint][i].getOwner().isDestructible()){
-                            System.out.println( gameBoardHitBoxArray[objectCollisionPoint][i].getOwner().getGameObjectID());
                             StaticToolsAndHandlers.clearStaticHitBox( gameBoardHitBoxArray[objectCollisionPoint][i].getOwner(),this);
+                            return speed-1;
                         }else{
                             while (step <= speed) {
                                 for (int k = objectStartX; k < objectStartPlusSizeX; k++) {//ok
                                     if (gameBoardHitBoxArray[objectStartY - step][k].getFlagValue() == collideFlag) {
-                                        System.out.println(step);
                                         if (step == 1) {
                                             return 0;
                                         }
@@ -76,13 +75,12 @@ public class HitBoxController {
                 for (int i = objectStartX; i < objectStartPlusSizeX; i++) {//ok
                     if (gameBoardHitBoxArray[objectCollisionPoint][i].getFlagValue() == collideFlag) {
                         if (gameBoardHitBoxArray[objectCollisionPoint][i].getOwner().isDestructible()){
-                            System.out.println( gameBoardHitBoxArray[objectCollisionPoint][i].getOwner().getGameObjectID());
                             StaticToolsAndHandlers.clearStaticHitBox( gameBoardHitBoxArray[objectCollisionPoint][i].getOwner(),this);
+                            return speed-1;
                         }else{
                             while (step <= speed) {
                                 for (int k = objectStartX; k < objectStartPlusSizeX; k++) {//ok
                                     if (gameBoardHitBoxArray[objectStartPlusSizeY + step][k].getFlagValue() == collideFlag) {
-                                        System.out.println(step);
                                         return step;
                                     }
                                 }
@@ -98,13 +96,12 @@ public class HitBoxController {
                 for (int i = objectStartY; i < objectStartPlusSizeY; i++) {
                     if (gameBoardHitBoxArray[i][objectCollisionPoint].getFlagValue() == collideFlag) {
                         if (gameBoardHitBoxArray[i][objectCollisionPoint].getOwner().isDestructible()){
-                            System.out.println( gameBoardHitBoxArray[i][objectCollisionPoint].getOwner().getGameObjectID());
                             StaticToolsAndHandlers.clearStaticHitBox( gameBoardHitBoxArray[i][objectCollisionPoint].getOwner(),this);
+                            return speed-1;
                         }else{
                             while (step <= speed) {
                                 for (int k = objectStartY; k < objectStartPlusSizeY; k++) {
                                     if (gameBoardHitBoxArray[k][objectStartX - step].getFlagValue() == collideFlag) {
-                                        System.out.println(step);
                                         if (step == 1) {
                                             return 0;
                                         }
@@ -123,14 +120,13 @@ public class HitBoxController {
                 for (int i = objectStartY; i < objectStartPlusSizeY; i++) {
                     if (gameBoardHitBoxArray[i][objectCollisionPoint].getFlagValue() == collideFlag) {
                         if (gameBoardHitBoxArray[i][objectCollisionPoint].getOwner().isDestructible()){
-                            System.out.println( gameBoardHitBoxArray[i][objectCollisionPoint].getOwner().getGameObjectID());
                             StaticToolsAndHandlers.clearStaticHitBox( gameBoardHitBoxArray[i][objectCollisionPoint].getOwner(),this);
+                            return speed-1;
 
                         }else {
                             while (step <= speed) {
                                 for (int k = objectStartY; k < objectStartPlusSizeY; k++) {
                                     if (gameBoardHitBoxArray[k][objectStartPlusSizeX + step].getFlagValue() == collideFlag) {
-                                        System.out.println(step);
                                         return step;
                                     }
                                 }
@@ -144,9 +140,6 @@ public class HitBoxController {
         }
         return speed;
     }
-
-
-
 
     public void printSinglePoint(int x, int y) {
         System.out.println("current value under point" + gameBoardHitBoxArray[y][x].getFlagValue());

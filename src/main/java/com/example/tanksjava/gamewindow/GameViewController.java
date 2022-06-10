@@ -1,7 +1,7 @@
 package com.example.tanksjava.gamewindow;
 
 import com.example.tanksjava.gamewindow.gameobjects.game_objects.MovableGameObject;
-import com.example.tanksjava.gamewindow.gameobjects.game_objects.ShellGameObject;
+import com.example.tanksjava.gamewindow.gameobjects.game_objects.shells.ShellGameObject;
 import com.example.tanksjava.gamewindow.gameobjects.game_objects.StaticGameObject;
 import com.example.tanksjava.gamewindow.assets.URLStringsOfAssets;
 import com.example.tanksjava.gamewindow.hibox_controllers.HitBoxController;
@@ -33,12 +33,14 @@ public class GameViewController {
 
     HitBoxController hitBoxController = new HitBoxController(gameBoardSizeX, gameBoardSizeY);
 
+
+
     private final StaticGameObject metalCrate = new StaticGameObject(1, URLStringsOfAssets.metalBoxGraphicAsset, 28, 28, 80,
             80, false, 0,hitBoxController);
     private final StaticGameObject woodenCrate = new StaticGameObject(1, URLStringsOfAssets.woodenBoxGraphicAsset, 28, 28, 80,
             80, true, 0, hitBoxController);
 
-    private ShellGameObject playerShell;
+    private ShellGameObject playerShell=new ShellGameObject(3,URLStringsOfAssets.playerShellGraphicAsset,8,18,true,8);
 
 
     MovableGameObject player1;
@@ -73,14 +75,12 @@ public class GameViewController {
 
         }
 
-        player1= new MovableGameObject(2, URLStringsOfAssets.playerSingleBarrelTankGraphicAsset, 52, 52,
-                playerStartingPosX, playerStartingPosY, true, 180, hitBoxController,4);
 
-        playerShell=new ShellGameObject(player1,3,URLStringsOfAssets.playerShellGraphicAsset,8,18,8,true);
+
+        player1= new MovableGameObject(2,URLStringsOfAssets.playerSingleBarrelTankGraphicAsset, 52, 52,
+                playerStartingPosX, playerStartingPosY, true, 180, hitBoxController,4, playerShell);
 
         player1.objectMovementInitialization(newGamePane);
-        //playerShell.objectMovementInitialization(newGamePane);
-
 
     }
 
@@ -89,8 +89,10 @@ public class GameViewController {
         gameLoop = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                player1.objectPositionAndOrientationUpdater(newGamePane);
-                //TODO-shell position updater
+                player1.objectPositionAndOrientationUpdater();
+                if (!player1.getObjectShells().getShellList().isEmpty()){
+                    player1.getObjectShells().shellListPositionUpdate(newGamePane);
+                }
             }
         };
         gameLoop.start();

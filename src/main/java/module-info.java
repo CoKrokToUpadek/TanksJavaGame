@@ -13,4 +13,6 @@ module com.example.tanksjava {
     opens com.example.tanksjava.gamewindow.gameobjects.game_objects to javafx.fxml;
     exports com.example.tanksjava.gamewindow.hibox_controllers;
     opens com.example.tanksjava.gamewindow.hibox_controllers to javafx.fxml;
+    exports com.example.tanksjava.gamewindow.gameobjects.game_objects.shells;
+    opens com.example.tanksjava.gamewindow.gameobjects.game_objects.shells to javafx.fxml;
 }

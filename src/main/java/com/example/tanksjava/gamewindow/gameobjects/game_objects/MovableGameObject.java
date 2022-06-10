@@ -1,6 +1,7 @@
 package com.example.tanksjava.gamewindow.gameobjects.game_objects;
 
-import com.example.tanksjava.gamewindow.hibox_controllers.Flag;
+import com.example.tanksjava.gamewindow.gameobjects.game_objects.shells.ShellGameObject;
+import com.example.tanksjava.gamewindow.gameobjects.game_objects.shells.ShellObjectList;
 import com.example.tanksjava.gamewindow.hibox_controllers.HitBoxController;
 import com.example.tanksjava.gamewindow.assets.URLStringsOfAssets;
 import com.example.tanksjava.gamewindow.gameobjects.muzzle_flash.MuzzleFlash;
@@ -17,48 +18,40 @@ import java.nio.file.Paths;
 public class MovableGameObject extends StaticGameObject {
 
     private final ObjectDirectionController playerDirectionController;
+
+    private final ShellObjectList objectShells;
+
+    private final ShellGameObject playerShell;
+
     private char inputForTankSteering;
 
     private final MediaPlayer tankEngineSound;
 
     private final MediaPlayer gunFireSound;
     //test
-    private char previousInput;
 
     private boolean readyToFire = true;
 
-    private MuzzleFlash muzzleFlash = new MuzzleFlash(0, URLStringsOfAssets.playerMuzzleFlashGraphicAsset3, 21, 38, false);
+    private final MuzzleFlash muzzleFlash = new MuzzleFlash(0, URLStringsOfAssets.playerMuzzleFlashGraphicAsset3, 21, 38, false);
 
     private final MuzzleFlashFrames muzzleFlashFrames = new MuzzleFlashFrames();
 
-    private final int objectSpeed;
+
 
 
     //for tanks
     public MovableGameObject(int objectFlag, String objectURLString, int pixelSizeX, int pixelSizeY, int objectStartingPositionX,
-                             int objectStartingPositionY, boolean isDestructible, int initialRotation, HitBoxController hitBoxController, int objectSpeed) {
+                             int objectStartingPositionY, boolean isDestructible, int initialRotation, HitBoxController hitBoxController, int objectSpeed, ShellGameObject playerShell) {
 
         super(objectFlag, objectURLString, pixelSizeX, pixelSizeY, objectStartingPositionX, objectStartingPositionY, isDestructible, initialRotation, hitBoxController);
-        this.objectSpeed = objectSpeed;
         playerDirectionController = new ObjectDirectionController(objectStartingPositionX, objectStartingPositionY, pixelSizeX, pixelSizeY, objectSpeed, initialRotation, hitBoxController);
 
         tankEngineSound = new MediaPlayer(new Media(Paths.get(URLStringsOfAssets.tankSoundMusicAsset).toUri().toString()));
         gunFireSound = new MediaPlayer(new Media(Paths.get(URLStringsOfAssets.gunFireSoundMusicAsset).toUri().toString()));
         //for initial settings
         playerDirectionController.updateBarrelPositionForVehicles();
-
-        //flag set object
-    }
-
-
-    //for shells
-    public MovableGameObject(int controltype, int objectFlag, String objectURLString, int pixelSizeX, int pixelSizeY, int objectStartingPositionX,
-                             int objectStartingPositionY, boolean isDestructible, int initialRotation, HitBoxController hitBoxController, int objectSpeed) {
-        super(objectFlag, objectURLString, pixelSizeX, pixelSizeY, objectStartingPositionX, objectStartingPositionY, isDestructible, initialRotation, hitBoxController);
-        this.objectSpeed = objectSpeed;
-        playerDirectionController = null;
-        this.tankEngineSound=null;
-        this.gunFireSound=null;
+        this.playerShell=playerShell;
+        objectShells=new ShellObjectList();
     }
 
 
@@ -85,7 +78,7 @@ public class MovableGameObject extends StaticGameObject {
     }
 
 
-    public void objectPositionAndOrientationUpdater(Pane pane) {
+    public void objectPositionAndOrientationUpdater() {
 
         if (inputForTankSteering == 'w' || inputForTankSteering == 's' || inputForTankSteering == 'a' || inputForTankSteering == 'd' || inputForTankSteering == 'r') {
             StaticToolsAndHandlers.clearPlayerHitBox(this, super.getHitBoxController());
@@ -110,11 +103,16 @@ public class MovableGameObject extends StaticGameObject {
                 this.getObjectGraphics().setRotate(playerDirectionController.getObjectRotation());
                 this.getObjectGraphics().setLayoutY(playerDirectionController.getCurrentPositionY());
                 this.getObjectGraphics().setLayoutX(playerDirectionController.getCurrentPositionX());
-                previousInput = inputForTankSteering;
             }
             if (inputForTankSteering == 'r') {
                 if (readyToFire) {
-//                  StaticToolsAndHandlers.playerMuzzleFlashHandler(this,8);
+                    objectShells.addNewShellToList(new ShellGameObject(playerShell,this));
+                    System.out.println("--------------------------------------------------------------------------");
+                    System.out.println("barrelX="+this.getPlayerDirectionController().getCurrentBarrelPositionX());
+                    System.out.println("barrelY="+this.getPlayerDirectionController().getCurrentBarrelPositionY());
+                    System.out.println("--------------------------------------------------------------------------");
+                    System.out.println();
+                    //StaticToolsAndHandlers.playerMuzzleFlashHandler(this,8);
                     StaticToolsAndHandlers.playerMuzzleFlashHandler2(this);
                     gunFireSoundHandler();
                 }
@@ -165,11 +163,11 @@ public class MovableGameObject extends StaticGameObject {
         return muzzleFlashFrames;
     }
 
-    public boolean isReadyToFire() {
-        return readyToFire;
-    }
-
     public void setReadyToFire(boolean readyToFire) {
         this.readyToFire = readyToFire;
+    }
+
+    public ShellObjectList getObjectShells() {
+        return objectShells;
     }
 }

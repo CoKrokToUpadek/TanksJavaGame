@@ -50,7 +50,8 @@ public class StaticToolsAndHandlers {
         }
     }
 
-    //TODO needs to be fixed-rotate functionality is currently commented out
+    /*TODO This method just refuses to work properly. Rotation related stuff is commented out. Also after implementing shells and fire mechanisms
+    *  its even more glitchy*/
     public static void playerMuzzleFlashHandler2(MovableGameObject playerObject) {
 
 
@@ -99,12 +100,19 @@ public class StaticToolsAndHandlers {
 
                             break;
                     }
-                      playerObject.getMuzzleFlash().getObjectGraphics().setVisible(true);
+
+                    Platform.runLater(() -> {
+                        playerObject.getMuzzleFlash().getObjectGraphics().setVisible(true);
+                    });
+
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                      playerObject.getMuzzleFlash().getObjectGraphics().setVisible(false);
+                Platform.runLater(() -> {
+                    playerObject.getMuzzleFlash().getObjectGraphics().setVisible(false);
+                });
+
 
 
             }
