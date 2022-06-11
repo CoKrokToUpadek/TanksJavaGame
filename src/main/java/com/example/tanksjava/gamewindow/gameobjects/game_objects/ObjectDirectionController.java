@@ -54,8 +54,9 @@ public class ObjectDirectionController {
 
 
     }
-    public void updateObjectPosition() {
-
+    //TODO need changes
+    public boolean updateObjectPosition() {
+        boolean collisionDetectedForAI=false;
         switch (objectRotation) {
             case 180:
                 if (!(currentPositionY <= 0)) {
@@ -63,6 +64,7 @@ public class ObjectDirectionController {
                         currentPositionY -= objectSpeed;
                     } else {
                         currentPositionY -= hitBoxController.detectCollisionsForMovementOfNonDestructibleObject(this, 1, 180, objectSpeed);
+                        collisionDetectedForAI=true;
                     }
                 }
                 break;
@@ -73,6 +75,7 @@ public class ObjectDirectionController {
                         currentPositionY += objectSpeed;
                     } else {
                         currentPositionY += hitBoxController.detectCollisionsForMovementOfNonDestructibleObject(this, 1, 0, objectSpeed);
+                        collisionDetectedForAI=true;
                     }
 
                 }
@@ -84,6 +87,7 @@ public class ObjectDirectionController {
                         currentPositionX -= objectSpeed;
                     } else {
                         currentPositionX -= hitBoxController.detectCollisionsForMovementOfNonDestructibleObject(this, 1, 90, objectSpeed);
+                        collisionDetectedForAI=true;
                     }
 
 
@@ -96,13 +100,16 @@ public class ObjectDirectionController {
                         currentPositionX += objectSpeed;
                     } else {
                         currentPositionX += hitBoxController.detectCollisionsForMovementOfNonDestructibleObject(this, 1, 270, objectSpeed);
+                        collisionDetectedForAI=true;
                     }
 
                 }
                 break;
             default:
                 break;
+
         }
+        return collisionDetectedForAI;
     }
 
 

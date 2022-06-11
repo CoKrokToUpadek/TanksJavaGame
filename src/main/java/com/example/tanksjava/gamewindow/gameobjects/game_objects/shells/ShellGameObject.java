@@ -1,6 +1,6 @@
 package com.example.tanksjava.gamewindow.gameobjects.game_objects.shells;
 
-import com.example.tanksjava.gamewindow.gameobjects.game_objects.MovableGameObject;
+import com.example.tanksjava.gamewindow.gameobjects.game_objects.TankGameObject;
 import com.example.tanksjava.gamewindow.gameobjects.game_objects.ObjectDirectionController;
 import com.example.tanksjava.gamewindow.gameobjects.game_objects.StaticGameObject;
 import javafx.scene.layout.Pane;
@@ -15,23 +15,23 @@ public class ShellGameObject extends StaticGameObject {
      this.speed=speed;
     }
 
-    public ShellGameObject(ShellGameObject shellGameObject, MovableGameObject playerObject) {
+    public ShellGameObject(ShellGameObject shellGameObject, TankGameObject playerObject) {
         super(shellGameObject.getObjectFlag().getFlagValue(), shellGameObject.getObjectURLString(), shellGameObject.getObjectSizeX(), shellGameObject.getObjectSizeY(), shellGameObject.isDestructible());
         this.speed=shellGameObject.speed;
         objectMovementInitialization(playerObject);
     }
 
-    public void objectMovementInitialization(MovableGameObject playerObject) {
+    public void objectMovementInitialization(TankGameObject playerObject) {
         int tempStartingPositionX=0;
         int tempStartingPositionY=0;
         int tempRotation;
 
-        int tempPlayerStartingPositionX=playerObject.getPlayerDirectionController().getCurrentBarrelPositionX();
-        int tempPlayerStartingPositionY=playerObject.getPlayerDirectionController().getCurrentBarrelPositionY();
-        tempRotation=playerObject.getPlayerDirectionController().getObjectRotation();
+        int tempPlayerStartingPositionX=playerObject.getTankDirectionController().getCurrentBarrelPositionX();
+        int tempPlayerStartingPositionY=playerObject.getTankDirectionController().getCurrentBarrelPositionY();
+        tempRotation=playerObject.getTankDirectionController().getObjectRotation();
 
 
-        switch (playerObject.getPlayerDirectionController().getObjectRotation()){
+        switch (playerObject.getTankDirectionController().getObjectRotation()){
             case 0:
                 tempStartingPositionX=tempPlayerStartingPositionX-(this.getObjectSizeX()/2);
                 tempStartingPositionY=tempPlayerStartingPositionY-this.getObjectSizeY();
@@ -59,13 +59,14 @@ public class ShellGameObject extends StaticGameObject {
         boolean deletionFlag=false;
         if (!pane.getChildren().contains(this.getObjectGraphics())){
              pane.getChildren().add(this.getObjectGraphics());
+             this.getObjectGraphics().setViewOrder(2);
         }
         deletionFlag=shellDirectionController.updateShellPosition();
         this.getObjectGraphics().setRotate(shellDirectionController.getObjectRotation());
         this.getObjectGraphics().setLayoutY(shellDirectionController.getCurrentPositionY());
         this.getObjectGraphics().setLayoutX(shellDirectionController.getCurrentPositionX());
         if (deletionFlag){
-            this.getObjectGraphics().setVisible(false);
+            pane.getChildren().remove(this.getObjectGraphics());
             return true;
         }
 

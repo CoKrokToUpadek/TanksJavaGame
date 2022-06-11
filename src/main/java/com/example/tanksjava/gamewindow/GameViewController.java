@@ -1,6 +1,6 @@
 package com.example.tanksjava.gamewindow;
 
-import com.example.tanksjava.gamewindow.gameobjects.game_objects.MovableGameObject;
+import com.example.tanksjava.gamewindow.gameobjects.game_objects.TankGameObject;
 import com.example.tanksjava.gamewindow.gameobjects.game_objects.shells.ShellGameObject;
 import com.example.tanksjava.gamewindow.gameobjects.game_objects.StaticGameObject;
 import com.example.tanksjava.gamewindow.assets.URLStringsOfAssets;
@@ -26,7 +26,11 @@ public class GameViewController {
     public AnimationTimer gameLoop;
 
     private final int playerStartingPosX = 400;
-    private final int playerStartingPosY = 200;
+    private final int playerStartingPosY = 500;
+
+
+    private final int enemyStartingPosX = 400;
+    private final int enemyStartingPosY = 50;
 
     private final int gameBoardSizeX = 800;
     private final int gameBoardSizeY = 600;
@@ -40,10 +44,13 @@ public class GameViewController {
     private final StaticGameObject woodenCrate = new StaticGameObject(1, URLStringsOfAssets.woodenBoxGraphicAsset, 28, 28, 80,
             80, true, 0, hitBoxController);
 
-    private ShellGameObject playerShell=new ShellGameObject(3,URLStringsOfAssets.playerShellGraphicAsset,8,18,true,8);
+    private final ShellGameObject playerShell=new ShellGameObject(3,URLStringsOfAssets.playerShellGraphicAsset,8,18,true,6);
 
+    private final ShellGameObject enemyShell=new ShellGameObject(3,URLStringsOfAssets.enemyShellGraphicAsset,8,18,true,6);
 
-    MovableGameObject player1;
+    TankGameObject player1Tank;
+
+    TankGameObject enemy1Tank;
 
 
 
@@ -76,11 +83,19 @@ public class GameViewController {
         }
 
 
+        //TODO player and enemy destruction mods-destruction set to false for now
+        player1Tank = new TankGameObject(true,2,URLStringsOfAssets.playerSingleBarrelTankGraphicAsset, 52, 52,
+                playerStartingPosX, playerStartingPosY, false, 180, hitBoxController,4, playerShell);
 
-        player1= new MovableGameObject(2,URLStringsOfAssets.playerSingleBarrelTankGraphicAsset, 52, 52,
-                playerStartingPosX, playerStartingPosY, true, 180, hitBoxController,4, playerShell);
+        player1Tank.tankMovementInitialization(newGamePane);
 
-        player1.objectMovementInitialization(newGamePane);
+
+        enemy1Tank=new TankGameObject(false, 2,URLStringsOfAssets.enemySingleBarrelTankGraphicAsset, 46, 46,
+                enemyStartingPosX, enemyStartingPosY, false, 0, hitBoxController,4, enemyShell);
+
+        enemy1Tank.tankMovementInitialization(newGamePane);
+
+
 
     }
 
@@ -89,10 +104,19 @@ public class GameViewController {
         gameLoop = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                player1.objectPositionAndOrientationUpdater();
-                if (!player1.getObjectShells().getShellList().isEmpty()){
-                    player1.getObjectShells().shellListPositionUpdate(newGamePane);
+
+                StaticToolsAndHandlers.addFrames();
+
+
+                player1Tank.tankPositionAndOrientationUpdater(0);
+                if (!player1Tank.getTankShells().getShellList().isEmpty()){
+                    player1Tank.getTankShells().shellListPositionUpdate(newGamePane);
                 }
+                enemy1Tank.tankPositionAndOrientationUpdater(StaticToolsAndHandlers.getFramesCounter());
+                if (!enemy1Tank.getTankShells().getShellList().isEmpty()){
+                    enemy1Tank.getTankShells().shellListPositionUpdate(newGamePane);
+                }
+
             }
         };
         gameLoop.start();

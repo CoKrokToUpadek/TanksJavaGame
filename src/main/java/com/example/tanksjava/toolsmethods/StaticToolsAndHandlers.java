@@ -3,7 +3,7 @@ package com.example.tanksjava.toolsmethods;
 import com.example.tanksjava.gamewindow.hibox_controllers.Flag;
 import com.example.tanksjava.gamewindow.hibox_controllers.HitBoxController;
 
-import com.example.tanksjava.gamewindow.gameobjects.game_objects.MovableGameObject;
+import com.example.tanksjava.gamewindow.gameobjects.game_objects.TankGameObject;
 import com.example.tanksjava.gamewindow.gameobjects.game_objects.StaticGameObject;
 
 import javafx.application.Platform;
@@ -12,12 +12,15 @@ import javafx.scene.layout.*;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.transform.Rotate;
 
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class StaticToolsAndHandlers {
 
 
+   private static final Random randomChar=new Random();
+    private static char [] outputChar=new char[4];
 
 
     public enum itemOrientation {
@@ -31,6 +34,50 @@ public class StaticToolsAndHandlers {
         objectCounter++;
         return objectCounter;
     }
+
+    private static long framesCounter=0;
+
+
+    public static void addFrames(){
+        framesCounter++;
+    }
+
+    public static long getFramesCounter(){
+        return framesCounter;
+    }
+
+    public static char collisionOutPutHandler(char input){
+        char output;
+        switch (input){
+            case 'w':
+                outputChar[0]='a';
+                outputChar[1]='s';
+                outputChar[2]='d';
+                break;
+
+            case 's':
+                outputChar[0]='a';
+                outputChar[1]='w';
+                outputChar[2]='d';
+                break;
+
+            case 'a':
+                outputChar[0]='s';
+                outputChar[1]='w';
+                outputChar[2]='d';
+                break;
+
+            case 'd':
+                outputChar[0]='s';
+                outputChar[1]='w';
+                outputChar[2]='a';
+                break;
+        }
+
+         output = outputChar[randomChar.nextInt(3)];
+         return output;
+    }
+
 
     public static void setBackGround(Pane pane, String url, int sizeX, int sizeY) {
         BackgroundImage myBI = new BackgroundImage(new Image(url, sizeX, sizeY, false, true),
@@ -52,12 +99,12 @@ public class StaticToolsAndHandlers {
 
     /*TODO This method just refuses to work properly. Rotation related stuff is commented out. Also after implementing shells and fire mechanisms
     *  its even more glitchy*/
-    public static void playerMuzzleFlashHandler2(MovableGameObject playerObject) {
+    public static void playerMuzzleFlashHandler2(TankGameObject playerObject) {
 
 
-        int tempPositionX = playerObject.getPlayerDirectionController().getCurrentBarrelPositionX();
-        int tempPositionY = playerObject.getPlayerDirectionController().getCurrentBarrelPositionY();
-        int tempRotation = playerObject.getPlayerDirectionController().getObjectRotation();
+        int tempPositionX = playerObject.getTankDirectionController().getCurrentBarrelPositionX();
+        int tempPositionY = playerObject.getTankDirectionController().getCurrentBarrelPositionY();
+        int tempRotation = playerObject.getTankDirectionController().getObjectRotation();
         AtomicInteger tempFlashSizeX = new AtomicInteger();
         AtomicInteger tempFlashSizeY = new AtomicInteger();
 
@@ -130,12 +177,12 @@ public class StaticToolsAndHandlers {
 
     }
 
-    public static void playerMuzzleFlashHandler(MovableGameObject playerObject, int pivotCorrection) {
+    public static void playerMuzzleFlashHandler(TankGameObject playerObject, int pivotCorrection) {
 
 
-        int tempPositionX = playerObject.getPlayerDirectionController().getCurrentBarrelPositionX();
-        int tempPositionY = playerObject.getPlayerDirectionController().getCurrentBarrelPositionY();
-        int tempRotation = playerObject.getPlayerDirectionController().getObjectRotation();
+        int tempPositionX = playerObject.getTankDirectionController().getCurrentBarrelPositionX();
+        int tempPositionY = playerObject.getTankDirectionController().getCurrentBarrelPositionY();
+        int tempRotation = playerObject.getTankDirectionController().getObjectRotation();
         AtomicInteger tempFlashSizeX = new AtomicInteger();
         AtomicInteger tempFlashSizeY = new AtomicInteger();
 
@@ -206,12 +253,12 @@ public class StaticToolsAndHandlers {
 
     }
 
-    public static void updatePlayerHitBox(MovableGameObject object, HitBoxController hitBoxController) {
-        hitBoxController.fillHitBoxArrayWithFlags(object.getObjectFlag(), object.getPlayerDirectionController().getCurrentPositionX(), object.getPlayerDirectionController().getCurrentPositionY(), object.getObjectSizeX(), object.getObjectSizeY());
+    public static void updatePlayerHitBox(TankGameObject object, HitBoxController hitBoxController) {
+        hitBoxController.fillHitBoxArrayWithFlags(object.getObjectFlag(), object.getTankDirectionController().getCurrentPositionX(), object.getTankDirectionController().getCurrentPositionY(), object.getObjectSizeX(), object.getObjectSizeY());
     }
 
-    public static void clearPlayerHitBox(MovableGameObject object, HitBoxController hitBoxController) {
-        hitBoxController.fillHitBoxArrayWithFlags(new Flag(0), object.getPlayerDirectionController().getCurrentPositionX(), object.getPlayerDirectionController().getCurrentPositionY(), object.getObjectSizeX(), object.getObjectSizeY());
+    public static void clearPlayerHitBox(TankGameObject object, HitBoxController hitBoxController) {
+        hitBoxController.fillHitBoxArrayWithFlags(new Flag(0), object.getTankDirectionController().getCurrentPositionX(), object.getTankDirectionController().getCurrentPositionY(), object.getObjectSizeX(), object.getObjectSizeY());
     }
 
     public static void clearStaticHitBox(StaticGameObject object, HitBoxController hitBoxController) {
