@@ -41,10 +41,8 @@ public class TankGameObject extends StaticGameObject {
     private boolean collisionInPreviousMove;
 
 
-
-
     //for tanks
-    public TankGameObject(boolean isPlayerControlled,  int objectFlag, String objectURLString, int pixelSizeX, int pixelSizeY, int objectStartingPositionX,
+    public TankGameObject(boolean isPlayerControlled, int objectFlag, String objectURLString, int pixelSizeX, int pixelSizeY, int objectStartingPositionX,
                           int objectStartingPositionY, boolean isDestructible, int initialRotation, HitBoxController hitBoxController, int objectSpeed, ShellGameObject playerShell) {
 
         super(objectFlag, objectURLString, pixelSizeX, pixelSizeY, objectStartingPositionX, objectStartingPositionY, isDestructible, initialRotation, hitBoxController);
@@ -54,20 +52,17 @@ public class TankGameObject extends StaticGameObject {
         gunFireSound = new MediaPlayer(new Media(Paths.get(URLStringsOfAssets.gunFireSoundMusicAsset).toUri().toString()));
         //for initial settings
         tankDirectionController.updateBarrelPositionForVehicles();
-        this.tankShell =playerShell;
-        tankShells =new ShellObjectList();
-        this.isPlayerControlled=isPlayerControlled;
+        this.tankShell = playerShell;
+        tankShells = new ShellObjectList();
+        this.isPlayerControlled = isPlayerControlled;
 
         //for AI
-        collisionInPreviousMove=false;
-        if (!isPlayerControlled){
-            this.inputForTankSteering='s';
+        collisionInPreviousMove = false;
+        if (!isPlayerControlled) {
+            this.inputForTankSteering = 's';
         }
 
     }
-
-
-
 
 
     public void tankMovementInitialization(Pane pane) {
@@ -81,7 +76,7 @@ public class TankGameObject extends StaticGameObject {
         muzzleFlash.getObjectGraphics().setVisible(false);
 
 
-        if (isPlayerControlled){
+        if (isPlayerControlled) {
             pane.setOnKeyTyped(new EventHandler<KeyEvent>() {
                 @Override
                 public void handle(KeyEvent event) {
@@ -96,9 +91,8 @@ public class TankGameObject extends StaticGameObject {
     public void tankPositionAndOrientationUpdater(long randomNumber) {
         char temp;
 
-        if (isPlayerControlled){
+        if (isPlayerControlled) {
             if (inputForTankSteering == 'w' || inputForTankSteering == 's' || inputForTankSteering == 'a' || inputForTankSteering == 'd' || inputForTankSteering == 'r') {
-                StaticToolsAndHandlers.clearPlayerHitBox(this, super.getHitBoxController());
                 rotationHandler(inputForTankSteering);
                 if (inputForTankSteering != 'r') {
                     tankEngineSoundHandler();
@@ -107,41 +101,42 @@ public class TankGameObject extends StaticGameObject {
                 if (inputForTankSteering == 'r') {
                     fireTheGunHandler(readyToFire);
                 }
-                StaticToolsAndHandlers.updatePlayerHitBox(this, super.getHitBoxController());
                 this.inputForTankSteering = 'x';
             }
 
-        }else
-        {
-            if (randomNumber%10==0){
-                if (collisionInPreviousMove){
-                   collisionInPreviousMove=false;
-                   temp=inputForTankSteering;
-                   inputForTankSteering=StaticToolsAndHandlers.collisionOutPutHandler(temp);
-                   positionUpdateHandler();
-                }else {
+        } else {
+            if (randomNumber % 10 == 0) {
+                if (collisionInPreviousMove) {
+                    collisionInPreviousMove = false;
+                    temp = inputForTankSteering;
+                    inputForTankSteering = StaticToolsAndHandlers.collisionOutPutHandler(temp);
+                    positionUpdateHandler();
+                } else {
                     positionUpdateHandler();
                 }
             }
-            if (randomNumber%200==0) {
-               fireTheGunHandler(readyToFire);
+            if (randomNumber % 200 == 0) {
+                fireTheGunHandler(readyToFire);
+                positionUpdateHandler();
+
             }
-            StaticToolsAndHandlers.updatePlayerHitBox(this, super.getHitBoxController());
+
         }
+        StaticToolsAndHandlers.updateObjectHitBox(this, super.getHitBoxController());
     }
 
 
-    private void positionUpdateHandler(){
+    private void positionUpdateHandler() {
         rotationHandler(inputForTankSteering);
-        collisionInPreviousMove=tankDirectionController.updateObjectPosition();
+        collisionInPreviousMove = tankDirectionController.updateTankPositionV2();
         tankDirectionController.updateBarrelPositionForVehicles();
         this.getObjectGraphics().setRotate(tankDirectionController.getObjectRotation());
         this.getObjectGraphics().setLayoutY(tankDirectionController.getCurrentPositionY());
         this.getObjectGraphics().setLayoutX(tankDirectionController.getCurrentPositionX());
     }
 
-    private void rotationHandler(char inputForTankSteering){
-        switch (inputForTankSteering){
+    private void rotationHandler(char inputForTankSteering) {
+        switch (inputForTankSteering) {
             case 'w':
                 tankDirectionController.setObjectRotation(180);
                 break;
@@ -158,13 +153,13 @@ public class TankGameObject extends StaticGameObject {
 
     }
 
-    private void fireTheGunHandler(boolean isReady){
+    private void fireTheGunHandler(boolean isReady) {
         if (isReady) {
             StaticToolsAndHandlers.playerMuzzleFlashHandler2(this);
-            tankShells.addNewShellToList(new ShellGameObject(tankShell,this));
+            tankShells.addNewShellToList(new ShellGameObject(tankShell, this));
             System.out.println("--------------------------------------------------------------------------");
-            System.out.println("barrelX="+this.getTankDirectionController().getCurrentBarrelPositionX());
-            System.out.println("barrelY="+this.getTankDirectionController().getCurrentBarrelPositionY());
+            System.out.println("barrelX=" + this.getTankDirectionController().getCurrentBarrelPositionX());
+            System.out.println("barrelY=" + this.getTankDirectionController().getCurrentBarrelPositionY());
             System.out.println("--------------------------------------------------------------------------");
             System.out.println();
             //StaticToolsAndHandlers.playerMuzzleFlashHandler(this,8);

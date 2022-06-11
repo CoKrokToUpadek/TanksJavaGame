@@ -3,6 +3,8 @@ package com.example.tanksjava.gamewindow.gameobjects.game_objects.shells;
 import com.example.tanksjava.gamewindow.gameobjects.game_objects.TankGameObject;
 import com.example.tanksjava.gamewindow.gameobjects.game_objects.ObjectDirectionController;
 import com.example.tanksjava.gamewindow.gameobjects.game_objects.StaticGameObject;
+import com.example.tanksjava.gamewindow.hibox_controllers.HitBoxController;
+import com.example.tanksjava.toolsmethods.StaticToolsAndHandlers;
 import javafx.scene.layout.Pane;
 
 public class ShellGameObject extends StaticGameObject {
@@ -10,14 +12,16 @@ public class ShellGameObject extends StaticGameObject {
     private final int speed;
 
     private ObjectDirectionController shellDirectionController;
-    public ShellGameObject(int objectFlag, String objectURLString, int objectSizeX, int objectSizeY, boolean isDestructible,int speed) {
+    public ShellGameObject(int objectFlag, String objectURLString, int objectSizeX, int objectSizeY, boolean isDestructible, int speed, HitBoxController hitBoxController) {
      super(objectFlag,objectURLString,objectSizeX,objectSizeY,isDestructible);
+     setHitBoxController(hitBoxController);
      this.speed=speed;
     }
 
     public ShellGameObject(ShellGameObject shellGameObject, TankGameObject playerObject) {
         super(shellGameObject.getObjectFlag().getFlagValue(), shellGameObject.getObjectURLString(), shellGameObject.getObjectSizeX(), shellGameObject.getObjectSizeY(), shellGameObject.isDestructible());
         this.speed=shellGameObject.speed;
+        setHitBoxController(playerObject.getHitBoxController());
         objectMovementInitialization(playerObject);
     }
 
@@ -56,16 +60,19 @@ public class ShellGameObject extends StaticGameObject {
     }
 
     public boolean objectPositionAndOrientationUpdater(Pane pane){
-        boolean deletionFlag=false;
+        boolean deletionFlag;
         if (!pane.getChildren().contains(this.getObjectGraphics())){
              pane.getChildren().add(this.getObjectGraphics());
              this.getObjectGraphics().setViewOrder(2);
         }
-        deletionFlag=shellDirectionController.updateShellPosition();
+        StaticToolsAndHandlers.updateShellHitBox(this,getHitBoxController());
+        deletionFlag=shellDirectionController.updateShellPositionV2();
         this.getObjectGraphics().setRotate(shellDirectionController.getObjectRotation());
         this.getObjectGraphics().setLayoutY(shellDirectionController.getCurrentPositionY());
         this.getObjectGraphics().setLayoutX(shellDirectionController.getCurrentPositionX());
+        StaticToolsAndHandlers.updateShellHitBox(this,getHitBoxController());
         if (deletionFlag){
+            StaticToolsAndHandlers.clearObjectHitBox(getShellDirectionController(),getHitBoxController());
             pane.getChildren().remove(this.getObjectGraphics());
             return true;
         }
@@ -73,6 +80,7 @@ public class ShellGameObject extends StaticGameObject {
         return false;
     }
 
-
-
+    public ObjectDirectionController getShellDirectionController() {
+        return shellDirectionController;
+    }
 }

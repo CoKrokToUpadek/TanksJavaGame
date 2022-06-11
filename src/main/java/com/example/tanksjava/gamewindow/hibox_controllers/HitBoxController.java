@@ -1,6 +1,7 @@
 package com.example.tanksjava.gamewindow.hibox_controllers;
 
 import com.example.tanksjava.gamewindow.gameobjects.game_objects.ObjectDirectionController;
+import com.example.tanksjava.gamewindow.gameobjects.game_objects.StaticGameObject;
 import com.example.tanksjava.toolsmethods.StaticToolsAndHandlers;
 
 public class HitBoxController {
@@ -11,12 +12,11 @@ public class HitBoxController {
     private final int gameBoardSizeY;
 
 
-
     public HitBoxController(int gameBoardSizeX, int gameBoardSizeY) {
         this.gameBoardSizeX = gameBoardSizeX;
         this.gameBoardSizeY = gameBoardSizeY;
         gameBoardHitBoxArray = new Flag[gameBoardSizeY][gameBoardSizeX];
-        fillHitBoxArrayWithFlags(new Flag(0),0,0,gameBoardSizeX,gameBoardSizeY);
+        fillHitBoxArrayWithFlags(new Flag(0), 0, 0, gameBoardSizeX, gameBoardSizeY);
 
     }
 
@@ -29,15 +29,15 @@ public class HitBoxController {
         }
     }
 
-    public int detectCollisionsForMovementOfNonDestructibleObject(ObjectDirectionController playerObject, int collideFlag, int direction, int speed) {
+
+    public int detectCollisionsForMovement(ObjectDirectionController playerObject, int direction, int speed) {
 
         //w-up
         //s-down
         //a-left
         //d-right
 
-        int step = 0;
-        int objectCollisionPoint = 0;
+        int objectCollisionPoint;
         int objectStartPlusSizeX = playerObject.getCurrentPositionX() + playerObject.getObjectSizeX();
         int objectStartPlusSizeY = playerObject.getCurrentPositionY() + playerObject.getObjectSizeY();
         int objectStartY = playerObject.getCurrentPositionY();
@@ -48,24 +48,8 @@ public class HitBoxController {
             case 180:
                 objectCollisionPoint = objectStartY - speed;
                 for (int i = objectStartX; i < objectStartPlusSizeX; i++) {
-                    if (gameBoardHitBoxArray[objectCollisionPoint][i].getFlagValue() == collideFlag) {
-                        if (gameBoardHitBoxArray[objectCollisionPoint][i].getOwner().isDestructible()){
-                            StaticToolsAndHandlers.clearStaticHitBox( gameBoardHitBoxArray[objectCollisionPoint][i].getOwner(),this);
-                            return speed-1;
-                        }else{
-                            while (step <= speed) {
-                                for (int k = objectStartX; k < objectStartPlusSizeX; k++) {//ok
-                                    if (gameBoardHitBoxArray[objectStartY - step][k].getFlagValue() == collideFlag) {
-                                        if (step == 1) {
-                                            return 0;
-                                        }
-                                        return step - 1;
-                                    }
-                                }
-                                step++;
-                            }
-
-                        }
+                    if (gameBoardHitBoxArray[objectCollisionPoint][i].getFlagValue() != 0) {
+                        speed = flagAndSpeedHandler(playerObject, gameBoardHitBoxArray[objectCollisionPoint][i], 180, speed);
 
                     }
                 }
@@ -73,20 +57,10 @@ public class HitBoxController {
             case 0:
                 objectCollisionPoint = objectStartPlusSizeY + speed;
                 for (int i = objectStartX; i < objectStartPlusSizeX; i++) {//ok
-                    if (gameBoardHitBoxArray[objectCollisionPoint][i].getFlagValue() == collideFlag) {
-                        if (gameBoardHitBoxArray[objectCollisionPoint][i].getOwner().isDestructible()){
-                            StaticToolsAndHandlers.clearStaticHitBox( gameBoardHitBoxArray[objectCollisionPoint][i].getOwner(),this);
-                            return speed-1;
-                        }else{
-                            while (step <= speed) {
-                                for (int k = objectStartX; k < objectStartPlusSizeX; k++) {//ok
-                                    if (gameBoardHitBoxArray[objectStartPlusSizeY + step][k].getFlagValue() == collideFlag) {
-                                        return step;
-                                    }
-                                }
-                                step++;
-                            }
-                        }
+                    if (gameBoardHitBoxArray[objectCollisionPoint][i].getFlagValue() != 0) {
+                        speed = flagAndSpeedHandler(playerObject, gameBoardHitBoxArray[objectCollisionPoint][i], 0, speed);
+
+
                     }
                 }
                 break;
@@ -94,23 +68,9 @@ public class HitBoxController {
             case 90:
                 objectCollisionPoint = objectStartX - speed;
                 for (int i = objectStartY; i < objectStartPlusSizeY; i++) {
-                    if (gameBoardHitBoxArray[i][objectCollisionPoint].getFlagValue() == collideFlag) {
-                        if (gameBoardHitBoxArray[i][objectCollisionPoint].getOwner().isDestructible()){
-                            StaticToolsAndHandlers.clearStaticHitBox( gameBoardHitBoxArray[i][objectCollisionPoint].getOwner(),this);
-                            return speed-1;
-                        }else{
-                            while (step <= speed) {
-                                for (int k = objectStartY; k < objectStartPlusSizeY; k++) {
-                                    if (gameBoardHitBoxArray[k][objectStartX - step].getFlagValue() == collideFlag) {
-                                        if (step == 1) {
-                                            return 0;
-                                        }
-                                        return step - 1;
-                                    }
-                                }
-                                step++;
-                            }
-                        }
+                    if (gameBoardHitBoxArray[i][objectCollisionPoint].getFlagValue() != 0) {
+                        speed = flagAndSpeedHandler(playerObject, gameBoardHitBoxArray[i][objectCollisionPoint], 90, speed);
+
                     }
                 }
 
@@ -118,21 +78,8 @@ public class HitBoxController {
             case 270:
                 objectCollisionPoint = objectStartPlusSizeX + speed;
                 for (int i = objectStartY; i < objectStartPlusSizeY; i++) {
-                    if (gameBoardHitBoxArray[i][objectCollisionPoint].getFlagValue() == collideFlag) {
-                        if (gameBoardHitBoxArray[i][objectCollisionPoint].getOwner().isDestructible()){
-                            StaticToolsAndHandlers.clearStaticHitBox( gameBoardHitBoxArray[i][objectCollisionPoint].getOwner(),this);
-                            return speed-1;
-
-                        }else {
-                            while (step <= speed) {
-                                for (int k = objectStartY; k < objectStartPlusSizeY; k++) {
-                                    if (gameBoardHitBoxArray[k][objectStartPlusSizeX + step].getFlagValue() == collideFlag) {
-                                        return step;
-                                    }
-                                }
-                                step++;
-                            }
-                        }
+                    if (gameBoardHitBoxArray[i][objectCollisionPoint].getFlagValue() != 0) {
+                        speed = flagAndSpeedHandler(playerObject, gameBoardHitBoxArray[i][objectCollisionPoint], 270, speed);
 
                     }
                 }
@@ -140,6 +87,102 @@ public class HitBoxController {
         }
         return speed;
     }
+
+    //TODO-rest of interactions
+    private int flagAndSpeedHandler(ObjectDirectionController playerObject, Flag targetFlag, int direction, int speed) {
+
+        int outputSpeed = 0;
+
+        int objectStartPlusSizeX = playerObject.getCurrentPositionX() + playerObject.getObjectSizeX();
+        int objectStartPlusSizeY = playerObject.getCurrentPositionY() + playerObject.getObjectSizeY();
+        int objectStartY = playerObject.getCurrentPositionY();
+        int objectStartX = playerObject.getCurrentPositionX();
+
+
+        StaticGameObject owner = gameBoardHitBoxArray[objectStartY+4][objectStartX+1].getOwner();
+
+
+        switch (targetFlag.getFlagValue()) {
+            case 1:
+                if (targetFlag.getOwner().isDestructible() && owner != null && owner.getObjectFlag().getFlagValue() == 3) {//3 is a flag for missile, missile logic detect slowing down before object as hit
+                    StaticToolsAndHandlers.staticObjectRemover(targetFlag.getOwner(), this);
+                    return speed - 1;
+                }
+                outputSpeed = flagAndSpeedHandlerInternalLogicForSlowingDown(objectStartY, objectStartX, objectStartPlusSizeY, objectStartPlusSizeX, direction, speed, 1);
+                break;
+
+            case 2:
+                if (targetFlag.getOwner().isDestructible() && owner != null && (owner.getObjectFlag().getFlagValue() == 3 || owner.getObjectFlag().getFlagValue() == 2)) {
+                    return speed;
+                } else {
+                    outputSpeed = flagAndSpeedHandlerInternalLogicForSlowingDown(objectStartY, objectStartX, objectStartPlusSizeY, objectStartPlusSizeX, direction, speed, 2);
+                }
+                break;
+            case 3:
+                break;
+
+            case 4:
+                outputSpeed = flagAndSpeedHandlerInternalLogicForSlowingDown(objectStartY, objectStartX, objectStartPlusSizeY, objectStartPlusSizeX, direction, speed, 4);
+                break;
+
+        }
+        return outputSpeed;
+    }
+
+    private int flagAndSpeedHandlerInternalLogicForSlowingDown(int objectStartY, int objectStartX, int objectStartPlusSizeY, int objectStartPlusSizeX, int direction, int speed, int slowFlag) {
+        int step = 0;
+        switch (direction) {
+            case 0:
+                while (step <= speed) {
+                    for (int k = objectStartX; k < objectStartPlusSizeX; k++) {
+                        if (gameBoardHitBoxArray[objectStartPlusSizeY + step][k].getFlagValue() == slowFlag) {
+                            return step;
+                        }
+                    }
+                    step++;
+                }
+                break;
+            case 90:
+                while (step <= speed) {
+                    for (int k = objectStartY; k < objectStartPlusSizeY; k++) {
+                        if (gameBoardHitBoxArray[k][objectStartX - step].getFlagValue() == slowFlag) {
+                            if (step == 1) {
+                                return 0;
+                            }
+                            return step - 1;
+                        }
+                    }
+                    step++;
+                }
+                break;
+            case 180:
+                while (step <= speed) {
+                    for (int k = objectStartX; k < objectStartPlusSizeX; k++) {//ok
+                        if (gameBoardHitBoxArray[objectStartY - step][k].getFlagValue() == slowFlag) {
+                            if (step == 1) {
+                                return 0;
+                            }
+                            return step - 1;
+                        }
+                    }
+                    step++;
+                }
+                break;
+            case 270:
+                while (step <= speed) {
+                    for (int k = objectStartY; k < objectStartPlusSizeY; k++) {
+                        if (gameBoardHitBoxArray[k][objectStartPlusSizeX + step].getFlagValue() == slowFlag) {
+                            return step;
+                        }
+                    }
+                    step++;
+                }
+                break;
+        }
+        return speed;
+
+    }
+
 
     public void printSinglePoint(int x, int y) {
         System.out.println("current value under point" + gameBoardHitBoxArray[y][x].getFlagValue());

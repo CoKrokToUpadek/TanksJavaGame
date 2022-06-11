@@ -1,5 +1,7 @@
 package com.example.tanksjava.toolsmethods;
 
+import com.example.tanksjava.gamewindow.gameobjects.game_objects.ObjectDirectionController;
+import com.example.tanksjava.gamewindow.gameobjects.game_objects.shells.ShellGameObject;
 import com.example.tanksjava.gamewindow.hibox_controllers.Flag;
 import com.example.tanksjava.gamewindow.hibox_controllers.HitBoxController;
 
@@ -253,13 +255,22 @@ public class StaticToolsAndHandlers {
 
     }
 
-    public static void updatePlayerHitBox(TankGameObject object, HitBoxController hitBoxController) {
+    public static void updateObjectHitBox(TankGameObject object, HitBoxController hitBoxController) {
         hitBoxController.fillHitBoxArrayWithFlags(object.getObjectFlag(), object.getTankDirectionController().getCurrentPositionX(), object.getTankDirectionController().getCurrentPositionY(), object.getObjectSizeX(), object.getObjectSizeY());
     }
 
-    public static void clearPlayerHitBox(TankGameObject object, HitBoxController hitBoxController) {
-        hitBoxController.fillHitBoxArrayWithFlags(new Flag(0), object.getTankDirectionController().getCurrentPositionX(), object.getTankDirectionController().getCurrentPositionY(), object.getObjectSizeX(), object.getObjectSizeY());
+    public static void updateShellHitBox(ShellGameObject object, HitBoxController hitBoxController) {
+        hitBoxController.fillHitBoxArrayWithFlags(object.getObjectFlag(), object.getShellDirectionController().getCurrentPositionX(), object.getShellDirectionController().getCurrentPositionY(), object.getObjectSizeX(), object.getObjectSizeY());
     }
+
+
+    public static void clearObjectHitBox(ObjectDirectionController object, HitBoxController hitBoxController) {
+        hitBoxController.fillHitBoxArrayWithFlags(new Flag(0), object.getCurrentPositionX(), object.getCurrentPositionY(), object.getObjectSizeX(), object.getObjectSizeY());
+    }
+
+//    public static void clearPlayerHitBox(TankGameObject object, HitBoxController hitBoxController) {
+//        hitBoxController.fillHitBoxArrayWithFlags(new Flag(0), object.getTankDirectionController().getCurrentPositionX(), object.getTankDirectionController().getCurrentPositionY(), object.getObjectSizeX(), object.getObjectSizeY());
+//    }
 
     public static void clearStaticHitBox(StaticGameObject object, HitBoxController hitBoxController) {
         object.getObjectGraphics().setVisible(false);

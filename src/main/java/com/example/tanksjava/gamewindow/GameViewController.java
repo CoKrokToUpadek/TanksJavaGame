@@ -25,12 +25,12 @@ public class GameViewController {
 
     public AnimationTimer gameLoop;
 
-    private final int playerStartingPosX = 400;
+    private final int playerStartingPosX = 600;
     private final int playerStartingPosY = 500;
 
 
-    private final int enemyStartingPosX = 400;
-    private final int enemyStartingPosY = 50;
+    private final int enemyStartingPosX = 40;
+    private final int enemyStartingPosY = 40;
 
     private final int gameBoardSizeX = 800;
     private final int gameBoardSizeY = 600;
@@ -44,9 +44,9 @@ public class GameViewController {
     private final StaticGameObject woodenCrate = new StaticGameObject(1, URLStringsOfAssets.woodenBoxGraphicAsset, 28, 28, 80,
             80, true, 0, hitBoxController);
 
-    private final ShellGameObject playerShell=new ShellGameObject(3,URLStringsOfAssets.playerShellGraphicAsset,8,18,true,6);
+    private final ShellGameObject playerShell=new ShellGameObject(3,URLStringsOfAssets.playerShellGraphicAsset,8,18,true,6,hitBoxController);
 
-    private final ShellGameObject enemyShell=new ShellGameObject(3,URLStringsOfAssets.enemyShellGraphicAsset,8,18,true,6);
+    private final ShellGameObject enemyShell=new ShellGameObject(3,URLStringsOfAssets.enemyShellGraphicAsset,8,18,true,6,hitBoxController);
 
     TankGameObject player1Tank;
 
@@ -83,15 +83,15 @@ public class GameViewController {
         }
 
 
-        //TODO player and enemy destruction mods-destruction set to false for now
+
         player1Tank = new TankGameObject(true,2,URLStringsOfAssets.playerSingleBarrelTankGraphicAsset, 52, 52,
-                playerStartingPosX, playerStartingPosY, false, 180, hitBoxController,4, playerShell);
+                playerStartingPosX, playerStartingPosY, true, 180, hitBoxController,4, playerShell);
 
         player1Tank.tankMovementInitialization(newGamePane);
 
 
-        enemy1Tank=new TankGameObject(false, 2,URLStringsOfAssets.enemySingleBarrelTankGraphicAsset, 46, 46,
-                enemyStartingPosX, enemyStartingPosY, false, 0, hitBoxController,4, enemyShell);
+        enemy1Tank=new TankGameObject(false, 4,URLStringsOfAssets.enemySingleBarrelTankGraphicAsset, 46, 46,
+                enemyStartingPosX, enemyStartingPosY, true, 0, hitBoxController,4, enemyShell);
 
         enemy1Tank.tankMovementInitialization(newGamePane);
 

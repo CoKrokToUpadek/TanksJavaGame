@@ -2,6 +2,7 @@ package com.example.tanksjava.gamewindow.gameobjects.game_objects;
 
 import com.example.tanksjava.gamewindow.hibox_controllers.HitBoxController;
 import com.example.tanksjava.mainmenuwindow.MainMenuController;
+import com.example.tanksjava.toolsmethods.StaticToolsAndHandlers;
 
 
 public class ObjectDirectionController {
@@ -16,9 +17,9 @@ public class ObjectDirectionController {
     private final int objectSizeX;
     private final int objectSizeY;
 
-    private int objectSpeed;
+    private final int objectSpeed;
 
-    private HitBoxController hitBoxController;
+    private final HitBoxController hitBoxController;
 
     public ObjectDirectionController(int startingPositionX, int staringPositionY, int objectSizeX, int objectSizeY, int objectSpeed, int initialRotation , HitBoxController hitBoxController) {
         this.currentPositionY = staringPositionY;
@@ -54,16 +55,21 @@ public class ObjectDirectionController {
 
 
     }
-    //TODO need changes
-    public boolean updateObjectPosition() {
+
+
+
+
+    public boolean updateTankPositionV2() {
         boolean collisionDetectedForAI=false;
         switch (objectRotation) {
             case 180:
                 if (!(currentPositionY <= 0)) {
-                    if (hitBoxController.detectCollisionsForMovementOfNonDestructibleObject(this, 1, 180, objectSpeed) >= objectSpeed) {
+                    if (hitBoxController.detectCollisionsForMovement(this,  180, objectSpeed) >= objectSpeed) {
+                        StaticToolsAndHandlers.clearObjectHitBox(this,hitBoxController);
                         currentPositionY -= objectSpeed;
                     } else {
-                        currentPositionY -= hitBoxController.detectCollisionsForMovementOfNonDestructibleObject(this, 1, 180, objectSpeed);
+                        StaticToolsAndHandlers.clearObjectHitBox(this,hitBoxController);
+                        currentPositionY -= hitBoxController.detectCollisionsForMovement(this, 180, objectSpeed);
                         collisionDetectedForAI=true;
                     }
                 }
@@ -71,10 +77,12 @@ public class ObjectDirectionController {
             case 0:
                 if (!(currentPositionY >= MainMenuController.getGameWindowHeight() - objectSizeY)) {
 
-                    if (hitBoxController.detectCollisionsForMovementOfNonDestructibleObject(this, 1, 0, objectSpeed) >= objectSpeed) {
+                    if (hitBoxController.detectCollisionsForMovement(this,  0, objectSpeed) >= objectSpeed) {
+                        StaticToolsAndHandlers.clearObjectHitBox(this,hitBoxController);
                         currentPositionY += objectSpeed;
                     } else {
-                        currentPositionY += hitBoxController.detectCollisionsForMovementOfNonDestructibleObject(this, 1, 0, objectSpeed);
+                        StaticToolsAndHandlers.clearObjectHitBox(this,hitBoxController);
+                        currentPositionY += hitBoxController.detectCollisionsForMovement(this,  0, objectSpeed);
                         collisionDetectedForAI=true;
                     }
 
@@ -83,10 +91,12 @@ public class ObjectDirectionController {
             case 90:
                 if (!(currentPositionX <= 0)) {
 
-                    if (hitBoxController.detectCollisionsForMovementOfNonDestructibleObject(this, 1, 90, objectSpeed) >= objectSpeed) {
+                    if (hitBoxController.detectCollisionsForMovement(this,  90, objectSpeed) >= objectSpeed) {
+                        StaticToolsAndHandlers.clearObjectHitBox(this,hitBoxController);
                         currentPositionX -= objectSpeed;
                     } else {
-                        currentPositionX -= hitBoxController.detectCollisionsForMovementOfNonDestructibleObject(this, 1, 90, objectSpeed);
+                        StaticToolsAndHandlers.clearObjectHitBox(this,hitBoxController);
+                        currentPositionX -= hitBoxController.detectCollisionsForMovement(this,  90, objectSpeed);
                         collisionDetectedForAI=true;
                     }
 
@@ -96,10 +106,12 @@ public class ObjectDirectionController {
             case 270:
                 if (!(currentPositionX >= MainMenuController.getGameWindowWidth() - objectSizeX)) {
 
-                    if (hitBoxController.detectCollisionsForMovementOfNonDestructibleObject(this, 1,270, objectSpeed) >= objectSpeed) {
+                    if (hitBoxController.detectCollisionsForMovement(this, 270, objectSpeed) >= objectSpeed) {
+                        StaticToolsAndHandlers.clearObjectHitBox(this,hitBoxController);
                         currentPositionX += objectSpeed;
                     } else {
-                        currentPositionX += hitBoxController.detectCollisionsForMovementOfNonDestructibleObject(this, 1, 270, objectSpeed);
+                        StaticToolsAndHandlers.clearObjectHitBox(this,hitBoxController);
+                        currentPositionX += hitBoxController.detectCollisionsForMovement(this,  270, objectSpeed);
                         collisionDetectedForAI=true;
                     }
 
@@ -113,14 +125,14 @@ public class ObjectDirectionController {
     }
 
 
-    public boolean updateShellPosition() {
+    public boolean updateShellPositionV2() {
 
         switch (objectRotation) {
             case 180:
                 if (!(currentPositionY <= 0)) {
-                    if (hitBoxController.detectCollisionsForMovementOfNonDestructibleObject(this, 1, 180, objectSpeed) >= objectSpeed) {
+                    if (hitBoxController.detectCollisionsForMovement(this,  180, objectSpeed) >= objectSpeed) {
+                        StaticToolsAndHandlers.clearObjectHitBox(this,hitBoxController);
                         currentPositionY -= objectSpeed;
-
                     }else{
                         return true;
                     }
@@ -128,8 +140,8 @@ public class ObjectDirectionController {
                 break;
             case 0:
                 if (!(currentPositionY >= MainMenuController.getGameWindowHeight() - objectSizeY)) {
-
-                    if (hitBoxController.detectCollisionsForMovementOfNonDestructibleObject(this, 1, 0, objectSpeed) >= objectSpeed) {
+                    if (hitBoxController.detectCollisionsForMovement(this,  0, objectSpeed) >= objectSpeed) {
+                        StaticToolsAndHandlers.clearObjectHitBox(this,hitBoxController);
                         currentPositionY += objectSpeed;
 
                     }else{
@@ -140,8 +152,8 @@ public class ObjectDirectionController {
                 break;
             case 90:
                 if (!(currentPositionX <= 0)) {
-
-                    if (hitBoxController.detectCollisionsForMovementOfNonDestructibleObject(this, 1, 90, objectSpeed) >= objectSpeed) {
+                    if (hitBoxController.detectCollisionsForMovement(this,  90, objectSpeed) >= objectSpeed) {
+                        StaticToolsAndHandlers.clearObjectHitBox(this,hitBoxController);
                         currentPositionX -= objectSpeed;
                     }else {
                         return true;
@@ -150,8 +162,8 @@ public class ObjectDirectionController {
                 break;
             case 270:
                 if (!(currentPositionX >= MainMenuController.getGameWindowWidth() - objectSizeX)) {
-
-                    if (hitBoxController.detectCollisionsForMovementOfNonDestructibleObject(this, 1,270, objectSpeed) >= objectSpeed) {
+                    if (hitBoxController.detectCollisionsForMovement(this, 270, objectSpeed) >= objectSpeed) {
+                        StaticToolsAndHandlers.clearObjectHitBox(this,hitBoxController);
                         currentPositionX += objectSpeed;
                     }else {
                         return true;
@@ -165,27 +177,6 @@ public class ObjectDirectionController {
         return false;
     }
 
-
-
-//    public void playerRotation() {
-//
-//        switch (objectRotation) {
-//            case 'w':
-//                objectRotation = 180;
-//                break;
-//            case 's':
-//                objectRotation = 0;
-//                break;
-//            case 'a':
-//                objectRotation = 90;
-//                break;
-//            case 'd':
-//                objectRotation = 270;
-//                break;
-//            default:
-//                break;
-//        }
-//    }
 
 
     public int getObjectSizeX() {
