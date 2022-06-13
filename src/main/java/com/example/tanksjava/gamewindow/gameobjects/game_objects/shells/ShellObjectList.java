@@ -8,7 +8,7 @@ import java.util.List;
 
 public class ShellObjectList {
 
-    List<ShellGameObject> shellList;
+   private final List<ShellGameObject> shellList;
 
 
     public ShellObjectList() {

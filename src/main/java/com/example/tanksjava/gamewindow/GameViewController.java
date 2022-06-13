@@ -1,6 +1,7 @@
 package com.example.tanksjava.gamewindow;
 
 import com.example.tanksjava.gamewindow.gameobjects.game_objects.TankGameObject;
+import com.example.tanksjava.gamewindow.gameobjects.game_objects.TankGameObjectList;
 import com.example.tanksjava.gamewindow.gameobjects.game_objects.shells.ShellGameObject;
 import com.example.tanksjava.gamewindow.gameobjects.game_objects.StaticGameObject;
 import com.example.tanksjava.gamewindow.assets.URLStringsOfAssets;
@@ -8,12 +9,15 @@ import com.example.tanksjava.gamewindow.hibox_controllers.HitBoxController;
 import com.example.tanksjava.toolsmethods.StaticToolsAndHandlers;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
 import java.nio.file.Paths;
+import java.util.Optional;
 
 
 public class GameViewController {
@@ -51,6 +55,10 @@ public class GameViewController {
 
     private TankGameObject enemy1Tank;
 
+    private TankGameObject enemy2Tank;
+    private TankGameObject enemy3Tank;
+    private TankGameObjectList enemyTankList;
+
 
     @FXML
     private void initialize() {
@@ -81,10 +89,20 @@ public class GameViewController {
         enemyShell = new ShellGameObject(4, URLStringsOfAssets.enemyShellGraphicAsset, 8, 18, true, 6, hitBoxController);
         enemy1Tank = new TankGameObject(false, 5, URLStringsOfAssets.enemySingleBarrelTankGraphicAsset, 46, 46,
                 enemyStartingPosX, enemyStartingPosY, true, 0, hitBoxController, 4, enemyShell);
+        enemy2Tank = new TankGameObject(false, 5, URLStringsOfAssets.enemySingleBarrelTankGraphicAsset, 46, 46,
+                50, 30, true, 0, hitBoxController, 4, enemyShell);
+        enemy3Tank = new TankGameObject(false, 5, URLStringsOfAssets.enemySingleBarrelTankGraphicAsset, 46, 46,
+                100, 30, true, 0, hitBoxController, 4, enemyShell);
+
 
         player1Tank.tankMovementInitialization(newGamePane);
         enemy1Tank.tankMovementInitialization(newGamePane);
-
+        enemy2Tank.tankMovementInitialization(newGamePane);
+        enemy3Tank.tankMovementInitialization(newGamePane);
+        enemyTankList=new TankGameObjectList();
+        enemyTankList.addNewTankToList(enemy1Tank);
+        enemyTankList.addNewTankToList(enemy2Tank);
+        enemyTankList.addNewTankToList(enemy3Tank);
         drawFirstGameLevel();
 
         StaticToolsAndHandlers.addStaticObjectsInBulk(newGamePane, metalCrate, 6, 100, 180, StaticToolsAndHandlers.itemOrientation.VERTICAL, hitBoxController);
@@ -103,22 +121,16 @@ public class GameViewController {
             public void handle(long now) {
 
                 StaticToolsAndHandlers.addFrames();
-
-
                     player1Tank.tankPositionAndOrientationUpdater(0);
                     if (!player1Tank.getTankShells().getShellList().isEmpty()) {
                         player1Tank.getTankShells().shellListPositionUpdate(newGamePane);
                     }
-                    enemy1Tank.tankPositionAndOrientationUpdater(StaticToolsAndHandlers.getFramesCounter());
-                    if (!enemy1Tank.getTankShells().getShellList().isEmpty()) {
-                        enemy1Tank.getTankShells().shellListPositionUpdate(newGamePane);
-                    }
-                    if (enemy1Tank.getTankDirectionController().getOwnerGotHit()){
-                        System.out.println("enemy got hit");
-                        enemy1Tank.getTankDirectionController().setOwnerGotHit(false);
-                    }
+                    enemyTankList.updateTanksPosition(StaticToolsAndHandlers.getFramesCounter(),newGamePane);
 
-
+                    if (player1Tank.getTankDirectionController().getOwnerGotHit()){
+                        gameLoop.stop();
+                        System.out.println("you lost");
+                    }
 
             }
         };
@@ -137,6 +149,27 @@ public class GameViewController {
         insertMapBoundaries();
         StaticToolsAndHandlers.addStaticObjectsInBulk(newGamePane, metalCrate, 15, 28, 405, StaticToolsAndHandlers.itemOrientation.HORIZONTAL, hitBoxController);
 
+
+    }
+
+    private void youWonPopUp(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("You won!");
+        alert.setHeaderText("");
+        alert.setContentText("You Won, press ExitApp to Quit");
+        alert.setContentText("You lost, press ExitApp to Quit");
+        ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("ExitApp");
+        alert.show();
+
+    }
+
+    private void youLostPopUp(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("You lost!");
+        alert.setHeaderText("");
+        alert.setContentText("You lost, press ExitApp to Quit");
+        ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("ExitApp");
+        alert.show();
 
     }
 

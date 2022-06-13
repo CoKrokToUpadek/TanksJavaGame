@@ -89,40 +89,42 @@ public class TankGameObject extends StaticGameObject {
 
 
     public void tankPositionAndOrientationUpdater(long randomNumber)  {
-        char temp;
-
-        if (isPlayerControlled) {
-            if (inputForTankSteering == 'w' || inputForTankSteering == 's' || inputForTankSteering == 'a' || inputForTankSteering == 'd' || inputForTankSteering == 'r') {
-                rotationHandler(inputForTankSteering);
-                if (inputForTankSteering != 'r') {
-                    tankEngineSoundHandler();
-                    positionUpdateHandler();
+        if (!getTankDirectionController().getOwnerGotHit()){
+            char temp;
+            if (isPlayerControlled) {
+                if (inputForTankSteering == 'w' || inputForTankSteering == 's' || inputForTankSteering == 'a' || inputForTankSteering == 'd' || inputForTankSteering == 'r') {
+                    rotationHandler(inputForTankSteering);
+                    if (inputForTankSteering != 'r') {
+                        tankEngineSoundHandler();
+                        positionUpdateHandler();
+                    }
+                    if (inputForTankSteering == 'r') {
+                        fireTheGunHandler(readyToFire);
+                    }
+                    this.inputForTankSteering = 'x';
                 }
-                if (inputForTankSteering == 'r') {
+
+            } else {
+                if (randomNumber % 10 == 0) {
+                    if (collisionInPreviousMove) {
+                        collisionInPreviousMove = false;
+                        temp = inputForTankSteering;
+                        inputForTankSteering = StaticToolsAndHandlers.collisionOutPutHandler(temp);
+                        positionUpdateHandler();
+                    } else {
+                        positionUpdateHandler();
+                    }
+                }
+                if (randomNumber % 200 == 0) {
                     fireTheGunHandler(readyToFire);
-                }
-                this.inputForTankSteering = 'x';
-            }
-
-        } else {
-            if (randomNumber % 10 == 0) {
-                if (collisionInPreviousMove) {
-                    collisionInPreviousMove = false;
-                    temp = inputForTankSteering;
-                    inputForTankSteering = StaticToolsAndHandlers.collisionOutPutHandler(temp);
                     positionUpdateHandler();
-                } else {
-                    positionUpdateHandler();
+
                 }
-            }
-            if (randomNumber % 200 == 0) {
-                fireTheGunHandler(readyToFire);
-                positionUpdateHandler();
 
             }
-
+            StaticToolsAndHandlers.updateObjectHitBox(this, super.getHitBoxController());
         }
-        StaticToolsAndHandlers.updateObjectHitBox(this, super.getHitBoxController());
+
     }
 
 
