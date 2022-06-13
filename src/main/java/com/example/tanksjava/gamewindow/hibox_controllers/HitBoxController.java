@@ -90,14 +90,14 @@ public class HitBoxController{
     }
 
     //TODO-rest of interactions
-    private int flagAndSpeedHandler(ObjectDirectionController playerObject, Flag targetFlag, int direction, int speed)  {
+    private int flagAndSpeedHandler(ObjectDirectionController sourceObject, Flag targetFlag, int direction, int speed)  {
 
         int outputSpeed = 0;
 
-        int objectStartPlusSizeX = playerObject.getCurrentPositionX() + playerObject.getObjectSizeX();
-        int objectStartPlusSizeY = playerObject.getCurrentPositionY() + playerObject.getObjectSizeY();
-        int objectStartY = playerObject.getCurrentPositionY();
-        int objectStartX = playerObject.getCurrentPositionX();
+        int objectStartPlusSizeX = sourceObject.getCurrentPositionX() + sourceObject.getObjectSizeX();
+        int objectStartPlusSizeY = sourceObject.getCurrentPositionY() + sourceObject.getObjectSizeY();
+        int objectStartY = sourceObject.getCurrentPositionY();
+        int objectStartX = sourceObject.getCurrentPositionX();
 
 
         StaticGameObject owner = gameBoardHitBoxArray[objectStartY+4][objectStartX+1].getOwner();
@@ -109,7 +109,7 @@ public class HitBoxController{
                     if (targetFlag.getOwner().isDestructible()){
                         StaticToolsAndHandlers.staticObjectRemover(targetFlag.getOwner(), this);
                     }
-                    playerObject.setOwnerGotHit(true);
+                    sourceObject.setOwnerGotHit(true);
                 }
                 outputSpeed = flagAndSpeedHandlerInternalLogicForSlowingDown(objectStartY, objectStartX, objectStartPlusSizeY, objectStartPlusSizeX, direction, speed, 1);
                 break;
@@ -118,6 +118,7 @@ public class HitBoxController{
                 if (targetFlag.getOwner().isDestructible() && owner != null && (owner.getObjectFlag().getFlagValue() == 3)) {
                     return speed;
                 } else if(owner!=null && owner.getObjectFlag().getFlagValue()==4){
+                    StaticToolsAndHandlers.riseGetHitFlagHandler(targetFlag);
 
                 }else {
                     outputSpeed = flagAndSpeedHandlerInternalLogicForSlowingDown(objectStartY, objectStartX, objectStartPlusSizeY, objectStartPlusSizeX, direction, speed, 2);
@@ -130,8 +131,10 @@ public class HitBoxController{
                 break;
             case 5:// enemy tank
                 if (owner!=null && (owner.getObjectFlag().getFlagValue()==3)){
-                    playerObject.setOwnerGotHit(true);
+                    StaticToolsAndHandlers.riseGetHitFlagHandler(targetFlag);
+                    sourceObject.setOwnerGotHit(true);
                 }
+
                 outputSpeed = flagAndSpeedHandlerInternalLogicForSlowingDown(objectStartY, objectStartX, objectStartPlusSizeY, objectStartPlusSizeX, direction, speed, 5);
                 break;
 

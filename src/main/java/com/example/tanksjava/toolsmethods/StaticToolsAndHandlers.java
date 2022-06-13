@@ -280,8 +280,11 @@ public class StaticToolsAndHandlers {
     public static void staticObjectRemover(StaticGameObject object, HitBoxController hitBoxController){
         object.getObjectGraphics().setVisible(false);
         clearStaticHitBox(object, hitBoxController);
+    }
 
-
+    public static void riseGetHitFlagHandler(Flag flag){
+        TankGameObject tempObject=(TankGameObject) flag.getOwner();
+        tempObject.getTankDirectionController().setOwnerGotHit(true);
     }
 
 

@@ -113,6 +113,10 @@ public class GameViewController {
                     if (!enemy1Tank.getTankShells().getShellList().isEmpty()) {
                         enemy1Tank.getTankShells().shellListPositionUpdate(newGamePane);
                     }
+                    if (enemy1Tank.getTankDirectionController().getOwnerGotHit()){
+                        System.out.println("enemy got hit");
+                        enemy1Tank.getTankDirectionController().setOwnerGotHit(false);
+                    }
 
 
 
