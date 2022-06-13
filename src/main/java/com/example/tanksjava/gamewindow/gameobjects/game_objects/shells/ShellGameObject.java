@@ -59,19 +59,19 @@ public class ShellGameObject extends StaticGameObject {
                 this.getObjectSizeY(),this.speed,tempRotation,playerObject.getHitBoxController());
     }
 
-    public boolean objectPositionAndOrientationUpdater(Pane pane){
-        boolean deletionFlag;
+    public boolean objectPositionAndOrientationUpdater(Pane pane) {
+
         if (!pane.getChildren().contains(this.getObjectGraphics())){
              pane.getChildren().add(this.getObjectGraphics());
              this.getObjectGraphics().setViewOrder(2);
         }
         StaticToolsAndHandlers.updateShellHitBox(this,getHitBoxController());
-        deletionFlag=shellDirectionController.updateShellPositionV2();
+        shellDirectionController.updateShellPositionV2();
         this.getObjectGraphics().setRotate(shellDirectionController.getObjectRotation());
         this.getObjectGraphics().setLayoutY(shellDirectionController.getCurrentPositionY());
         this.getObjectGraphics().setLayoutX(shellDirectionController.getCurrentPositionX());
         StaticToolsAndHandlers.updateShellHitBox(this,getHitBoxController());
-        if (deletionFlag){
+        if (this.shellDirectionController.getOwnerGotHit()){
             StaticToolsAndHandlers.clearObjectHitBox(getShellDirectionController(),getHitBoxController());
             pane.getChildren().remove(this.getObjectGraphics());
             return true;

@@ -9,16 +9,16 @@ import javafx.scene.layout.Pane;
 
 
 public class StaticGameObject {
-    private ImageView objectGraphics;
+    private final ImageView objectGraphics;
 
-    private  String objectURLString;
+    private final String objectURLString;
 
-    private  int objectSizeX;
+    private final int objectSizeX;
 
-    private  int objectSizeY;
+    private final int objectSizeY;
     private int objectStartingPositionX;
     private int objectStartingPositionY;
-    private  boolean isDestructible;
+    private final boolean isDestructible;
 
     private int initialRotation;
 

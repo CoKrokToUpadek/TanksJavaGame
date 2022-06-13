@@ -2,7 +2,10 @@ package com.example.tanksjava.gamewindow.hibox_controllers;
 
 import com.example.tanksjava.gamewindow.gameobjects.game_objects.StaticGameObject;
 
+
+
 public class Flag {
+
     int flagValue;
      StaticGameObject object;
 

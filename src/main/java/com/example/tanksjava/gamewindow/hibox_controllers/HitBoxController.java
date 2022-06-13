@@ -4,7 +4,7 @@ import com.example.tanksjava.gamewindow.gameobjects.game_objects.ObjectDirection
 import com.example.tanksjava.gamewindow.gameobjects.game_objects.StaticGameObject;
 import com.example.tanksjava.toolsmethods.StaticToolsAndHandlers;
 
-public class HitBoxController {
+public class HitBoxController{
 
     //flags are: 1 for player object, 2 for indestructible static objects
     private final Flag[][] gameBoardHitBoxArray;
@@ -17,6 +17,7 @@ public class HitBoxController {
         this.gameBoardSizeY = gameBoardSizeY;
         gameBoardHitBoxArray = new Flag[gameBoardSizeY][gameBoardSizeX];
         fillHitBoxArrayWithFlags(new Flag(0), 0, 0, gameBoardSizeX, gameBoardSizeY);
+
 
     }
 
@@ -89,7 +90,7 @@ public class HitBoxController {
     }
 
     //TODO-rest of interactions
-    private int flagAndSpeedHandler(ObjectDirectionController playerObject, Flag targetFlag, int direction, int speed) {
+    private int flagAndSpeedHandler(ObjectDirectionController playerObject, Flag targetFlag, int direction, int speed)  {
 
         int outputSpeed = 0;
 
@@ -103,26 +104,35 @@ public class HitBoxController {
 
 
         switch (targetFlag.getFlagValue()) {
-            case 1:
-                if (targetFlag.getOwner().isDestructible() && owner != null && owner.getObjectFlag().getFlagValue() == 3) {//3 is a flag for missile, missile logic detect slowing down before object as hit
-                    StaticToolsAndHandlers.staticObjectRemover(targetFlag.getOwner(), this);
-                    return speed - 1;
+            case 1://terrain
+                if (owner!=null && (owner.getObjectFlag().getFlagValue()==3 ||owner.getObjectFlag().getFlagValue()==4)){
+                    if (targetFlag.getOwner().isDestructible()){
+                        StaticToolsAndHandlers.staticObjectRemover(targetFlag.getOwner(), this);
+                    }
+                    playerObject.setOwnerGotHit(true);
                 }
                 outputSpeed = flagAndSpeedHandlerInternalLogicForSlowingDown(objectStartY, objectStartX, objectStartPlusSizeY, objectStartPlusSizeX, direction, speed, 1);
                 break;
 
-            case 2:
-                if (targetFlag.getOwner().isDestructible() && owner != null && (owner.getObjectFlag().getFlagValue() == 3 || owner.getObjectFlag().getFlagValue() == 2)) {
+            case 2://player
+                if (targetFlag.getOwner().isDestructible() && owner != null && (owner.getObjectFlag().getFlagValue() == 3)) {
                     return speed;
-                } else {
+                } else if(owner!=null && owner.getObjectFlag().getFlagValue()==4){
+
+                }else {
                     outputSpeed = flagAndSpeedHandlerInternalLogicForSlowingDown(objectStartY, objectStartX, objectStartPlusSizeY, objectStartPlusSizeX, direction, speed, 2);
                 }
                 break;
-            case 3:
+            case 3://player shell
                 break;
-
-            case 4:
+            case 4://enemy shell
                 outputSpeed = flagAndSpeedHandlerInternalLogicForSlowingDown(objectStartY, objectStartX, objectStartPlusSizeY, objectStartPlusSizeX, direction, speed, 4);
+                break;
+            case 5:// enemy tank
+                if (owner!=null && (owner.getObjectFlag().getFlagValue()==3)){
+                    playerObject.setOwnerGotHit(true);
+                }
+                outputSpeed = flagAndSpeedHandlerInternalLogicForSlowingDown(objectStartY, objectStartX, objectStartPlusSizeY, objectStartPlusSizeX, direction, speed, 5);
                 break;
 
         }
@@ -182,6 +192,7 @@ public class HitBoxController {
         return speed;
 
     }
+
 
 
     public void printSinglePoint(int x, int y) {

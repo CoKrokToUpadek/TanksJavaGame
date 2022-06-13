@@ -88,7 +88,7 @@ public class TankGameObject extends StaticGameObject {
     }
 
 
-    public void tankPositionAndOrientationUpdater(long randomNumber) {
+    public void tankPositionAndOrientationUpdater(long randomNumber)  {
         char temp;
 
         if (isPlayerControlled) {
