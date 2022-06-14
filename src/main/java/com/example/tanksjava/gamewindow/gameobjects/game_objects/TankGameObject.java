@@ -64,6 +64,28 @@ public class TankGameObject extends StaticGameObject {
 
     }
 
+    public TankGameObject(TankGameObject tank){
+        super(tank.getObjectFlag().getFlagValue(), tank.getObjectURLString(), tank.getObjectSizeX(), tank.getObjectSizeY(), tank.getObjectStartingPositionX(), tank.getObjectStartingPositionY(), tank.isDestructible(), tank.getInitialRotation(),tank.getHitBoxController());
+
+        tankDirectionController = new ObjectDirectionController(tank.getObjectStartingPositionX(), tank.getObjectStartingPositionY(), tank.getObjectSizeX(),tank.getObjectSizeY(),tank.tankDirectionController.getObjectSpeed(),tank.getInitialRotation(),tank.getHitBoxController());
+        tankEngineSound = new MediaPlayer(new Media(Paths.get(URLStringsOfAssets.tankSoundMusicAsset).toUri().toString()));
+        gunFireSound = new MediaPlayer(new Media(Paths.get(URLStringsOfAssets.gunFireSoundMusicAsset).toUri().toString()));
+        //for initial settings
+        tankDirectionController.updateBarrelPositionForVehicles();
+        this.tankShell = tank.tankShell;
+        tankShells = new ShellObjectList();
+        this.isPlayerControlled = tank.isPlayerControlled;
+
+        //for AI
+        collisionInPreviousMove = false;
+        if (!isPlayerControlled) {
+            this.inputForTankSteering = 's';
+        }
+
+    }
+
+
+
 
     public void tankMovementInitialization(Pane pane) {
 
@@ -217,4 +239,10 @@ public class TankGameObject extends StaticGameObject {
     public ShellObjectList getTankShells() {
         return tankShells;
     }
+
+
+
+
+
+
 }

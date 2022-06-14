@@ -204,6 +204,11 @@ public class ObjectDirectionController {
     public void setOwnerGotHit(boolean ownerGotHit) {
         this.ownerGotHit = ownerGotHit;
     }
+
+    public int getObjectSpeed() {
+        return objectSpeed;
+    }
 }
+
 
 

@@ -89,27 +89,17 @@ public class GameViewController {
         enemyShell = new ShellGameObject(4, URLStringsOfAssets.enemyShellGraphicAsset, 8, 18, true, 6, hitBoxController);
         enemy1Tank = new TankGameObject(false, 5, URLStringsOfAssets.enemySingleBarrelTankGraphicAsset, 46, 46,
                 enemyStartingPosX, enemyStartingPosY, true, 0, hitBoxController, 4, enemyShell);
-        enemy2Tank = new TankGameObject(false, 5, URLStringsOfAssets.enemySingleBarrelTankGraphicAsset, 46, 46,
-                50, 30, true, 0, hitBoxController, 4, enemyShell);
-        enemy3Tank = new TankGameObject(false, 5, URLStringsOfAssets.enemySingleBarrelTankGraphicAsset, 46, 46,
-                100, 30, true, 0, hitBoxController, 4, enemyShell);
+
 
 
         player1Tank.tankMovementInitialization(newGamePane);
-        enemy1Tank.tankMovementInitialization(newGamePane);
-        enemy2Tank.tankMovementInitialization(newGamePane);
-        enemy3Tank.tankMovementInitialization(newGamePane);
         enemyTankList=new TankGameObjectList();
-        enemyTankList.addNewTankToList(enemy1Tank);
-        enemyTankList.addNewTankToList(enemy2Tank);
-        enemyTankList.addNewTankToList(enemy3Tank);
+
+        enemyTankList.addEnemyTanksInBulk(enemy1Tank,5,40,40,100);
+        enemyTankList.initiateTanks(newGamePane);
         drawFirstGameLevel();
 
-        StaticToolsAndHandlers.addStaticObjectsInBulk(newGamePane, metalCrate, 6, 100, 180, StaticToolsAndHandlers.itemOrientation.VERTICAL, hitBoxController);
-        for (int i = 496; i < 700; i += 28) {
-            StaticToolsAndHandlers.addStaticObjectsInBulk(newGamePane, new StaticGameObject(woodenCrate), 6, i, 180, StaticToolsAndHandlers.itemOrientation.VERTICAL, hitBoxController);
 
-        }
 
 
     }
@@ -148,7 +138,11 @@ public class GameViewController {
     private void drawFirstGameLevel() {
         insertMapBoundaries();
         StaticToolsAndHandlers.addStaticObjectsInBulk(newGamePane, metalCrate, 15, 28, 405, StaticToolsAndHandlers.itemOrientation.HORIZONTAL, hitBoxController);
+        StaticToolsAndHandlers.addStaticObjectsInBulk(newGamePane, metalCrate, 6, 100, 180, StaticToolsAndHandlers.itemOrientation.VERTICAL, hitBoxController);
+        for (int i = 496; i < 700; i += 28) {
+            StaticToolsAndHandlers.addStaticObjectsInBulk(newGamePane, new StaticGameObject(woodenCrate), 6, i, 180, StaticToolsAndHandlers.itemOrientation.VERTICAL, hitBoxController);
 
+        }
 
     }
 

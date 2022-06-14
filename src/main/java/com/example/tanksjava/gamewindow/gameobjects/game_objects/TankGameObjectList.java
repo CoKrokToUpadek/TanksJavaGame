@@ -20,6 +20,21 @@ public class TankGameObjectList {
         tankList.add(tank);
     }
 
+    public void addEnemyTanksInBulk(TankGameObject tank, int numberOfTanks, int startingPositionX, int startingPositionY, int separatorX){
+        for (int i=0;i<numberOfTanks;i++){
+            tank.setInitialPositionAndRotation(0,startingPositionX+(separatorX*i),startingPositionY);
+            tankList.add(new TankGameObject(tank));
+        }
+
+    }
+
+    public void initiateTanks(Pane pane){
+        for(Iterator<TankGameObject> s = tankList.iterator(); s.hasNext();) {
+            TankGameObject temptank = s.next();
+            temptank.tankMovementInitialization(pane);
+        }
+    }
+
     public void removeTankFromTheList(TankGameObject tank){
         tankList.remove(tank);
     }
@@ -43,4 +58,6 @@ public class TankGameObjectList {
     public List<TankGameObject> getTankList() {
         return tankList;
     }
+
+
 }

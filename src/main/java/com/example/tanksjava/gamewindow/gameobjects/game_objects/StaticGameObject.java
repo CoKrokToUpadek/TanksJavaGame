@@ -149,4 +149,6 @@ public class StaticGameObject {
     public boolean isDestructible() {
         return isDestructible;
     }
+
+
 }
