@@ -179,7 +179,7 @@ public class TankGameObject extends StaticGameObject {
 
     private void fireTheGunHandler(boolean isReady) {
         if (isReady) {
-            //StaticToolsAndHandlers.playerMuzzleFlashHandler2(this);
+            StaticToolsAndHandlers.playerMuzzleFlashHandler(this,8);
             tankShells.addNewShellToList(new ShellGameObject(tankShell, this));
 
 //            System.out.println("--------------------------------------------------------------------------");

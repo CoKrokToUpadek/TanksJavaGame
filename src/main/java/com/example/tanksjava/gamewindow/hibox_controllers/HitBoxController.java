@@ -50,11 +50,6 @@ public class HitBoxController{
         switch (direction) {
             case 180:
                 objectCollisionPoint = objectStartY - speed;
-                if(objectCollisionPoint<0){
-                    System.out.println("problem");
-                    System.out.println("speed:"+speed);
-                    System.out.println("obcp:"+objectStartY);
-                }
                 for (int i = objectStartX; i < objectStartPlusSizeX; i++) {
                     if (gameBoardHitBoxArray[objectCollisionPoint][i].getFlagValue() != 0) {
                         speed = flagAndSpeedHandler(playerObject, gameBoardHitBoxArray[objectCollisionPoint][i], 180, speed);
@@ -124,20 +119,29 @@ public class HitBoxController{
                 if (targetFlag.getOwner().isDestructible() && owner != null && (owner.getObjectFlag().getFlagValue() == 3)) {
                     return speed;
                 } else if(owner!=null && owner.getObjectFlag().getFlagValue()==4){
-                    StaticToolsAndHandlers.riseGetHitFlagHandler(targetFlag);
+                    StaticToolsAndHandlers.riseTankGetHitFlagHandler(targetFlag);
 
                 }else {
                     outputSpeed = flagAndSpeedHandlerInternalLogicForSlowingDown(objectStartY, objectStartX, objectStartPlusSizeY, objectStartPlusSizeX, direction, speed, 2);
                 }
                 break;
             case 3://player shell
+                if (owner!=null && owner.getObjectFlag().getFlagValue()==4){
+                    sourceObject.setOwnerGotHit(true);
+                    StaticToolsAndHandlers.riseShellGetHitFlagHandler(targetFlag);
+                }
+                outputSpeed = flagAndSpeedHandlerInternalLogicForSlowingDown(objectStartY, objectStartX, objectStartPlusSizeY, objectStartPlusSizeX, direction, speed, 3);
                 break;
             case 4://enemy shell
-                outputSpeed = flagAndSpeedHandlerInternalLogicForSlowingDown(objectStartY, objectStartX, objectStartPlusSizeY, objectStartPlusSizeX, direction, speed, 4);
+                if (owner!=null && (owner.getObjectFlag().getFlagValue()==3 || owner.getObjectFlag().getFlagValue()==4)){
+                    sourceObject.setOwnerGotHit(true);
+                    StaticToolsAndHandlers.riseShellGetHitFlagHandler(targetFlag);
+                }
+                outputSpeed = flagAndSpeedHandlerInternalLogicForSlowingDown(objectStartY, objectStartX, objectStartPlusSizeY, objectStartPlusSizeX, direction, speed, 3);
                 break;
             case 5:// enemy tank
                 if (owner!=null && (owner.getObjectFlag().getFlagValue()==3)){
-                    StaticToolsAndHandlers.riseGetHitFlagHandler(targetFlag);
+                    StaticToolsAndHandlers.riseTankGetHitFlagHandler(targetFlag);
                     sourceObject.setOwnerGotHit(true);
                 }
                 if (owner!=null && owner.getObjectFlag().getFlagValue()==4){

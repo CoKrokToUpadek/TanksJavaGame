@@ -51,6 +51,10 @@ public class TankGameObjectList {
                 StaticToolsAndHandlers.clearObjectHitBox(temptank.getTankDirectionController(),temptank.getHitBoxController());
                 pane.getChildren().remove(temptank.getObjectGraphics());
             }
+
+            if (temptank.getTankShells().getShellList().isEmpty() && temptank.getTankDirectionController().getOwnerGotHit()){
+                s.remove();
+            }
         }
     }
 

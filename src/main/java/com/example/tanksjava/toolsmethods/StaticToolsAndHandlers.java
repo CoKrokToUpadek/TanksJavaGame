@@ -195,10 +195,9 @@ public class StaticToolsAndHandlers {
 
         Thread timerThread = new Thread(() -> {
             playerObject.setReadyToFire(false);
-            for (int i = 0; i < 3; i++) {
-                playerObject.getMuzzleFlash().setImageGraphic(playerObject.getMuzzleFlashFrames().getMuzzleFlashStages().get(i).getObjectURLString());
-                tempFlashSizeX.set(playerObject.getMuzzleFlashFrames().getMuzzleFlashStages().get(i).getObjectSizeX());
-                tempFlashSizeY.set(playerObject.getMuzzleFlashFrames().getMuzzleFlashStages().get(i).getObjectSizeY());
+                playerObject.getMuzzleFlash().setImageGraphic(playerObject.getMuzzleFlashFrames().getMuzzleFlashStages().get(2).getObjectURLString());
+                tempFlashSizeX.set(playerObject.getMuzzleFlashFrames().getMuzzleFlashStages().get(2).getObjectSizeX());
+                tempFlashSizeY.set(playerObject.getMuzzleFlashFrames().getMuzzleFlashStages().get(2).getObjectSizeY());
 
                 try {
                     switch (tempRotation) {
@@ -211,19 +210,19 @@ public class StaticToolsAndHandlers {
                             playerObject.getMuzzleFlash().getObjectGraphics().setLayoutY(tempPositionY - tempFlashSizeY.get());
                             break;
                         case 270://d
-                            playerObject.getMuzzleFlash().getObjectGraphics().setLayoutX(tempPositionX + pivotCorrection - 3 + i);
-                            playerObject.getMuzzleFlash().getObjectGraphics().setLayoutY(tempPositionY - tempFlashSizeX.get() + 3 - i);
+                            playerObject.getMuzzleFlash().getObjectGraphics().setLayoutX(tempPositionX + pivotCorrection - 3);
+                            playerObject.getMuzzleFlash().getObjectGraphics().setLayoutY(tempPositionY - tempFlashSizeX.get() + 3);
                             break;
                         case 90://a
-                            playerObject.getMuzzleFlash().getObjectGraphics().setLayoutX(tempPositionX - tempFlashSizeX.get() - pivotCorrection + 3 - i);
-                            playerObject.getMuzzleFlash().getObjectGraphics().setLayoutY(tempPositionY - tempFlashSizeX.get() + 3 - i);
+                            playerObject.getMuzzleFlash().getObjectGraphics().setLayoutX(tempPositionX - tempFlashSizeX.get() - pivotCorrection + 3);
+                            playerObject.getMuzzleFlash().getObjectGraphics().setLayoutY(tempPositionY - tempFlashSizeX.get() + 3);
                             break;
                     }
                     Platform.runLater(() -> {
                         playerObject.getMuzzleFlash().getObjectGraphics().setVisible(true);
                     });
 
-                    Thread.sleep(100);
+                    Thread.sleep(150);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -231,11 +230,11 @@ public class StaticToolsAndHandlers {
                 Platform.runLater(() -> {
                     playerObject.getMuzzleFlash().getObjectGraphics().setVisible(false);
                 });
-            }
+
 
 
             try {
-                Thread.sleep(1200);
+                Thread.sleep(1250);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -280,10 +279,16 @@ public class StaticToolsAndHandlers {
         clearStaticHitBox(object, hitBoxController);
     }
 
-    public static void riseGetHitFlagHandler(Flag flag){
+    public static void riseTankGetHitFlagHandler(Flag flag){
         TankGameObject tempObject=(TankGameObject) flag.getOwner();
         tempObject.getTankDirectionController().setOwnerGotHit(true);
     }
+
+    public static void riseShellGetHitFlagHandler(Flag flag){
+        ShellGameObject tempObject=(ShellGameObject) flag.getOwner();
+        tempObject.getShellDirectionController().setOwnerGotHit(true);
+    }
+
 
 
     public static void addStaticObjectsInBulk(Pane pane, StaticGameObject object, int numberOfObjects, int startingPositionX, int startingPositionY, StaticToolsAndHandlers.itemOrientation orientation, HitBoxController hitBoxController) {

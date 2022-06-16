@@ -93,7 +93,7 @@ public class GameViewController {
         player1Tank.tankMovementInitialization(newGamePane);
         enemyTankList=new TankGameObjectList();
 
-        enemyTankList.addEnemyTanksInBulk(enemy1Tank,1,40,40,100);
+        enemyTankList.addEnemyTanksInBulk(enemy1Tank,5,40,40,100);
         enemyTankList.initiateTanks(newGamePane);
         drawFirstGameLevel();
 
@@ -117,16 +117,30 @@ public class GameViewController {
 
                     if (player1Tank.getTankDirectionController().getOwnerGotHit()){
                         gameLoop.stop();
-                        Alert alert = youWonPopUp();
+                        Alert alert = youLostPopUp();
 
                         Platform.runLater(()->{
-                            alert.showAndWait();
-
-
+                            Optional<ButtonType> result =   alert.showAndWait();
+                            if(result.get()==ButtonType.OK){
+                                System.exit(0);
+                            }
                         });
                         //youWonPopUp();
                         //System.out.println("you lost");
                     }
+                if (enemyTankList.getTankList().isEmpty()){
+                    gameLoop.stop();
+                    Alert alert = youWonPopUp();
+
+                    Platform.runLater(()->{
+                        Optional<ButtonType> result =   alert.showAndWait();
+                        if(result.get()==ButtonType.OK){
+                            System.exit(0);
+                        }
+                    });
+                }
+
+
 
             }
         };
@@ -157,19 +171,17 @@ public class GameViewController {
         alert.setTitle("You won!");
         alert.setHeaderText("");
         alert.setContentText("You Won, press ExitApp to Quit");
-        alert.setContentText("You lost, press ExitApp to Quit");
         ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("ExitApp");
       return alert;
     }
 
-    private void youLostPopUp(){
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("You lost!");
-        alert.setHeaderText("");
-        alert.setContentText("You lost, press ExitApp to Quit");
-        ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("ExitApp");
-        alert.show();
-
+    private Alert youLostPopUp(){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("You Lost!");
+            alert.setHeaderText("");
+            alert.setContentText("You lost, press ExitApp to Quit");
+            ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("ExitApp");
+            return alert;
     }
 
 }
