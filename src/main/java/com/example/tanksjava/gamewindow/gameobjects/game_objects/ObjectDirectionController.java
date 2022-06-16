@@ -17,7 +17,7 @@ public class ObjectDirectionController {
     private final int objectSizeX;
     private final int objectSizeY;
 
-    private final int objectSpeed;
+    private int objectSpeed;
 
     private boolean ownerGotHit;
 
@@ -68,10 +68,12 @@ public class ObjectDirectionController {
                     if (hitBoxController.detectCollisionsForMovement(this, 180, objectSpeed) >= objectSpeed) {
                         StaticToolsAndHandlers.clearObjectHitBox(this, hitBoxController);
                         currentPositionY -= objectSpeed;
+
                     } else {
                         StaticToolsAndHandlers.clearObjectHitBox(this, hitBoxController);
                         currentPositionY -= hitBoxController.detectCollisionsForMovement(this, 180, objectSpeed);
                         collisionDetectedForAI = true;
+
                     }
                 }
                 break;
@@ -131,14 +133,14 @@ public class ObjectDirectionController {
         switch (objectRotation) {
             case 180:
                 if (!(currentPositionY <= 0)) {
-                    hitBoxController.detectCollisionsForMovement(this, 180, objectSpeed);
+                    objectSpeed = hitBoxController.detectCollisionsForMovement(this, 180, objectSpeed);
                     StaticToolsAndHandlers.clearObjectHitBox(this, hitBoxController);
                     currentPositionY -= objectSpeed;
                 }
                 break;
             case 0:
                 if (!(currentPositionY >= MainMenuController.getGameWindowHeight() - objectSizeY)) {
-                    hitBoxController.detectCollisionsForMovement(this, 0, objectSpeed);
+                    objectSpeed = hitBoxController.detectCollisionsForMovement(this, 0, objectSpeed);
                     StaticToolsAndHandlers.clearObjectHitBox(this, hitBoxController);
                     currentPositionY += objectSpeed;
 
@@ -146,14 +148,14 @@ public class ObjectDirectionController {
                 break;
             case 90:
                 if (!(currentPositionX <= 0)) {
-                    hitBoxController.detectCollisionsForMovement(this, 90, objectSpeed);
+                    objectSpeed = hitBoxController.detectCollisionsForMovement(this, 90, objectSpeed);
                     StaticToolsAndHandlers.clearObjectHitBox(this, hitBoxController);
                     currentPositionX -= objectSpeed;
                 }
                 break;
             case 270:
                 if (!(currentPositionX >= MainMenuController.getGameWindowWidth() - objectSizeX)) {
-                    hitBoxController.detectCollisionsForMovement(this, 270, objectSpeed);
+                    objectSpeed = hitBoxController.detectCollisionsForMovement(this, 270, objectSpeed);
                     StaticToolsAndHandlers.clearObjectHitBox(this, hitBoxController);
                     currentPositionX += objectSpeed;
                 }

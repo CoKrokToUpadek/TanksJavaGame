@@ -179,13 +179,14 @@ public class TankGameObject extends StaticGameObject {
 
     private void fireTheGunHandler(boolean isReady) {
         if (isReady) {
-            StaticToolsAndHandlers.playerMuzzleFlashHandler2(this);
+            //StaticToolsAndHandlers.playerMuzzleFlashHandler2(this);
             tankShells.addNewShellToList(new ShellGameObject(tankShell, this));
-            System.out.println("--------------------------------------------------------------------------");
-            System.out.println("barrelX=" + this.getTankDirectionController().getCurrentBarrelPositionX());
-            System.out.println("barrelY=" + this.getTankDirectionController().getCurrentBarrelPositionY());
-            System.out.println("--------------------------------------------------------------------------");
-            System.out.println();
+
+//            System.out.println("--------------------------------------------------------------------------");
+//            System.out.println("barrelX=" + this.getTankDirectionController().getCurrentBarrelPositionX());
+//            System.out.println("barrelY=" + this.getTankDirectionController().getCurrentBarrelPositionY());
+//            System.out.println("--------------------------------------------------------------------------");
+//            System.out.println();
             //StaticToolsAndHandlers.playerMuzzleFlashHandler(this,8);
             tankGunFireSoundHandler();
         }

@@ -37,6 +37,8 @@ public class StaticToolsAndHandlers {
         return objectCounter;
     }
 
+
+
     private static long framesCounter=0;
 
 
@@ -267,10 +269,6 @@ public class StaticToolsAndHandlers {
     public static void clearObjectHitBox(ObjectDirectionController object, HitBoxController hitBoxController) {
         hitBoxController.fillHitBoxArrayWithFlags(new Flag(0), object.getCurrentPositionX(), object.getCurrentPositionY(), object.getObjectSizeX(), object.getObjectSizeY());
     }
-
-//    public static void clearPlayerHitBox(TankGameObject object, HitBoxController hitBoxController) {
-//        hitBoxController.fillHitBoxArrayWithFlags(new Flag(0), object.getTankDirectionController().getCurrentPositionX(), object.getTankDirectionController().getCurrentPositionY(), object.getObjectSizeX(), object.getObjectSizeY());
-//    }
 
     public static void clearStaticHitBox(StaticGameObject object, HitBoxController hitBoxController) {
         object.getObjectGraphics().setVisible(false);

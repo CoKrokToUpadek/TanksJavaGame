@@ -41,13 +41,20 @@ public class HitBoxController{
         int objectCollisionPoint;
         int objectStartPlusSizeX = playerObject.getCurrentPositionX() + playerObject.getObjectSizeX();
         int objectStartPlusSizeY = playerObject.getCurrentPositionY() + playerObject.getObjectSizeY();
+        //problem
         int objectStartY = playerObject.getCurrentPositionY();
+
         int objectStartX = playerObject.getCurrentPositionX();
 
 
         switch (direction) {
             case 180:
                 objectCollisionPoint = objectStartY - speed;
+                if(objectCollisionPoint<0){
+                    System.out.println("problem");
+                    System.out.println("speed:"+speed);
+                    System.out.println("obcp:"+objectStartY);
+                }
                 for (int i = objectStartX; i < objectStartPlusSizeX; i++) {
                     if (gameBoardHitBoxArray[objectCollisionPoint][i].getFlagValue() != 0) {
                         speed = flagAndSpeedHandler(playerObject, gameBoardHitBoxArray[objectCollisionPoint][i], 180, speed);
@@ -60,7 +67,6 @@ public class HitBoxController{
                 for (int i = objectStartX; i < objectStartPlusSizeX; i++) {//ok
                     if (gameBoardHitBoxArray[objectCollisionPoint][i].getFlagValue() != 0) {
                         speed = flagAndSpeedHandler(playerObject, gameBoardHitBoxArray[objectCollisionPoint][i], 0, speed);
-
 
                     }
                 }
@@ -89,7 +95,7 @@ public class HitBoxController{
         return speed;
     }
 
-    //TODO-rest of interactions
+
     private int flagAndSpeedHandler(ObjectDirectionController sourceObject, Flag targetFlag, int direction, int speed)  {
 
         int outputSpeed = 0;
@@ -105,7 +111,7 @@ public class HitBoxController{
 
         switch (targetFlag.getFlagValue()) {
             case 1://terrain
-                if (owner!=null && (owner.getObjectFlag().getFlagValue()==3 ||owner.getObjectFlag().getFlagValue()==4)){
+                if (owner!=null && (owner.getObjectFlag().getFlagValue()==3 || owner.getObjectFlag().getFlagValue()==4)){
                     if (targetFlag.getOwner().isDestructible()){
                         StaticToolsAndHandlers.staticObjectRemover(targetFlag.getOwner(), this);
                     }
@@ -134,7 +140,9 @@ public class HitBoxController{
                     StaticToolsAndHandlers.riseGetHitFlagHandler(targetFlag);
                     sourceObject.setOwnerGotHit(true);
                 }
-
+                if (owner!=null && owner.getObjectFlag().getFlagValue()==4){
+                   sourceObject.setOwnerGotHit(true);
+                }
                 outputSpeed = flagAndSpeedHandlerInternalLogicForSlowingDown(objectStartY, objectStartX, objectStartPlusSizeY, objectStartPlusSizeX, direction, speed, 5);
                 break;
 
@@ -175,6 +183,7 @@ public class HitBoxController{
                             if (step == 1) {
                                 return 0;
                             }
+                            //todo test
                             return step - 1;
                         }
                     }

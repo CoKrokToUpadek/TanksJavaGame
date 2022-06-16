@@ -63,7 +63,7 @@ public class StaticGameObject {
         this.objectFlag.setObject(this);
     }
 
-    //for static game objects added in bull
+    //for static game objects added in bulk
     public StaticGameObject(StaticGameObject object) {
         this.objectURLString = object.objectURLString;
         this.objectSizeX = object.objectSizeX;

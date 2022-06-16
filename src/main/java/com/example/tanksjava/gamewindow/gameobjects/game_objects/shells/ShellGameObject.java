@@ -33,7 +33,7 @@ public class ShellGameObject extends StaticGameObject {
         int tempPlayerStartingPositionX=playerObject.getTankDirectionController().getCurrentBarrelPositionX();
         int tempPlayerStartingPositionY=playerObject.getTankDirectionController().getCurrentBarrelPositionY();
         tempRotation=playerObject.getTankDirectionController().getObjectRotation();
-
+        //rotation ok
 
         switch (playerObject.getTankDirectionController().getObjectRotation()){
             case 0:
@@ -43,14 +43,13 @@ public class ShellGameObject extends StaticGameObject {
             case 180:
                 tempStartingPositionX=tempPlayerStartingPositionX-(this.getObjectSizeX()/2);
                 tempStartingPositionY=tempPlayerStartingPositionY;
-
                 break;
             case 90:
-                tempStartingPositionX=tempPlayerStartingPositionX+this.getObjectSizeY();
+                tempStartingPositionX=tempPlayerStartingPositionX;
                 tempStartingPositionY=tempPlayerStartingPositionY-(this.getObjectSizeX());
                 break;
             case 270:
-                tempStartingPositionX=tempPlayerStartingPositionX-this.getObjectSizeY();
+                tempStartingPositionX=tempPlayerStartingPositionX;
                 tempStartingPositionY=tempPlayerStartingPositionY-(this.getObjectSizeX());
                 break;
         }

@@ -8,6 +8,7 @@ import com.example.tanksjava.gamewindow.assets.URLStringsOfAssets;
 import com.example.tanksjava.gamewindow.hibox_controllers.HitBoxController;
 import com.example.tanksjava.toolsmethods.StaticToolsAndHandlers;
 import javafx.animation.AnimationTimer;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -42,21 +43,18 @@ public class GameViewController {
     HitBoxController hitBoxController = new HitBoxController(gameBoardSizeX, gameBoardSizeY);
 
 
-    private StaticGameObject metalCrate; /*= new StaticGameObject(1, URLStringsOfAssets.metalBoxGraphicAsset, 28, 28, 80,
-            80, false, 0, hitBoxController);*/
-    private StaticGameObject woodenCrate;/* = new StaticGameObject(1, URLStringsOfAssets.woodenBoxGraphicAsset, 28, 28, 80,
-            80, true, 0, hitBoxController);*/
+    private StaticGameObject metalCrate;
+    private StaticGameObject woodenCrate;
 
-    private ShellGameObject playerShell;/*=new ShellGameObject(3,URLStringsOfAssets.playerShellGraphicAsset,8,18,true,6,hitBoxController);*/
+    private ShellGameObject playerShell;
 
-    private ShellGameObject enemyShell;/*=new ShellGameObject(3,URLStringsOfAssets.enemyShellGraphicAsset,8,18,true,6,hitBoxController);*/
+    private ShellGameObject enemyShell;
 
     private TankGameObject player1Tank;
 
     private TankGameObject enemy1Tank;
 
-    private TankGameObject enemy2Tank;
-    private TankGameObject enemy3Tank;
+
     private TankGameObjectList enemyTankList;
 
 
@@ -95,7 +93,7 @@ public class GameViewController {
         player1Tank.tankMovementInitialization(newGamePane);
         enemyTankList=new TankGameObjectList();
 
-        enemyTankList.addEnemyTanksInBulk(enemy1Tank,5,40,40,100);
+        enemyTankList.addEnemyTanksInBulk(enemy1Tank,1,40,40,100);
         enemyTankList.initiateTanks(newGamePane);
         drawFirstGameLevel();
 
@@ -119,7 +117,15 @@ public class GameViewController {
 
                     if (player1Tank.getTankDirectionController().getOwnerGotHit()){
                         gameLoop.stop();
-                        System.out.println("you lost");
+                        Alert alert = youWonPopUp();
+
+                        Platform.runLater(()->{
+                            alert.showAndWait();
+
+
+                        });
+                        //youWonPopUp();
+                        //System.out.println("you lost");
                     }
 
             }
@@ -146,15 +152,14 @@ public class GameViewController {
 
     }
 
-    private void youWonPopUp(){
+    private Alert youWonPopUp(){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("You won!");
         alert.setHeaderText("");
         alert.setContentText("You Won, press ExitApp to Quit");
         alert.setContentText("You lost, press ExitApp to Quit");
         ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("ExitApp");
-        alert.show();
-
+      return alert;
     }
 
     private void youLostPopUp(){
