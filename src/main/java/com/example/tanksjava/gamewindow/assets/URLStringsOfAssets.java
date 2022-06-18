@@ -12,6 +12,7 @@ public class URLStringsOfAssets {
     public static final String playerSingleBarrelTankGraphicAsset="com/example/tanksjava/gameWindowResources/playerSingleBarrel.png";
 
     public static final String playerShellGraphicAsset="com/example/tanksjava/gameWindowResources/playerShell.png";
+    public static final String explosionGraphicAsset="com/example/tanksjava/gameWindowResources/explosionSmoke3.png";
 
 
     public static final String enemySingleBarrelTankGraphicAsset="com/example/tanksjava/gameWindowResources/blueTank.png";

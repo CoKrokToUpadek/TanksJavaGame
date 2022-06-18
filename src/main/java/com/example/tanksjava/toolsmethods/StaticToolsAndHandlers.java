@@ -22,13 +22,13 @@ public class StaticToolsAndHandlers {
 
 
    private static final Random randomChar=new Random();
-    private static char [] outputChar=new char[4];
+    private static final char [] outputChar=new char[4];
 
 
     public enum itemOrientation {
         HORIZONTAL, VERTICAL
     }
-    private static Rotate rotate=new Rotate();
+    private static final Rotate rotate=new Rotate();
 
     private static int objectCounter=0;
 
@@ -101,8 +101,38 @@ public class StaticToolsAndHandlers {
         }
     }
 
-    /*TODO This method just refuses to work properly. Rotation related stuff is commented out. Also after implementing shells and fire mechanisms
-    *  its even more glitchy*/
+
+    public static void explosionHandler(TankGameObject playerObject){
+        int tempPositionX = playerObject.getTankDirectionController().getCurrentPositionX()+(playerObject.getTankDirectionController().getObjectSizeX()/2);
+        int tempPositionY = playerObject.getTankDirectionController().getCurrentPositionY()+(playerObject.getTankDirectionController().getObjectSizeY()/2);
+
+        Thread timerThread = new Thread(() -> {
+
+                playerObject.getExplosionEffect().getObjectGraphics().setLayoutX(tempPositionX - (playerObject.getExplosionEffect().getObjectSizeX()/2));
+                playerObject.getExplosionEffect().getObjectGraphics().setLayoutY(tempPositionY - (playerObject.getExplosionEffect().getObjectSizeY()/2));
+
+
+
+                try {
+                    Platform.runLater(() -> {
+                        playerObject.getExplosionEffect().getObjectGraphics().setVisible(true);
+                    });
+
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Platform.runLater(() -> {
+                    playerObject.getExplosionEffect().getObjectGraphics().setVisible(false);
+                });
+
+        });
+        timerThread.start();
+
+
+    }
+
+    //Legacy code that didnt work as intended
     public static void playerMuzzleFlashHandler2(TankGameObject playerObject) {
 
 

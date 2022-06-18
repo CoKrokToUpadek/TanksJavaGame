@@ -16,15 +16,7 @@
             <font>
                <Font name="Segoe Print" size="20.0" />
             </font></Button>
-
-            <Button prefHeight="100" prefWidth="200" text="View Records" BorderPane.alignment="CENTER">
-            <VBox.margin>
-               <Insets bottom="10.0" />
-            </VBox.margin>
-            <font>
-               <Font name="Segoe Print" size="20.0" />
-            </font></Button>
-            <Button prefHeight="100" prefWidth="200" text="View Controls" BorderPane.alignment="CENTER">
+            <Button prefHeight="100" prefWidth="200" text="View Controls" BorderPane.alignment="CENTER" onAction="#viewControls">
             <VBox.margin>
                <Insets bottom="10.0" />
             </VBox.margin>

@@ -2,6 +2,7 @@ package com.example.tanksjava.gamewindow.gameobjects.game_objects;
 
 import com.example.tanksjava.gamewindow.gameobjects.game_objects.shells.ShellGameObject;
 import com.example.tanksjava.gamewindow.gameobjects.game_objects.shells.ShellObjectList;
+import com.example.tanksjava.gamewindow.gameobjects.muzzle_flash.explosion.ExplosionEffect;
 import com.example.tanksjava.gamewindow.hibox_controllers.HitBoxController;
 import com.example.tanksjava.gamewindow.assets.URLStringsOfAssets;
 import com.example.tanksjava.gamewindow.gameobjects.muzzle_flash.MuzzleFlash;
@@ -14,6 +15,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
 import java.nio.file.Paths;
+import java.util.Random;
 
 public class TankGameObject extends StaticGameObject {
 
@@ -34,11 +36,14 @@ public class TankGameObject extends StaticGameObject {
 
     private final MuzzleFlash muzzleFlash = new MuzzleFlash(0, URLStringsOfAssets.playerMuzzleFlashGraphicAsset3, 21, 38, false);
 
+    private final ExplosionEffect explosionEffect=new ExplosionEffect(0,URLStringsOfAssets.explosionGraphicAsset,63,63,false);
     private final MuzzleFlashFrames muzzleFlashFrames = new MuzzleFlashFrames();
 
     private final boolean isPlayerControlled;
 
     private boolean collisionInPreviousMove;
+
+    private int randomNumberForEnemyFire;
 
 
     //for tanks
@@ -61,6 +66,8 @@ public class TankGameObject extends StaticGameObject {
         if (!isPlayerControlled) {
             this.inputForTankSteering = 's';
         }
+        Random r=new Random();
+        this.randomNumberForEnemyFire=r.nextInt(100)+200;
 
     }
 
@@ -81,13 +88,15 @@ public class TankGameObject extends StaticGameObject {
         if (!isPlayerControlled) {
             this.inputForTankSteering = 's';
         }
-
+        Random r=new Random();
+        this.randomNumberForEnemyFire=r.nextInt(100)+200;
     }
 
 
 
 
     public void tankMovementInitialization(Pane pane) {
+
 
         insertObjectOnToPane(pane);
 
@@ -96,6 +105,11 @@ public class TankGameObject extends StaticGameObject {
         muzzleFlash.getObjectGraphics().setLayoutX(0);
         muzzleFlash.getObjectGraphics().setLayoutY(0);
         muzzleFlash.getObjectGraphics().setVisible(false);
+
+        pane.getChildren().add(explosionEffect.getObjectGraphics());
+        explosionEffect.getObjectGraphics().setLayoutX(0);
+        explosionEffect.getObjectGraphics().setLayoutY(0);
+        explosionEffect.getObjectGraphics().setVisible(false);
 
 
         if (isPlayerControlled) {
@@ -137,7 +151,7 @@ public class TankGameObject extends StaticGameObject {
                         positionUpdateHandler();
                     }
                 }
-                if (randomNumber % 200 == 0) {
+                if (randomNumber % randomNumberForEnemyFire == 0) {
                     fireTheGunHandler(readyToFire);
                     positionUpdateHandler();
 
@@ -181,13 +195,6 @@ public class TankGameObject extends StaticGameObject {
         if (isReady) {
             StaticToolsAndHandlers.playerMuzzleFlashHandler(this,8);
             tankShells.addNewShellToList(new ShellGameObject(tankShell, this));
-
-//            System.out.println("--------------------------------------------------------------------------");
-//            System.out.println("barrelX=" + this.getTankDirectionController().getCurrentBarrelPositionX());
-//            System.out.println("barrelY=" + this.getTankDirectionController().getCurrentBarrelPositionY());
-//            System.out.println("--------------------------------------------------------------------------");
-//            System.out.println();
-            //StaticToolsAndHandlers.playerMuzzleFlashHandler(this,8);
             tankGunFireSoundHandler();
         }
     }
@@ -242,8 +249,7 @@ public class TankGameObject extends StaticGameObject {
     }
 
 
-
-
-
-
+    public ExplosionEffect getExplosionEffect() {
+        return explosionEffect;
+    }
 }

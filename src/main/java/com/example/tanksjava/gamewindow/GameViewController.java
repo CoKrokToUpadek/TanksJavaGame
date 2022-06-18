@@ -16,6 +16,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.stage.StageStyle;
 
 import java.nio.file.Paths;
 import java.util.Optional;
@@ -93,7 +94,7 @@ public class GameViewController {
         player1Tank.tankMovementInitialization(newGamePane);
         enemyTankList=new TankGameObjectList();
 
-        enemyTankList.addEnemyTanksInBulk(enemy1Tank,5,40,40,100);
+        enemyTankList.addEnemyTanksInBulk(enemy1Tank,5,40,40,150);
         enemyTankList.initiateTanks(newGamePane);
         drawFirstGameLevel();
 
@@ -164,11 +165,24 @@ public class GameViewController {
 
         }
 
+        for (int i = 360; i < 430; i += 28) {
+            StaticToolsAndHandlers.addStaticObjectsInBulk(newGamePane, new StaticGameObject(woodenCrate), 2, i, 180, StaticToolsAndHandlers.itemOrientation.VERTICAL, hitBoxController);
+        }
+        for (int i = 360; i < 430; i += 28) {
+            StaticToolsAndHandlers.addStaticObjectsInBulk(newGamePane, new StaticGameObject(woodenCrate), 1, i, 310, StaticToolsAndHandlers.itemOrientation.VERTICAL, hitBoxController);
+        }
+
+        for (int i = 130; i < 230; i += 28) {
+            StaticToolsAndHandlers.addStaticObjectsInBulk(newGamePane, new StaticGameObject(woodenCrate), 6, i, 170, StaticToolsAndHandlers.itemOrientation.VERTICAL, hitBoxController);
+        }
+
     }
 
     private Alert youWonPopUp(){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.initStyle(StageStyle.UNDECORATED);
         alert.setTitle("You won!");
+        alert.setGraphic(null);
         alert.setHeaderText("");
         alert.setContentText("You Won, press ExitApp to Quit");
         ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("ExitApp");
@@ -177,7 +191,9 @@ public class GameViewController {
 
     private Alert youLostPopUp(){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.initStyle(StageStyle.UNDECORATED);
             alert.setTitle("You Lost!");
+            alert.setGraphic(null);
             alert.setHeaderText("");
             alert.setContentText("You lost, press ExitApp to Quit");
             ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("ExitApp");
