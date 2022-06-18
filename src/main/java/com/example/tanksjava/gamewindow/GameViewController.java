@@ -31,6 +31,8 @@ public class GameViewController {
 
     public AnimationTimer gameLoop;
 
+
+    //for easy access
     private final int playerStartingPosX = 600;
     private final int playerStartingPosY = 500;
 
@@ -126,8 +128,7 @@ public class GameViewController {
                                 System.exit(0);
                             }
                         });
-                        //youWonPopUp();
-                        //System.out.println("you lost");
+
                     }
                 if (enemyTankList.getTankList().isEmpty()){
                     gameLoop.stop();

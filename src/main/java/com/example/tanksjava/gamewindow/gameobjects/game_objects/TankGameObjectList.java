@@ -1,6 +1,6 @@
 package com.example.tanksjava.gamewindow.gameobjects.game_objects;
 
-import com.example.tanksjava.gamewindow.gameobjects.game_objects.shells.ShellGameObject;
+
 import com.example.tanksjava.toolsmethods.StaticToolsAndHandlers;
 import javafx.scene.layout.Pane;
 

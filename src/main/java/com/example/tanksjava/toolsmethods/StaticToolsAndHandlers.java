@@ -28,7 +28,7 @@ public class StaticToolsAndHandlers {
     public enum itemOrientation {
         HORIZONTAL, VERTICAL
     }
-    private static final Rotate rotate=new Rotate();
+   // private static final Rotate rotate=new Rotate();
 
     private static int objectCounter=0;
 
@@ -133,7 +133,7 @@ public class StaticToolsAndHandlers {
     }
 
     //Legacy code that didnt work as intended
-    public static void playerMuzzleFlashHandler2(TankGameObject playerObject) {
+/*    public static void playerMuzzleFlashHandler2(TankGameObject playerObject) {
 
 
         int tempPositionX = playerObject.getTankDirectionController().getCurrentBarrelPositionX();
@@ -209,7 +209,7 @@ public class StaticToolsAndHandlers {
         });
         timerThread.start();
 
-    }
+    }*/
 
     public static void playerMuzzleFlashHandler(TankGameObject playerObject, int pivotCorrection) {
 
